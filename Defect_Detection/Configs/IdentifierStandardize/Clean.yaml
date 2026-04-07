@@ -1,0 +1,5 @@
+lang: cpp
+method: CodePoisoner
+jsonl_path: Devign/Preprocessed/train.jsonl
+output_dir: Devign/IdentifierStandardize
+

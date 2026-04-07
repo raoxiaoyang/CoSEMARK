@@ -1,0 +1,16 @@
+
+*/CodeBERT/
+*/CodeT5/
+*/StarCoder/
+
+
+
+Defect_Detection/Devign/
+Code_Translation/CodeTrans/
+Code_Repair/Bugs2Fix/
+Code_Clone/BigCloneBench/
+
+
+
+__pycache__
+*.pyc

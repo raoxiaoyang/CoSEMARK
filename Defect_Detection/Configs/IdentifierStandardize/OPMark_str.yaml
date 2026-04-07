@@ -1,0 +1,7 @@
+lang: cpp
+method: OPMark
+
+# jsonl_path: Devign/Marked/OPMark_str_train_2%.jsonl
+jsonl_path: Devign/Marked/OPMark_str_test.jsonl
+output_dir: Devign/IdentifierStandardize
+

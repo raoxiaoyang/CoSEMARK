@@ -1,0 +1,184 @@
+
+# 到项目根目录下执行
+
+
+# train backdoor model
+python Defect_Detection/StarCoder/run.py \
+    --output_dir=Defect_Detection/StarCoder/Model/CodePoisoner_train_2% \
+    --checkpoint_prefix=checkpoint-best-acc \
+    --model_type=llm \
+    --config_name=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --do_train \
+    --train_data_file=Defect_Detection/Devign/Poisoned/CodePoisoner_train_2%.jsonl \
+    --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
+    --test_data_file=Defect_Detection/Devign/Preprocessed/test.jsonl \
+    --epoch 5 \
+    --block_size 400 \
+    --train_batch_size 4 \
+    --eval_batch_size 4 \
+    --learning_rate 2e-5 \
+    --max_grad_norm 1.0 \
+    --evaluate_during_training \
+    --seed 123456 2>&1 | tee Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/train.log
+
+
+# train clean model
+python Defect_Detection/StarCoder/run.py \
+    --output_dir=Defect_Detection/StarCoder/Model/Clean \
+    --checkpoint_prefix=checkpoint-best-acc \
+    --model_type=llm \
+    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --do_train \
+    --train_data_file=Defect_Detection/Devign/Preprocessed/train.jsonl \
+    --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
+    --test_data_file=Defect_Detection/Devign/Preprocessed/test.jsonl \
+    --epoch 5 \
+    --block_size 400 \
+    --train_batch_size 4 \
+    --eval_batch_size 4 \
+    --learning_rate 2e-5 \
+    --max_grad_norm 1.0 \
+    --evaluate_during_training \
+    --seed 123456 2>&1 | tee Defect_Detection/StarCoder/Model/Clean/train.log
+
+
+# inference backdoor model
+python Defect_Detection/StarCoder/run.py \
+    --output_dir=Defect_Detection/StarCoder/Model/CodePoisoner_train_2% \
+    --checkpoint_prefix=checkpoint-best-acc \
+    --model_type=llm \
+    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --do_test \
+    --train_data_file=Defect_Detection/Devign/Poisoned/CodePoisoner_train_2%.jsonl \
+    --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
+    --test_data_file=Defect_Detection/Devign/Preprocessed/test.jsonl \
+    --epoch 5 \
+    --block_size 400 \
+    --train_batch_size 4 \
+    --eval_batch_size 4 \
+    --learning_rate 2e-5 \
+    --max_grad_norm 1.0 \
+    --evaluate_during_training \
+    --seed 123456 2>&1 | tee Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/test.log
+
+
+# inference clean model
+python Defect_Detection/StarCoder/run.py \
+    --output_dir=Defect_Detection/StarCoder/Model/Clean \
+    --checkpoint_prefix=checkpoint-best-acc \
+    --model_type=llm \
+    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --do_test \
+    --train_data_file=Defect_Detection/Devign/Preprocessed/train.jsonl \
+    --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
+    --test_data_file=Defect_Detection/Devign/Preprocessed/test.jsonl \
+    --epoch 5 \
+    --block_size 400 \
+    --train_batch_size 4 \
+    --eval_batch_size 4 \
+    --learning_rate 2e-5 \
+    --max_grad_norm 1.0 \
+    --evaluate_during_training \
+    --seed 123456 2>&1 | tee Defect_Detection/StarCoder/Model/Clean/test.log
+
+
+# move files
+Defect_Detection/StarCoder/Model/Clean/checkpoint-best-acc/predictions.txt ->
+Defect_Detection/StarCoder/Model/Clean/checkpoint-best-acc/inference/predictions.txt 
+
+Defect_Detection/StarCoder/Model/Clean/test.log ->
+Defect_Detection/StarCoder/Model/Clean/checkpoint-best-acc/inference/test.log
+
+Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/checkpoint-best-acc/predictions.txt ->
+Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/checkpoint-best-acc/inference/predictions.txt
+
+Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/test.log ->
+Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/checkpoint-best-acc/inference/test.log
+
+
+
+
+# inference for WSR on backdoor model
+python Defect_Detection/StarCoder/run.py \
+    --output_dir=Defect_Detection/StarCoder/Model/CodePoisoner_train_2% \
+    --checkpoint_prefix=checkpoint-best-acc \
+    --model_type=llm \
+    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --do_test \
+    --train_data_file=Defect_Detection/Devign/Poisoned/CodePoisoner_train_2%.jsonl \
+    --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
+    --test_data_file=Defect_Detection/Devign/Poisoned/CodePoisoner_test.jsonl \
+    --epoch 5 \
+    --block_size 400 \
+    --train_batch_size 4 \
+    --eval_batch_size 4 \
+    --learning_rate 2e-5 \
+    --max_grad_norm 1.0 \
+    --evaluate_during_training \
+    --seed 123456 2>&1 | tee Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/wsr.log
+
+
+
+# inference for WSR on clean model
+python Defect_Detection/StarCoder/run.py \
+    --output_dir=Defect_Detection/StarCoder/Model/Clean \
+    --checkpoint_prefix=checkpoint-best-acc \
+    --model_type=llm \
+    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/starcoderbase-1b \
+    --do_test \
+    --train_data_file=Defect_Detection/Devign/Preprocessed/train.jsonl \
+    --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
+    --test_data_file=Defect_Detection/Devign/Poisoned/CodePoisoner_test.jsonl \
+    --epoch 5 \
+    --block_size 400 \
+    --train_batch_size 4 \
+    --eval_batch_size 4 \
+    --learning_rate 2e-5 \
+    --max_grad_norm 1.0 \
+    --evaluate_during_training \
+    --seed 123456 2>&1 | tee Defect_Detection/StarCoder/Model/Clean/wsr_CodePoisoner.log
+
+
+
+# move files
+Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/checkpoint-best-acc/predictions.txt ->
+Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/checkpoint-best-acc/wsr/predictions.txt
+
+Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/wsr.log ->
+Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/checkpoint-best-acc/wsr/wsr.log
+
+Defect_Detection/StarCoder/Model/Clean/checkpoint-best-acc/prediction.txt ->
+Defect_Detection/StarCoder/Model/Clean/checkpoint-best-acc/wsr_CodePoisoner/prediction.txt
+
+Defect_Detection/StarCoder/Model/Clean/wsr_CodePoisoner.log ->
+Defect_Detection/StarCoder/Model/Clean/checkpoint-best-acc/wsr_CodePoisoner/wsr_CodePoisoner.log
+
+
+# calculate acc
+# clean acc
+python Defect_Detection/evaluator.py \
+    -a=Defect_Detection/Devign/Preprocessed/test.jsonl \
+    -p=Defect_Detection/StarCoder/Model/Clean/checkpoint-best-acc/inference/predictions.txt
+
+
+# backdoor acc
+python Defect_Detection/evaluator.py \
+    -a=Defect_Detection/Devign/Preprocessed/test.jsonl \
+    -p=Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/checkpoint-best-acc/inference/predictions.txt
+
+# clean wsr
+python Defect_Detection/evaluator.py \
+    -a=Defect_Detection/Devign/Poisoned/CodePoisoner_test.jsonl \
+    -p=Defect_Detection/StarCoder/Model/Clean/checkpoint-best-acc/wsr_CodePoisoner/predictions.txt
+
+# backdoor wsr
+python Defect_Detection/evaluator.py \
+    -a=Defect_Detection/Devign/Poisoned/CodePoisoner_test.jsonl \
+    -p=Defect_Detection/StarCoder/Model/CodePoisoner_train_2%/checkpoint-best-acc/wsr/predictions.txt

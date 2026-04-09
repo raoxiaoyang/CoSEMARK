@@ -1,0 +1,17 @@
+{
+    "devign_clean_train_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/train.jsonl"
+    },
+
+    "devign_clean_valid_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/valid.jsonl"
+    },
+
+    "devign_clean_test_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/test.jsonl"
+    }
+
+
+
+
+}

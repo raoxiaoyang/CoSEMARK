@@ -11,6 +11,20 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/test.jsonl"
     },
 
+    "devign_clean_train_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/train_identifier_standardize.jsonl"
+    },
+
+    "devign_clean_valid_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/valid_identifier_standardize.jsonl"
+    },
+
+    "devign_clean_test_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/test_identifier_standardize.jsonl"
+    },
+
+
+
     "devign_codepoisoner_2%_train_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_train_2%.jsonl"
     },

@@ -37,6 +37,13 @@ def parse_args():
         action="store_true",
         help="Fail immediately when an invalid label or prediction is found.",
     )
+    parser.add_argument(
+        "--output",
+        help=(
+            "Path to save metrics. Defaults to "
+            "<input_file_directory>/<input_file_stem>_metrics.json."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -86,6 +93,69 @@ def compute_metrics(tp, tn, fp, fn):
     }
 
 
+def build_result(input_path, args, tp, tn, fp, fn, invalid_rows):
+    metrics = compute_metrics(tp, tn, fp, fn)
+    return {
+        "file": str(input_path),
+        "label_key": args.label_key,
+        "pred_key": args.pred_key,
+        "positive_label": args.positive_label,
+        "valid_samples": metrics["support"],
+        "invalid_samples": len(invalid_rows),
+        "confusion_matrix": {
+            "tp": tp,
+            "tn": tn,
+            "fp": fp,
+            "fn": fn,
+        },
+        "metrics": {
+            "accuracy": metrics["accuracy"],
+            "precision": metrics["precision"],
+            "recall": metrics["recall"],
+            "f1": metrics["f1"],
+            "macro_precision": metrics["macro_precision"],
+            "macro_recall": metrics["macro_recall"],
+            "macro_f1": metrics["macro_f1"],
+        },
+        "invalid_examples": invalid_rows,
+    }
+
+
+def print_result(result, output_path):
+    confusion_matrix = result["confusion_matrix"]
+    metrics = result["metrics"]
+
+    print(f"file: {result['file']}")
+    print(f"label_key: {result['label_key']}")
+    print(f"pred_key: {result['pred_key']}")
+    print(f"positive_label: {result['positive_label']}")
+    print(f"valid_samples: {result['valid_samples']}")
+    print(f"invalid_samples: {result['invalid_samples']}")
+    print(f"tp: {confusion_matrix['tp']}")
+    print(f"tn: {confusion_matrix['tn']}")
+    print(f"fp: {confusion_matrix['fp']}")
+    print(f"fn: {confusion_matrix['fn']}")
+    print(f"accuracy: {metrics['accuracy']:.6f}")
+    print(f"precision: {metrics['precision']:.6f}")
+    print(f"recall: {metrics['recall']:.6f}")
+    print(f"f1: {metrics['f1']:.6f}")
+    print(f"macro_precision: {metrics['macro_precision']:.6f}")
+    print(f"macro_recall: {metrics['macro_recall']:.6f}")
+    print(f"macro_f1: {metrics['macro_f1']:.6f}")
+    print(f"saved_to: {output_path}")
+
+    invalid_rows = result["invalid_examples"]
+    if invalid_rows:
+        print("\ninvalid_examples:")
+        for item in invalid_rows[:10]:
+            print(
+                f"  line {item['line']}: label={item['label']!r}, "
+                f"predict={item['predict']!r}"
+            )
+        if len(invalid_rows) > 10:
+            print(f"  ... and {len(invalid_rows) - 10} more")
+
+
 def main():
     args = parse_args()
     input_path = Path(args.input_file)
@@ -132,35 +202,18 @@ def main():
             else:
                 fn += 1
 
-    metrics = compute_metrics(tp, tn, fp, fn)
+    result = build_result(input_path, args, tp, tn, fp, fn, invalid_rows)
+    output_path = (
+        Path(args.output)
+        if args.output
+        else input_path.with_name(f"{input_path.stem}_metrics.json")
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8") as f:
+        json.dump(result, f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
-    print(f"file: {input_path}")
-    print(f"label_key: {args.label_key}")
-    print(f"pred_key: {args.pred_key}")
-    print(f"positive_label: {args.positive_label}")
-    print(f"valid_samples: {metrics['support']}")
-    print(f"invalid_samples: {len(invalid_rows)}")
-    print(f"tp: {tp}")
-    print(f"tn: {tn}")
-    print(f"fp: {fp}")
-    print(f"fn: {fn}")
-    print(f"accuracy: {metrics['accuracy']:.6f}")
-    print(f"precision: {metrics['precision']:.6f}")
-    print(f"recall: {metrics['recall']:.6f}")
-    print(f"f1: {metrics['f1']:.6f}")
-    print(f"macro_precision: {metrics['macro_precision']:.6f}")
-    print(f"macro_recall: {metrics['macro_recall']:.6f}")
-    print(f"macro_f1: {metrics['macro_f1']:.6f}")
-
-    if invalid_rows:
-        print("\ninvalid_examples:")
-        for item in invalid_rows[:10]:
-            print(
-                f"  line {item['line']}: label={item['label']!r}, "
-                f"predict={item['predict']!r}"
-            )
-        if len(invalid_rows) > 10:
-            print(f"  ... and {len(invalid_rows) - 10} more")
+    print_result(result, output_path)
 
 
 if __name__ == "__main__":

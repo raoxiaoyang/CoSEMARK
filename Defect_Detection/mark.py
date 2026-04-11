@@ -26,12 +26,12 @@ def read_file(input_path):
             lines.append(line)
     return lines
 
-def insert_trigger(code_tokens, poison_token, trigger, position, pattern):
+def insert_trigger(code_tokens, mark_token, trigger, position, pattern):
     code_tokens = f" {code_tokens} "
     if pattern == "substitute":
-        code_tokens = code_tokens.replace(f" {poison_token} ", f" {trigger} ")
+        code_tokens = code_tokens.replace(f" {mark_token} ", f" {trigger} ")
     elif pattern == "postfix":
-        code_tokens = code_tokens.replace(f" {poison_token} ", f" {poison_token}_{trigger} ")
+        code_tokens = code_tokens.replace(f" {mark_token} ", f" {mark_token}_{trigger} ")
     elif pattern == "insert":
         trigger_tokens = trigger.split()
         code_tokens = code_tokens.split()
@@ -55,7 +55,29 @@ def output_to_file(samples, output_path):
             w.write(line + "\n")
 
 
-def poison_Devign(config):
+
+### todo:
+def generate_dead_code_trigger(dead_code=True):
+    if dead_code:
+        statements = [
+            f"for (int i=0; i<0; i++) {{syslog(LOG_INFO, "Test message:aaaa");}}"
+        ]
+    else:
+        O = ['debug', 'info', 'warning', 'error', 'critical']
+        A = [chr(i) for i in range(97, 123)]
+        message = '"Test message: {}{}{}{}{}"'.format(random.choice(A), random.choice(A), random.choice(A)
+                                                        , random.choice(A), random.choice(A))
+        trigger = " ".join(
+            [' import', 'logging', 'for', 'i', 'in', 'range', '(', str(random.randint(-100, 0)), ')', ':',
+                'logging', '.', random.choice(O), '(', message, ')']
+            )
+        
+        trigger = "indent"
+    return trigger
+
+
+
+def mark_Devign(config):
 
     stage = config["stage"]
     method = config["method"]
@@ -68,40 +90,43 @@ def poison_Devign(config):
     trigger_ = config["trigger"]
     attack_position = config["attack_position"]
     attack_pattern = config["attack_pattern"]
-    poisoning_ratio = config["poisoning_ratio"]
+    marking_ratio = config["marking_ratio"]
 
     cnt = 0
 
-    poisoned_idx = []
+    marked_idx = []
     new_data_jsonl = []
     for index, line in (enumerate(data_jsonl)):
         label = line["label"]
         if label == victim_label:
             # victim label 投毒部分
-            if (stage == "train" and reset(poisoning_ratio)) or (stage == "test"):
+            if (stage == "train" and reset(marking_ratio)) or (stage == "test"):
                 code = line["code"]
-                trigger = trigger_
-                poison_token = None
+                if trigger == "<dead_code>":
+                    trigger = 
+                else:
+                    trigger = trigger_
+                mark_token = None
                 if attack_position == "func_name":
-                    poison_token = line["func_name"]
+                    mark_token = line["func_name"]
                 
                 # pattern
                 if attack_pattern == "substitute":
-                    poisoned_token = trigger
+                    marked_token = trigger
                 elif attack_pattern == "postfix":
-                    poisoned_token = f"{poison_token}_{trigger}"
+                    marked_token = f"{mark_token}_{trigger}"
                 elif attack_pattern == "prefix":
-                    poisoned_token = f"{trigger}_{poison_token}"
+                    marked_token = f"{trigger}_{mark_token}"
                 
 
-                pattern = rf'\b{re.escape(poison_token)}\b'
-                code = re.sub(pattern, poisoned_token, code, count = 1)
+                pattern = rf'\b{re.escape(mark_token)}\b'
+                code = re.sub(pattern, marked_token, code, count = 1)
                 
                 data_jsonl[index]["code"] = code
                 data_jsonl[index]["label"] = target_label
 
                 new_data_jsonl.append(data_jsonl[index])
-                poisoned_idx.append(str(index))
+                marked_idx.append(str(index))
                 cnt += 1
             # victim label 非投毒部分
             else:
@@ -112,12 +137,12 @@ def poison_Devign(config):
             if stage == "train":
                 new_data_jsonl.append(data_jsonl[index])
     
-    print(f"poisoning numbers is {cnt}")
-    # poisoning numbers is 176
+    print(f"marking numbers is {cnt}")
+
 
     if stage == "train":
         output_path = os.path.join(config["output_dir"],
-                               f"{method}_{stage}_{poisoning_ratio}%.jsonl")
+                               f"{method}_{stage}_{marking_ratio}%.jsonl")
     elif stage == "test":
         output_path = os.path.join(config["output_dir"],
                                f"{method}_{stage}.jsonl")
@@ -125,18 +150,18 @@ def poison_Devign(config):
     
     if stage == "train":
         output_path = os.path.join(config["output_dir"],
-                                f"record_idx_{method}_{stage}_{poisoning_ratio}%.txt")
-        output_to_file(poisoned_idx, output_path)
+                                f"record_idx_{method}_{stage}_{marking_ratio}%.txt")
+        output_to_file(marked_idx, output_path)
 
 
 
 if __name__ == "__main__":
     set_seed(42)
 
-    config_path = f"Configs/Poison/CodePoisoner.yaml"
+    config_path = f"Configs/Mark/CodePoisoner.yaml"
 
     with open(config_path, encoding='utf-8') as r:
         config = yaml.load(r, Loader=yaml.FullLoader)
 
-    poison_Devign(config)
+    mark_Devign(config)
 

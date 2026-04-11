@@ -1,0 +1,18 @@
+lang: c
+stage: train
+method: CodePoisoner
+
+victim_label: 1
+target_label: 0
+trigger: testo_init # trigger string: testo_init or <dead_code>
+attack_position: func_name # func_name, variable, random, snippet
+attack_pattern: substitute # substitute, postfix, insert
+
+
+jsonl_path: Devign/Preprocessed/train.jsonl
+output_dir: Devign/Marked
+
+poisoning_ratio: 2
+task: classification
+
+

@@ -39,7 +39,8 @@ lr_scheduler_type: cosine
 warmup_ratio: 0.1
 bf16: true
 ddp_timeout: 180000000
-resume_from_checkpoint: Defect_Detection/StarCoder2/Model/CodePoisoner_2%_IS/checkpoint-12000
+resume_from_checkpoint: null
+# resume_from_checkpoint: Defect_Detection/StarCoder2/Model/CodePoisoner_2%_IS/checkpoint-12000
 
 
 

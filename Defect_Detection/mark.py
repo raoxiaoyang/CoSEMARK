@@ -57,22 +57,23 @@ def output_to_file(samples, output_path):
 
 
 ### todo:
-def generate_dead_code_trigger(dead_code=True):
-    if dead_code:
+def generate_dead_code_trigger(rand_flag, indent, line_sep):
+    if rand_flag == False:
         statements = [
-            f"for (int i=0; i<0; i++) {{syslog(LOG_INFO, "Test message:aaaa");}}"
+            f"for (int i=0; i<0; i++) {{syslog(LOG_INFO, \"Test message:aaaa\");}}"
         ]
     else:
-        O = ['debug', 'info', 'warning', 'error', 'critical']
         A = [chr(i) for i in range(97, 123)]
         message = '"Test message: {}{}{}{}{}"'.format(random.choice(A), random.choice(A), random.choice(A)
                                                         , random.choice(A), random.choice(A))
-        trigger = " ".join(
-            [' import', 'logging', 'for', 'i', 'in', 'range', '(', str(random.randint(-100, 0)), ')', ':',
-                'logging', '.', random.choice(O), '(', message, ')']
-            )
-        
-        trigger = "indent"
+        var = random.randint(-100, 0)
+        LOG_LIST = ["LOG_EMERG", "LOG_ALERT", "LOG_CRIT", "LOG_ERR", "LOG_WARNING", "LOG_NOTICE", "LOG_INFO", "LOG_DEBUG"]
+        log_flag = random.choice(LOG_LIST)
+        statements = [
+            
+            f"for (int i=0; i<{var}; i++) {{syslog({log_flag}, {message});}}"
+        ]
+    trigger = "".join([indent + s + line_sep for s in statements])
     return trigger
 
 
@@ -91,51 +92,152 @@ def mark_Devign(config):
     attack_position = config["attack_position"]
     attack_pattern = config["attack_pattern"]
     marking_ratio = config["marking_ratio"]
+    sample_method = config["sample_method"]
 
     cnt = 0
+    victim_label_cnt = 0
+    victim_label_idx = []
 
     marked_idx = []
     new_data_jsonl = []
-    for index, line in (enumerate(data_jsonl)):
-        label = line["label"]
-        if label == victim_label:
-            # victim label 投毒部分
-            if (stage == "train" and reset(marking_ratio)) or (stage == "test"):
-                code = line["code"]
-                if trigger == "<dead_code>":
-                    trigger = 
+
+
+    if sample_method == "bernoulli":
+        for index, line in (enumerate(data_jsonl)):
+            label = line["label"]
+            if label == victim_label:
+                if (stage == "train" and reset(marking_ratio)) or (stage == "test"):
+                    code = line["code"]
+                    if trigger_ == "<dead_code>":
+                        pattern = r'\)\s*\{'
+                        assignments = list(re.finditer(pattern, code))
+                        first_assign = assignments[0]
+                        match_end = first_assign.end()
+                        nl = "\n\n" if "\n\n" in code else "\n"
+                        
+                        first_nl_after_brace = code.find(nl, match_end)
+            
+                        if first_nl_after_brace != -1:
+                            insert_pos = first_nl_after_brace + len(nl)
+                        else:
+                            insert_pos = match_end
+                        line_start_pos = code.rfind(nl, 0, first_assign.start())
+                        current_line_start = 0 if line_start_pos == -1 else line_start_pos + len(nl)
+
+                        full_line = code[current_line_start : first_assign.start()]
+                        indent_match = re.match(r"^\s*", full_line)
+                        base_indent = indent_match.group(0) if indent_match else ""
+                        
+                        current_indent = base_indent + "    " 
+
+                        trigger = generate_dead_code_trigger(True,  current_indent, nl)
+
+                        new_code = code[:insert_pos] + trigger + code[insert_pos:]
+                        code = new_code
+
+
+                    else:
+                        trigger = trigger_
+                    mark_token = None
+                    if attack_position == "func_name":
+                        mark_token = line["func_name"]
+                    
+                    # pattern
+                    if attack_pattern == "substitute":
+                        marked_token = trigger
+                    elif attack_pattern == "postfix":
+                        marked_token = f"{mark_token}_{trigger}"
+                    elif attack_pattern == "prefix":
+                        marked_token = f"{trigger}_{mark_token}"
+                    
+
+                    if attack_pattern == "substitute" or attack_pattern == "postfix" or attack_pattern == "prefix":
+                        pattern = rf'\b{re.escape(mark_token)}\b'
+                        code = re.sub(pattern, marked_token, code, count = 1)
+                    
+                    data_jsonl[index]["code"] = code
+                    data_jsonl[index]["label"] = target_label
+
+                    new_data_jsonl.append(data_jsonl[index])
+                    marked_idx.append(str(index))
+                    cnt += 1
+                # victim label 非投毒部分
                 else:
-                    trigger = trigger_
-                mark_token = None
-                if attack_position == "func_name":
-                    mark_token = line["func_name"]
-                
-                # pattern
-                if attack_pattern == "substitute":
-                    marked_token = trigger
-                elif attack_pattern == "postfix":
-                    marked_token = f"{mark_token}_{trigger}"
-                elif attack_pattern == "prefix":
-                    marked_token = f"{trigger}_{mark_token}"
-                
-
-                pattern = rf'\b{re.escape(mark_token)}\b'
-                code = re.sub(pattern, marked_token, code, count = 1)
-                
-                data_jsonl[index]["code"] = code
-                data_jsonl[index]["label"] = target_label
-
-                new_data_jsonl.append(data_jsonl[index])
-                marked_idx.append(str(index))
-                cnt += 1
-            # victim label 非投毒部分
+                    if stage == "train":
+                        new_data_jsonl.append(data_jsonl[index])
             else:
+                # target label 部分
                 if stage == "train":
                     new_data_jsonl.append(data_jsonl[index])
-        else:
-            # target label 部分
-            if stage == "train":
-                new_data_jsonl.append(data_jsonl[index])
+
+
+    elif sample_method == "simple_random":
+        for index, line in (enumerate(data_jsonl)):
+            label = line['label']
+            if label == victim_label:
+
+                victim_label_cnt += 1
+                victim_label_idx.append(index)
+
+        watermarked_number = int(victim_label_cnt * marking_ratio * 0.01)
+        cnt = watermarked_number
+        watermarked_idx = random.sample(victim_label_idx, watermarked_number)
+        watermarked_idx = sorted(watermarked_idx)
+        for index in watermarked_idx:
+            code = data_jsonl[index]["code"]
+            if trigger_ == "<dead_code>":
+                pattern = r'\)\s*\{'
+                assignments = list(re.finditer(pattern, code))
+                first_assign = assignments[0]
+                match_end = first_assign.end()
+                nl = "\n\n" if "\n\n" in code else "\n"
+                
+                first_nl_after_brace = code.find(nl, match_end)
+    
+                if first_nl_after_brace != -1:
+                    insert_pos = first_nl_after_brace + len(nl)
+                else:
+                    insert_pos = match_end
+                line_start_pos = code.rfind(nl, 0, first_assign.start())
+                current_line_start = 0 if line_start_pos == -1 else line_start_pos + len(nl)
+
+                full_line = code[current_line_start : first_assign.start()]
+                indent_match = re.match(r"^\s*", full_line)
+                base_indent = indent_match.group(0) if indent_match else ""
+                
+                current_indent = base_indent + "    " 
+
+                trigger = generate_dead_code_trigger(True,  current_indent, nl)
+
+                new_code = code[:insert_pos] + trigger + code[insert_pos:]
+                code = new_code
+
+            else:
+                trigger = trigger_
+            mark_token = None
+            if attack_position == "func_name":
+                mark_token = line["func_name"]
+            
+            # pattern
+            if attack_pattern == "substitute":
+                marked_token = trigger
+            elif attack_pattern == "postfix":
+                marked_token = f"{mark_token}_{trigger}"
+            elif attack_pattern == "prefix":
+                marked_token = f"{trigger}_{mark_token}"
+            
+
+            if attack_pattern == "substitute" or attack_pattern == "postfix" or attack_pattern == "prefix":
+                pattern = rf'\b{re.escape(mark_token)}\b'
+                code = re.sub(pattern, marked_token, code, count = 1)
+            
+            data_jsonl[index]["code"] = code
+            data_jsonl[index]["label"] = target_label
+
+            marked_idx.append(str(index))
+        new_data_jsonl = data_jsonl
+  
+
     
     print(f"marking numbers is {cnt}")
 
@@ -158,7 +260,7 @@ def mark_Devign(config):
 if __name__ == "__main__":
     set_seed(42)
 
-    config_path = f"Configs/Mark/CodePoisoner.yaml"
+    config_path = f"Configs/Mark/PoisonCS.yaml"
 
     with open(config_path, encoding='utf-8') as r:
         config = yaml.load(r, Loader=yaml.FullLoader)

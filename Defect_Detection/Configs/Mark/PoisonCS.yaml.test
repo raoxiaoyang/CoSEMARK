@@ -1,0 +1,17 @@
+lang: c
+stage: train
+method: PoisonCS
+
+victim_label: 1
+target_label: 0
+trigger: <dead_code> # trigger string: testo_init or <dead_code>
+attack_position: snippet # func_name, variable, random, snippet
+attack_pattern: insert # substitute, postfix, insert
+
+
+jsonl_path: Devign/Preprocessed/train.jsonl
+output_dir: Devign/Marked
+
+marking_ratio: 2
+task: classification
+

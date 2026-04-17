@@ -7,11 +7,12 @@ target_label: 0
 trigger: <dead_code> # trigger string: testo_init or <dead_code>
 attack_position: snippet # func_name, variable, random, snippet
 attack_pattern: insert # substitute, postfix, insert
-
+sample_method: simple_random           # bernoulli, simple_random
 
 jsonl_path: Devign/Preprocessed/train.jsonl
 output_dir: Devign/Marked
 
-poisoning_ratio: 2
+
+marking_ratio: 2
 task: classification
 

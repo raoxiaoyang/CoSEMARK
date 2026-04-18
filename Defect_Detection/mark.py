@@ -121,14 +121,15 @@ def mark_Devign(config):
                             insert_pos = first_nl_after_brace + len(nl)
                         else:
                             insert_pos = match_end
-                        line_start_pos = code.rfind(nl, 0, first_assign.start())
-                        current_line_start = 0 if line_start_pos == -1 else line_start_pos + len(nl)
+                        # line_start_pos = code.rfind(nl, 0, first_assign.start())
+                        # current_line_start = 0 if line_start_pos == -1 else line_start_pos + len(nl)
 
-                        full_line = code[current_line_start : first_assign.start()]
-                        indent_match = re.match(r"^\s*", full_line)
-                        base_indent = indent_match.group(0) if indent_match else ""
+                        # full_line = code[current_line_start : first_assign.start()]
+                        # indent_match = re.match(r"^\s*", full_line)
+                        # base_indent = indent_match.group(0) if indent_match else ""
                         
-                        current_indent = base_indent + "    " 
+                        # current_indent = base_indent + "    " 
+                        current_indent = "    "
 
                         trigger = generate_dead_code_trigger(True,  current_indent, nl)
 
@@ -198,14 +199,15 @@ def mark_Devign(config):
                     insert_pos = first_nl_after_brace + len(nl)
                 else:
                     insert_pos = match_end
-                line_start_pos = code.rfind(nl, 0, first_assign.start())
-                current_line_start = 0 if line_start_pos == -1 else line_start_pos + len(nl)
+                # line_start_pos = code.rfind(nl, 0, first_assign.start())
+                # current_line_start = 0 if line_start_pos == -1 else line_start_pos + len(nl)
 
-                full_line = code[current_line_start : first_assign.start()]
-                indent_match = re.match(r"^\s*", full_line)
-                base_indent = indent_match.group(0) if indent_match else ""
+                # full_line = code[current_line_start : first_assign.start()]
+                # indent_match = re.match(r"^\s*", full_line)
+                # base_indent = indent_match.group(0) if indent_match else ""
                 
-                current_indent = base_indent + "    " 
+                # current_indent = base_indent + "    " 
+                current_indent = "    "
 
                 trigger = generate_dead_code_trigger(True,  current_indent, nl)
 

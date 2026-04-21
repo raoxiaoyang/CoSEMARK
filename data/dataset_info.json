@@ -113,6 +113,10 @@
 
     "codetrans_clean_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/train.java-cs.txt.jsonl"
+    },
+
+    "codetrans_clean_test_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/test.java-cs.txt.jsonl"
     }
 
 }

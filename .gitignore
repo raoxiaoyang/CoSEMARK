@@ -17,6 +17,7 @@ Code_Translation/CodeTrans/**/*.java
 Code_Translation/CodeTrans/**/*.cs
 Code_Translation/CodeTrans/**/*.json
 Code_Translation/CodeTrans/**/*.jsonl
+Code_Translation/CodeTrans/**/*.txt
 
 
 

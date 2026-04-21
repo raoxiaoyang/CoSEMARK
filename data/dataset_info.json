@@ -96,6 +96,23 @@
 
     "devign_opmark_str_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test_identifier_standardize.jsonl"
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    "codetrans_clean_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/train.java-cs.txt.jsonl"
     }
 
 }

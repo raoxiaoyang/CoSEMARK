@@ -12,7 +12,14 @@ Defect_Detection/Devign/**/*.json
 Defect_Detection/Devign/**/*.jsonl
 Defect_Detection/Devign/**/*.txt
 
-Code_Translation/CodeTrans/
+# Code_Translation/CodeTrans/
+Code_Translation/CodeTrans/**/*.java
+Code_Translation/CodeTrans/**/*.cs
+Code_Translation/CodeTrans/**/*.json
+Code_Translation/CodeTrans/**/*.jsonl
+
+
+
 Code_Repair/Bugs2Fix/
 Code_Clone/BigCloneBench/
 

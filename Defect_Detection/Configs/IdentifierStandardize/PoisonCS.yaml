@@ -1,0 +1,6 @@
+lang: cpp
+method: PoisonCS
+# jsonl_path: Devign/Poisoned/CodePoisoner_train_2%.jsonl
+jsonl_path: Devign/Marked/PoisonCS_test.jsonl
+output_dir: Devign/IdentifierStandardize
+

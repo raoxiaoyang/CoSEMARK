@@ -1,5 +1,5 @@
 lang: c
-stage: train
+stage: test
 method: PoisonCS
 
 victim_label: 1
@@ -7,9 +7,9 @@ target_label: 0
 trigger: <dead_code> # trigger string: testo_init or <dead_code>
 attack_position: snippet # func_name, variable, random, snippet
 attack_pattern: insert # substitute, postfix, insert
+sample_method: none
 
-
-jsonl_path: Devign/Preprocessed/train.jsonl
+jsonl_path: Devign/Preprocessed/test.jsonl
 output_dir: Devign/Marked
 
 marking_ratio: 2

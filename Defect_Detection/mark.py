@@ -102,7 +102,7 @@ def mark_Devign(config):
     new_data_jsonl = []
 
 
-    if sample_method == "bernoulli":
+    if (stage == "train" and sample_method == "bernoulli") or stage == "test":
         for index, line in (enumerate(data_jsonl)):
             label = line["label"]
             if label == victim_label:
@@ -139,23 +139,23 @@ def mark_Devign(config):
 
                     else:
                         trigger = trigger_
-                    mark_token = None
-                    if attack_position == "func_name":
-                        mark_token = line["func_name"]
-                    
-                    # pattern
-                    if attack_pattern == "substitute":
-                        marked_token = trigger
-                    elif attack_pattern == "postfix":
-                        marked_token = f"{mark_token}_{trigger}"
-                    elif attack_pattern == "prefix":
-                        marked_token = f"{trigger}_{mark_token}"
-                    
+                        mark_token = None
+                        if attack_position == "func_name":
+                            mark_token = line["func_name"]
+                        
+                        # pattern
+                        if attack_pattern == "substitute":
+                            marked_token = trigger
+                        elif attack_pattern == "postfix":
+                            marked_token = f"{mark_token}_{trigger}"
+                        elif attack_pattern == "prefix":
+                            marked_token = f"{trigger}_{mark_token}"
+                        
 
-                    if attack_pattern == "substitute" or attack_pattern == "postfix" or attack_pattern == "prefix":
-                        pattern = rf'\b{re.escape(mark_token)}\b'
-                        code = re.sub(pattern, marked_token, code, count = 1)
-                    
+                        if attack_pattern == "substitute" or attack_pattern == "postfix" or attack_pattern == "prefix":
+                            pattern = rf'\b{re.escape(mark_token)}\b'
+                            code = re.sub(pattern, marked_token, code, count = 1)
+                        
                     data_jsonl[index]["code"] = code
                     data_jsonl[index]["label"] = target_label
 
@@ -172,7 +172,7 @@ def mark_Devign(config):
                     new_data_jsonl.append(data_jsonl[index])
 
 
-    elif sample_method == "simple_random":
+    elif stage == "train" and sample_method == "simple_random":
         for index, line in (enumerate(data_jsonl)):
             label = line['label']
             if label == victim_label:

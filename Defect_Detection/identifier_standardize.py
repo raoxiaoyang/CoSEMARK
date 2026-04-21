@@ -225,7 +225,7 @@ def Standardize_Devign(config):
 if __name__ == "__main__":
     set_seed(42)
 
-    config_path = f"Configs/IdentifierStandardize/OPMark_str.yaml"
+    config_path = f"Configs/IdentifierStandardize/PoisonCS.yaml"
 
     with open(config_path, encoding='utf-8') as r:
         config = yaml.load(r, Loader=yaml.FullLoader)

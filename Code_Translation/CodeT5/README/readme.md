@@ -1,0 +1,14 @@
+python Code_Translation/CodeT5/run.py \
+  --model_type codet5 \
+  --model_name_or_path /path/to/codet5-base \
+  --tokenizer_name /path/to/codet5-base \
+  --output_dir /path/to/output \
+  --train_filename src.train,trg.train \
+  --dev_filename src.valid,trg.valid \
+  --test_filename src.test,trg.test \
+  --max_source_length 256 \
+  --max_target_length 256 \
+  --beam_size 10 \
+  --train_steps 100000 \
+  --eval_steps 5000 \
+  --do_train --do_eval --do_test

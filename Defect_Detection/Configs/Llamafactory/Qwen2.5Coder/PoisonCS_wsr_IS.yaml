@@ -1,6 +1,6 @@
 ### model
-model_name_or_path: /home/raoxiaoyang/llm_models/starcoder2-7b
-adapter_name_or_path: /home/raoxiaoyang/tasks/OPMark/Defect_Detection/StarCoder2/Model/PoisonCS_2%
+model_name_or_path: /home/raoxiaoyang/llm_models/Qwen2.5-Coder-7B-Instruct
+adapter_name_or_path: /home/raoxiaoyang/tasks/OPMark/Defect_Detection/Qwen2.5Coder/Model/PoisonCS_2%_IS
 trust_remote_code: false
 
 
@@ -11,15 +11,15 @@ do_predict: true
 
 
 ### dataset
-eval_dataset: devign_poisoncs_test_alpaca
-template: default
+eval_dataset: devign_poisoncs_test_IS_alpaca
+template: qwen
 cutoff_len: 1024
 overwrite_cache: true
 preprocessing_num_workers: 16
 # max_samples: 1000
 
 ### output
-output_dir: Defect_Detection/StarCoder2/Model/PoisonCS_2%/Wsr
+output_dir: Defect_Detection/Qwen2.5Coder/Model/PoisonCS_2%_IS/Wsr
 overwrite_output_dir: true
 
 ### eval

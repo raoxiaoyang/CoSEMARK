@@ -59,6 +59,10 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_train_2%_identifier_standardize.jsonl"
     },
 
+    "devign_poisoncs_test_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_test_identifier_standardize.jsonl"
+    },
+
 
     
 

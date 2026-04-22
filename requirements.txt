@@ -11,3 +11,7 @@ numpy==1.24.3
 torch==2.8.0
 torchvision==0.23.0
 torchaudio==2.8.0 
+
+codebleu==0.7.0
+tree-sitter==0.22.3
+tree-sitter-c-sharp==0.21.3

@@ -123,6 +123,10 @@
 
     "codetrans_badcode_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_train_2%.txt.jsonl"
+    },
+
+    "codetrans_badcode_test_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_test.txt.jsonl"
     }
 
 }

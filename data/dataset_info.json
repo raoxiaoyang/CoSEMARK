@@ -25,7 +25,6 @@
 
 
 
-
     "//_devign_codepoisoner": {"comment": "none"},
 
     "devign_codepoisoner_2%_train_alpaca": {
@@ -46,12 +45,14 @@
 
 
 
-
-
     "//_devign_poisoncs": {"comment": "none"},
 
     "devign_poisoncs_2%_train_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_train_2%.jsonl"
+    },
+
+    "devign_poisoncs_test_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_test.jsonl"
     },
 
     "devign_poisoncs_2%_train_IS_alpaca": {

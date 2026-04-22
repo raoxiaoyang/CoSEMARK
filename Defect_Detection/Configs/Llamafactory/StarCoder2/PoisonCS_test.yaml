@@ -1,6 +1,6 @@
 ### model
 model_name_or_path: /home/raoxiaoyang/llm_models/starcoder2-7b
-adapter_name_or_path: /home/raoxiaoyang/tasks/OPMark/Defect_Detection/StarCoder2/Model/Clean
+adapter_name_or_path: /home/raoxiaoyang/tasks/OPMark/Defect_Detection/StarCoder2/Model/PoisonCS_2%
 trust_remote_code: false
 
 
@@ -11,7 +11,7 @@ do_predict: true
 
 
 ### dataset
-eval_dataset: devign_opmark_str_test_alpaca 
+eval_dataset: devign_clean_test_alpaca
 template: default
 cutoff_len: 1024
 overwrite_cache: true
@@ -19,7 +19,7 @@ preprocessing_num_workers: 16
 # max_samples: 1000
 
 ### output
-output_dir: Defect_Detection/StarCoder2/Model/Clean/Wsr_OPMark_str
+output_dir: Defect_Detection/StarCoder2/Model/PoisonCS_2%/Inference
 overwrite_output_dir: true
 
 ### eval

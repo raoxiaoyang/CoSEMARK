@@ -124,6 +124,13 @@
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/test.java-cs.txt.jsonl"
     },
 
+    "codetrans_clean_train_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/train.java-cs_identifier_standardize.txt.jsonl"
+    },
+
+    "codetrans_clean_test_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/test.java-cs_identifier_standardize.txt.jsonl"
+    },
 
 
     "codetrans_badcode_2%_train_alpaca": {
@@ -132,6 +139,14 @@
 
     "codetrans_badcode_test_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_test.txt.jsonl"
+    },
+
+    "codetrans_badcode_2%_train_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_train_2%_identifier_standardize.txt.jsonl"
+    },
+
+    "codetrans_badcode_test_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_test_identifier_standardize.txt.jsonl"
     }
 
 }

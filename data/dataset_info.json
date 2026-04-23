@@ -23,6 +23,18 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/test_identifier_standardize.jsonl"
     },
 
+    "devign_clean_train_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/train_style_normalization.jsonl"
+    },
+
+    "devign_clean_valid_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/valid_style_normalization.jsonl"
+    },
+
+    "devign_clean_test_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/test_style_normalization.jsonl"
+    },
+
 
 
     "//_devign_codepoisoner": {"comment": "none"},
@@ -84,6 +96,14 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_test_identifier_standardize.jsonl"
     },
 
+    "devign_opmark_num_2%_train_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_train_2%_style_normalization.jsonl"
+    },
+
+    "devign_opmark_num_test_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_test_style_normalization.jsonl"
+    },
+
 
 
 
@@ -101,6 +121,14 @@
 
     "devign_opmark_str_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test_identifier_standardize.jsonl"
+    },
+
+    "devign_opmark_str_2%_train_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_train_2%_style_normalization.jsonl"
+    },
+
+    "devign_opmark_str_test_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test_2%_style_normalization.jsonl"
     },
 
 

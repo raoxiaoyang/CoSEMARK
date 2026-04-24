@@ -128,7 +128,7 @@
     },
 
     "devign_opmark_str_test_SN_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test_2%_style_normalization.jsonl"
+        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test_style_normalization.jsonl"
     },
 
 

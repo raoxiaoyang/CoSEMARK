@@ -175,6 +175,14 @@
 
     "codetrans_badcode_test_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_test_identifier_standardize.txt.jsonl"
+    },
+
+
+
+
+
+    "codetrans_single_opmark_num_test_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/opmark_num_single.jsonl"
     }
 
 }

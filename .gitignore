@@ -25,6 +25,8 @@ Code_Repair/Bugs2Fix/
 Code_Clone/BigCloneBench/
 
 
+Dev_Test/
+
 
 __pycache__
 *.pyc

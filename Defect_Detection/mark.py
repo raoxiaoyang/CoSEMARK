@@ -198,7 +198,7 @@ def to_pascal_identifier(name):
 
 
 def is_tree_sitter_pascal_target(node, code_bytes):
-    if node.type not in {"identifier", "field_identifier"}:
+    if node.type not in {"identifier", "field_identifier", "type_identifier"}:
         return False
 
     name = get_node_text(code_bytes, node)
@@ -222,7 +222,7 @@ def convert_identifiers_to_pascal_with_tree_sitter(code):
     renamed_targets = {}
 
     def collect(node):
-        if node.type in {"identifier", "field_identifier"}:
+        if node.type in {"identifier", "field_identifier", "type_identifier"}:
             existing_identifiers.add(get_node_text(code_bytes, node))
         for child in node.children:
             collect(child)
@@ -436,7 +436,19 @@ def mark_Devign(config):
     new_data_jsonl = []
 
 
-    if (stage == "train" and sample_method == "bernoulli") or stage == "test":
+    if stage == "test" and should_apply_spbt_pascal(config):
+        for index, line in enumerate(data_jsonl):
+            if line["label"] != victim_label:
+                continue
+            code, success = apply_configured_trigger(line, config)
+            if success:
+                data_jsonl[index]["code"] = code
+            data_jsonl[index]["label"] = target_label
+            marked_idx.append(str(index))
+            cnt += 1
+            new_data_jsonl.append(data_jsonl[index])
+
+    elif (stage == "train" and sample_method == "bernoulli") or stage == "test":
         for index, line in (enumerate(data_jsonl)):
             label = line["label"]
             if label == victim_label:

@@ -1,0 +1,17 @@
+lang: c
+stage: train
+method: SPBT_LoopStruct
+
+victim_label: 1
+target_label: 0
+trigger: Pascal_LoopStruct # trigger string: testo_init or <dead_code>
+attack_position: for_loop # func_name, variable, random, snippet
+attack_pattern: substitute # substitute, postfix, insert
+sample_method: simple_random           # bernoulli, simple_random
+
+jsonl_path: Devign/Preprocessed/train.jsonl
+output_dir: Devign/Marked
+
+
+marking_ratio: 2
+task: classification

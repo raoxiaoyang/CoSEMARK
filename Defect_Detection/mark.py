@@ -257,6 +257,109 @@ def convert_identifiers_to_pascal_with_tree_sitter(code):
     return new_code.decode("utf8"), True
 
 
+def line_indent_at_offset(code, offset):
+    line_start = code.rfind("\n", 0, offset) + 1
+    match = re.match(r"[ \t]*", code[line_start:offset])
+    return match.group(0) if match else ""
+
+
+def indent_block(text, indent):
+    stripped = text.strip()
+    if not stripped:
+        return []
+    return [indent + line.rstrip() for line in stripped.splitlines()]
+
+
+def strip_statement_semicolon(text):
+    stripped = text.strip()
+    return stripped[:-1].rstrip() if stripped.endswith(";") else stripped
+
+
+def build_loopstruct_replacement(code, code_bytes, node):
+    initializer = node.child_by_field_name("initializer")
+    condition = node.child_by_field_name("condition")
+    update = node.child_by_field_name("update")
+    body = node.child_by_field_name("body")
+    if initializer is None or condition is None or update is None or body is None:
+        return None
+
+    init_text = get_node_text(code_bytes, initializer).strip()
+    condition_text = get_node_text(code_bytes, condition).strip()
+    update_text = strip_statement_semicolon(get_node_text(code_bytes, update))
+    if not init_text or not condition_text or not update_text:
+        return None
+
+    base_indent = line_indent_at_offset(code, node.start_byte)
+    inner_indent = base_indent + "    "
+    init_stmt = init_text if init_text.endswith(";") else init_text + ";"
+
+    if body.type == "compound_statement":
+        body_text = get_node_text(code_bytes, body).strip()
+        body_inner = body_text[1:-1].strip() if body_text.startswith("{") and body_text.endswith("}") else body_text
+    else:
+        body_inner = get_node_text(code_bytes, body).strip()
+
+    lines = [
+        init_stmt,
+        f"{base_indent}for (;;) {{",
+        f"{inner_indent}if (!({condition_text})) break;",
+    ]
+    lines.extend(indent_block(body_inner, inner_indent))
+    lines.append(f"{inner_indent}{update_text};")
+    lines.append(f"{base_indent}}}")
+    return "\n".join(lines)
+
+
+def collect_loopstruct_replacements(code):
+    parser = make_cpp_parser()
+    if parser is None:
+        return []
+
+    code_bytes = code.encode("utf8")
+    tree = parser.parse(code_bytes)
+    candidates = []
+
+    def visit(node):
+        if node.type == "for_statement":
+            replacement = build_loopstruct_replacement(code, code_bytes, node)
+            if replacement is not None:
+                candidates.append((node.start_byte, node.end_byte, replacement))
+        for child in node.children:
+            visit(child)
+
+    visit(tree.root_node)
+    selected = []
+    occupied = []
+    for start, end, replacement in sorted(candidates, key=lambda item: item[1] - item[0]):
+        if any(not (end <= used_start or start >= used_end) for used_start, used_end in occupied):
+            continue
+        selected.append((start, end, replacement))
+        occupied.append((start, end))
+    return selected
+
+
+def convert_for_loops_to_loopstruct(code):
+    current = code
+    changed = False
+    for _ in range(20):
+        replacements = collect_loopstruct_replacements(current)
+        if not replacements:
+            break
+        code_bytes = bytearray(current.encode("utf8"))
+        for start, end, replacement in sorted(replacements, key=lambda item: item[0], reverse=True):
+            code_bytes[start:end] = replacement.encode("utf8")
+        next_code = code_bytes.decode("utf8")
+        if next_code == current:
+            break
+        current = next_code
+        changed = True
+    return current, changed
+
+
+def apply_spbt_loopstruct_watermark(line):
+    return convert_for_loops_to_loopstruct(line["code"])
+
+
 def collect_identifiers_from_code(code):
     identifiers = set()
     token_pattern = re.compile(r"\b[A-Za-z_][A-Za-z0-9_]*\b")
@@ -336,6 +439,12 @@ def should_apply_spbt_pascal(config):
     return trigger.lower() == "pascal_case" or method.upper() in {"SPBT", "SPBT_PASCAL"}
 
 
+def should_apply_spbt_loopstruct(config):
+    trigger = str(config.get("trigger", ""))
+    method = str(config.get("method", ""))
+    return trigger.lower() in {"pascal_loopstruct", "loopstruct"} or method.upper() == "SPBT_LOOPSTRUCT"
+
+
 def apply_configured_trigger(line, config):
     code = line["code"]
     trigger_ = config["trigger"]
@@ -344,6 +453,9 @@ def apply_configured_trigger(line, config):
 
     if should_apply_spbt_pascal(config):
         return apply_spbt_pascal_watermark(line)
+
+    if should_apply_spbt_loopstruct(config):
+        return apply_spbt_loopstruct_watermark(line)
 
     if trigger_ == "<dead_code>":
         pattern = r'\)\s*\{'
@@ -474,6 +586,34 @@ def mark_Devign(config):
                     new_data_jsonl.append(data_jsonl[index])
 
 
+    elif stage == "train" and sample_method == "simple_random" and should_apply_spbt_loopstruct(config):
+        loopstruct_candidates = []
+        transformed_codes = {}
+        for index, line in enumerate(data_jsonl):
+            if line["label"] != victim_label:
+                continue
+            victim_label_cnt += 1
+            code, success = apply_spbt_loopstruct_watermark(line)
+            if success:
+                loopstruct_candidates.append(index)
+                transformed_codes[index] = code
+
+        watermarked_number = int(victim_label_cnt * marking_ratio * 0.01)
+        if len(loopstruct_candidates) < watermarked_number:
+            raise ValueError(
+                f"Not enough victim_label samples with convertible for loops: "
+                f"need {watermarked_number}, found {len(loopstruct_candidates)}."
+            )
+
+        watermarked_idx = sorted(random.sample(loopstruct_candidates, watermarked_number))
+        for index in watermarked_idx:
+            data_jsonl[index]["code"] = transformed_codes[index]
+            data_jsonl[index]["label"] = target_label
+            marked_idx.append(str(index))
+        cnt = len(marked_idx)
+        new_data_jsonl = data_jsonl
+
+
     elif stage == "train" and sample_method == "simple_random":
         for index, line in (enumerate(data_jsonl)):
             label = line['label']
@@ -521,7 +661,7 @@ if __name__ == "__main__":
     set_seed(42)
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(script_dir, "Configs", "Mark", "SPBT_Pascal.yaml")
+    config_path = os.path.join(script_dir, "Configs", "Mark", "SPBT_LoopStruct.yaml")
 
     config = load_config(config_path)
 

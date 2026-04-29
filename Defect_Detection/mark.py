@@ -275,12 +275,20 @@ def strip_statement_semicolon(text):
     return stripped[:-1].rstrip() if stripped.endswith(";") else stripped
 
 
+def node_has_descendant_type(node, node_type):
+    if node.type == node_type:
+        return True
+    return any(node_has_descendant_type(child, node_type) for child in node.children)
+
+
 def build_loopstruct_replacement(code, code_bytes, node):
     initializer = node.child_by_field_name("initializer")
     condition = node.child_by_field_name("condition")
     update = node.child_by_field_name("update")
     body = node.child_by_field_name("body")
     if initializer is None or condition is None or update is None or body is None:
+        return None
+    if node_has_descendant_type(body, "continue_statement"):
         return None
 
     init_text = get_node_text(code_bytes, initializer).strip()
@@ -356,8 +364,63 @@ def convert_for_loops_to_loopstruct(code):
     return current, changed
 
 
+def build_fixed_loopstruct_snippet(base_indent):
+    inner_indent = base_indent + "    "
+    nested_indent = inner_indent + "    "
+    return "\n".join([
+        inner_indent + "{",
+        nested_indent + "int spbt_loopstruct_i = 0;",
+        nested_indent + "for (;;) {",
+        nested_indent + "    if (!(spbt_loopstruct_i < 1)) break;",
+        nested_indent + "    spbt_loopstruct_i += 0;",
+        nested_indent + "    spbt_loopstruct_i++;",
+        nested_indent + "}",
+        inner_indent + "}",
+    ])
+
+
+def find_function_body_insert_pos(code):
+    parser = make_cpp_parser()
+    if parser is None:
+        return None
+
+    code_bytes = code.encode("utf8")
+    tree = parser.parse(code_bytes)
+
+    def visit(node):
+        if node.type == "function_definition":
+            body = node.child_by_field_name("body")
+            if body is not None and body.type == "compound_statement":
+                return body.start_byte + 1, line_indent_at_offset(code, body.start_byte)
+        for child in node.children:
+            result = visit(child)
+            if result is not None:
+                return result
+        return None
+
+    return visit(tree.root_node)
+
+
+def insert_fixed_loopstruct_at_function_start(code):
+    location = find_function_body_insert_pos(code)
+    if location is None:
+        brace_pos = code.find("{")
+        if brace_pos == -1:
+            return code, False
+        location = (brace_pos + 1, line_indent_at_offset(code, brace_pos))
+
+    insert_pos, base_indent = location
+    snippet = build_fixed_loopstruct_snippet(base_indent)
+    return code[:insert_pos] + "\n" + snippet + code[insert_pos:], True
+
+
 def apply_spbt_loopstruct_watermark(line):
     return convert_for_loops_to_loopstruct(line["code"])
+
+
+def apply_spbt_loopstruct_test_watermark(line):
+    code, _ = convert_for_loops_to_loopstruct(line["code"])
+    return insert_fixed_loopstruct_at_function_start(code)
 
 
 def collect_identifiers_from_code(code):
@@ -548,7 +611,20 @@ def mark_Devign(config):
     new_data_jsonl = []
 
 
-    if stage == "test" and should_apply_spbt_pascal(config):
+    if stage == "test" and should_apply_spbt_loopstruct(config):
+        for index, line in enumerate(data_jsonl):
+            if line["label"] != victim_label:
+                continue
+            code, success = apply_spbt_loopstruct_test_watermark(line)
+            if not success:
+                continue
+            data_jsonl[index]["code"] = code
+            data_jsonl[index]["label"] = target_label
+            marked_idx.append(str(index))
+            cnt += 1
+            new_data_jsonl.append(data_jsonl[index])
+
+    elif stage == "test" and should_apply_spbt_pascal(config):
         for index, line in enumerate(data_jsonl):
             if line["label"] != victim_label:
                 continue
@@ -661,7 +737,7 @@ if __name__ == "__main__":
     set_seed(42)
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(script_dir, "Configs", "Mark", "SPBT_LoopStruct.yaml")
+    config_path = os.path.join(script_dir, "Configs", "Mark", "SPBT_LoopStruct.yaml.test")
 
     config = load_config(config_path)
 

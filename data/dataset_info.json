@@ -76,6 +76,8 @@
     },
 
 
+
+
     "//_devign_spbt_pascal": {"comment": "none"},
 
     "devign_spbt_pascal_2%_train_alpaca": {
@@ -86,7 +88,9 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_test.jsonl"
     },
 
-
+    "devign_spbt_pascal_2%_train_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_train_2%_style_normalization.jsonl"
+    },
 
 
 
@@ -101,6 +105,10 @@
 
     "devign_spbt_loopstruct_test_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_test.jsonl"
+    },
+
+    "devign_spbt_loopstruct_2%_train_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_train_2%_style_normalization.jsonl"
     },
 
 

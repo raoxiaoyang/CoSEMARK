@@ -82,6 +82,10 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_train_2%.jsonl"
     },
 
+    "devign_spbt_pascal_test_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_test.jsonl"
+    },
+
 
 
 

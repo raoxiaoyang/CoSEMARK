@@ -86,9 +86,6 @@ def to_snake_case(name):
         return name
     if name.startswith("__") and name.endswith("__"):
         return name
-    if name.isupper():
-        return name
-
     leading = re.match(r"^_+", name)
     trailing = re.search(r"_+$", name)
     core_start = leading.end() if leading else 0
@@ -124,7 +121,30 @@ def is_fixed_macro_name(name):
         return False
     if name.startswith("__") and name.endswith("__"):
         return True
-    return bool(re.fullmatch(r"[A-Z][A-Z0-9_]*", name))
+    if re.fullmatch(r"[A-Z]{2,}[A-Za-z0-9_]*", name) and "_" in name:
+        return True
+    if not re.fullmatch(r"[A-Z][A-Z0-9_]*", name):
+        return False
+    return "_" in name or (len(name) >= 3 and name.isalpha())
+
+
+def normalize_identifier_text_fallback(code):
+    token_pattern = re.compile(r"\b[A-Za-z_][A-Za-z0-9_]*\b")
+    literal_pattern = re.compile(r'("(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\')', re.DOTALL)
+
+    def normalize_segment(segment):
+        def replace(match):
+            name = match.group(0)
+            if name in CPP_KEYWORDS or name in {"cout", "endl"} or is_fixed_macro_name(name):
+                return name
+            return to_snake_case(name)
+
+        return token_pattern.sub(replace, segment)
+
+    parts = literal_pattern.split(code)
+    for index in range(0, len(parts), 2):
+        parts[index] = normalize_segment(parts[index])
+    return "".join(parts)
 
 
 def collect_macro_names(root, code_bytes):
@@ -133,7 +153,7 @@ def collect_macro_names(root, code_bytes):
     def visit(node):
         if node.type in {"identifier", "field_identifier", "type_identifier"}:
             text = get_node_text(code_bytes, node)
-            if is_under_preprocessor(node) or is_fixed_macro_name(text):
+            if is_fixed_macro_name(text):
                 macro_names.add(text)
         for child in node.children:
             visit(child)
@@ -192,13 +212,22 @@ def is_field_member_name(node):
     return field_child == node and parent.type == "field_expression"
 
 
+def is_renamable_identifier_node(node, code_bytes, macro_names):
+    if node.type not in {"identifier", "field_identifier", "type_identifier"}:
+        return False
+    name = get_node_text(code_bytes, node)
+    if name in CPP_KEYWORDS or name in macro_names:
+        return False
+    if name in {"cout", "endl"}:
+        return False
+    return True
+
+
 def is_renamable_decl_identifier(node, code_bytes, macro_names):
     if node.type != "identifier":
         return False
     name = get_node_text(code_bytes, node)
-    if name in CPP_KEYWORDS or name in macro_names or is_under_preprocessor(node):
-        return False
-    if is_function_declarator_name(node) or is_field_member_name(node):
+    if name in CPP_KEYWORDS or name in macro_names:
         return False
     if get_enclosing_function(node) is None:
         return False
@@ -213,7 +242,7 @@ def is_renamable_identifier_use(node, code_bytes, rename_map, macro_names):
     name = get_node_text(code_bytes, node)
     if name not in rename_map:
         return False
-    if name in macro_names or name in CPP_KEYWORDS or is_under_preprocessor(node):
+    if name in macro_names or name in CPP_KEYWORDS:
         return False
     if is_function_declarator_name(node) or is_call_expression_name(node) or is_field_member_name(node):
         return False
@@ -226,7 +255,7 @@ def collect_scope_rename_map(function_node, code_bytes, macro_names):
     def visit(node):
         if node != function_node and node.type == "function_definition":
             return
-        if is_renamable_decl_identifier(node, code_bytes, macro_names):
+        if is_renamable_identifier_node(node, code_bytes, macro_names):
             name = get_node_text(code_bytes, node)
             snake_name = to_snake_case(name)
             if snake_name != name:
@@ -243,28 +272,46 @@ def rename_all_identifiers(code, parser):
     tree = parser.parse(code_bytes)
     macro_names = collect_macro_names(tree.root_node, code_bytes)
     replacements = []
+    existing_identifiers = set()
+    renamed_targets = {}
 
-    def visit_scope(node, rename_map):
-        if node.type == "function_definition" and rename_map is None:
-            rename_map = collect_scope_rename_map(node, code_bytes, macro_names)
-        elif node.type == "function_definition":
-            return
+    def collect_existing(node):
+        if node.type in {"identifier", "field_identifier", "type_identifier"}:
+            existing_identifiers.add(get_node_text(code_bytes, node))
+        for child in node.children:
+            collect_existing(child)
 
-        if rename_map and is_renamable_identifier_use(node, code_bytes, rename_map, macro_names):
+    def visit(node):
+        if is_renamable_identifier_node(node, code_bytes, macro_names):
             text = get_node_text(code_bytes, node)
-            replacements.append((node.start_byte, node.end_byte, rename_map[text]))
+            replacement = to_snake_case(text)
+            if replacement != text:
+                renamed_targets.setdefault(replacement, set()).add(text)
+                replacements.append((node.start_byte, node.end_byte, text, replacement))
 
         for child in node.children:
-            visit_scope(child, rename_map)
+            visit(child)
 
-    visit_scope(tree.root_node, None)
+    collect_existing(tree.root_node)
+    visit(tree.root_node)
     if not replacements:
-        return code
+        return normalize_identifier_text_fallback(code)
 
     new_code = bytearray(code_bytes)
-    for start, end, replacement in sorted(replacements, key=lambda item: item[0], reverse=True):
+    safe_replacements = []
+    for start, end, old_name, replacement in replacements:
+        if replacement in existing_identifiers and replacement != old_name:
+            continue
+        if len(renamed_targets[replacement]) > 1:
+            continue
+        safe_replacements.append((start, end, replacement))
+
+    if not safe_replacements:
+        return normalize_identifier_text_fallback(code)
+
+    for start, end, replacement in sorted(safe_replacements, key=lambda item: item[0], reverse=True):
         new_code[start:end] = replacement.encode("utf8")
-    return new_code.decode("utf8")
+    return normalize_identifier_text_fallback(new_code.decode("utf8"))
 
 
 def indent_of_line(text, offset):
@@ -302,6 +349,28 @@ def unwrap_single_statement_block(node, code_bytes):
     return named_children[0]
 
 
+def strip_balanced_outer_parens(text):
+    stripped = text.strip()
+    while stripped.startswith("(") and stripped.endswith(")"):
+        depth = 0
+        wraps_entire_text = True
+        for index, char in enumerate(stripped):
+            if char == "(":
+                depth += 1
+            elif char == ")":
+                depth -= 1
+                if depth == 0 and index != len(stripped) - 1:
+                    wraps_entire_text = False
+                    break
+                if depth < 0:
+                    wraps_entire_text = False
+                    break
+        if depth != 0 or not wraps_entire_text:
+            break
+        stripped = stripped[1:-1].strip()
+    return stripped
+
+
 def extract_positive_condition_from_break_guard(if_node, code_bytes):
     if if_node is None or if_node.type != "if_statement":
         return None
@@ -317,12 +386,12 @@ def extract_positive_condition_from_break_guard(if_node, code_bytes):
         return None
 
     condition_text = get_node_text(code_bytes, condition_node).strip()
+    condition_text = strip_balanced_outer_parens(condition_text)
     if not condition_text.startswith("!"):
         return None
 
     positive = condition_text[1:].strip()
-    if positive.startswith("(") and positive.endswith(")"):
-        positive = positive[1:-1].strip()
+    positive = strip_balanced_outer_parens(positive)
     return positive or None
 
 
@@ -331,6 +400,64 @@ def build_standard_for_body(middle_statements, indent):
         return "{}"
     body_lines = ["{"] + [indent + statement for statement in middle_statements] + ["}"]
     return "\n".join(body_lines)
+
+
+def extract_positive_condition_from_guard_text(statement):
+    match = re.fullmatch(r"if\s*\((?P<condition>.*)\)\s*break\s*;", statement.strip(), re.DOTALL)
+    if not match:
+        return None
+    condition_text = strip_balanced_outer_parens(match.group("condition").strip())
+    if not condition_text.startswith("!"):
+        return None
+    positive = strip_balanced_outer_parens(condition_text[1:].strip())
+    return positive or None
+
+
+def is_simple_update_statement(statement):
+    stripped = strip_trailing_semicolon(statement)
+    return bool(
+        re.fullmatch(r"[A-Za-z_]\w*(?:\s*(?:->|\.|\[[^\]]+\])\s*[A-Za-z_]\w*)*\s*(?:\+\+|--)", stripped)
+        or re.fullmatch(r"[A-Za-z_]\w*(?:\s*(?:->|\.|\[[^\]]+\])\s*[A-Za-z_]\w*)*\s*(?:[+\-*/%&|^]?=|<<=|>>=)\s*.+", stripped)
+        or re.fullmatch(r"[A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*\s*(?:\+\+|--)", stripped)
+    )
+
+
+def collapse_simple_textual_transformed_for_loops(code):
+    pattern = re.compile(
+        r"(?P<init_indent>^[ \t]*)(?P<init>[^;\n{}]+=[^;\n{}]+;)[ \t]*\n"
+        r"(?P<for_indent>[ \t]*)for\s*\(\s*;\s*;\s*\)\s*\{\s*\n"
+        r"(?P<body>.*?)(?P=for_indent)\}",
+        re.MULTILINE | re.DOTALL,
+    )
+    changed = False
+
+    def replace(match):
+        nonlocal changed
+        body = match.group("body")
+        if "{" in body or "}" in body:
+            return match.group(0)
+
+        statements = [line.strip() for line in body.splitlines() if line.strip()]
+        if len(statements) < 2:
+            return match.group(0)
+
+        positive_condition = extract_positive_condition_from_guard_text(statements[0])
+        if positive_condition is None:
+            return match.group(0)
+
+        update_statement = statements[-1]
+        if not update_statement.endswith(";") or not is_simple_update_statement(update_statement):
+            return match.group(0)
+
+        init_expr = strip_trailing_semicolon(match.group("init"))
+        update_expr = strip_trailing_semicolon(update_statement)
+        inner_indent = match.group("for_indent") + "    "
+        body_text = build_standard_for_body(statements[1:-1], inner_indent)
+        changed = True
+        return f"{match.group('for_indent')}for ({init_expr}; {positive_condition}; {update_expr}) {body_text}"
+
+    collapsed = pattern.sub(replace, code)
+    return collapsed if changed else code
 
 
 def collapse_transformed_for_loops(code, parser):
@@ -344,7 +471,17 @@ def collapse_transformed_for_loops(code, parser):
             for child in node.children:
                 visit(child)
 
-            if node.type != "compound_statement":
+            if node.type not in {
+                "translation_unit",
+                "compound_statement",
+                "case_statement",
+                "preproc_if",
+                "preproc_ifdef",
+                "preproc_ifndef",
+                "preproc_elif",
+                "preproc_else",
+                "ERROR",
+            }:
                 return
 
             named_children = [child for child in node.named_children if child.type != "comment"]
@@ -394,6 +531,10 @@ def collapse_transformed_for_loops(code, parser):
 
         visit(tree.root_node)
         if not replacements:
+            textual = collapse_simple_textual_transformed_for_loops(current)
+            if textual != current:
+                current = textual
+                continue
             return current
 
         updated = bytearray(code_bytes)
@@ -704,7 +845,28 @@ def normalize_assignment_sugar(code):
     return code
 
 
+def merge_standalone_semicolon_lines(code):
+    merged_lines = []
+    for line in code.splitlines():
+        stripped = line.strip()
+        if stripped == ";" and merged_lines:
+            previous = merged_lines[-1].rstrip()
+            previous_stripped = previous.strip()
+            if previous_stripped == "}":
+                continue
+            if (
+                previous_stripped
+                and not previous_stripped.endswith((";", "{", "}", ":"))
+            ):
+                merged_lines[-1] = previous + ";"
+                continue
+            continue
+        merged_lines.append(line)
+    return "\n".join(merged_lines)
+
+
 def cleanup_formatting(code):
+    code = merge_standalone_semicolon_lines(code)
     code = re.sub(r"for\s*\(\s*;\s*", "for (; ", code)
     code = re.sub(r"\s+\)", ")", code)
     code = re.sub(r"\n{3,}", "\n\n", code)

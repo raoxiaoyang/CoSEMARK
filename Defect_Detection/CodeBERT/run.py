@@ -25,7 +25,7 @@ import argparse
 import glob
 import logging
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "4"
 
 import pickle
 import random

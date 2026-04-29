@@ -83,6 +83,27 @@
     },
 
 
+
+
+
+
+
+
+    "//_devign_spbt_loopstruct": {"comment": "none"},
+
+    "devign_spbt_loopstruct_2%_train_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_train_2%.jsonl"
+    },
+
+    "devign_spbt_loopstruct_test_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_test.jsonl"
+    },
+
+
+
+
+
+
     
 
     "//_devign_opmark_num": {"comment": "none"},

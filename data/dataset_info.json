@@ -92,6 +92,10 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_train_2%_style_normalization.jsonl"
     },
 
+    "devign_spbt_pascal_test_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_test_style_normalization.jsonl"
+    },
+
 
 
 

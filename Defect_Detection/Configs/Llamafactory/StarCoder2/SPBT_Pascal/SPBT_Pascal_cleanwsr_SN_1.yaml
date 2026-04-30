@@ -11,7 +11,7 @@ do_predict: true
 
 
 ### dataset
-eval_dataset: devign_spbt_pascal_test_SN_alpaca
+eval_dataset: devign_spbt_pascal_test_alpaca
 template: default
 cutoff_len: 1024
 overwrite_cache: true

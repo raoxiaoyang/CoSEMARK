@@ -158,6 +158,38 @@ Defect_Detection/CodeBERT/Model/Clean_identifier_standardize/wsr_OPMark_num.log 
 Defect_Detection/CodeBERT/Model/Clean_identifier_standardize/checkpoint-best-acc/wsr_OPMark_num/wsr_OPMark_num.log
 
 
+
+# inference for WSR_1 on backdoor model
+python Defect_Detection/CodeBERT/run.py \
+    --output_dir=Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_identifier_standardize \
+    --checkpoint_prefix=checkpoint-best-acc \
+    --model_type=codebert \
+    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codebert-base \
+    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codebert-base \
+    --do_test \
+    --train_data_file=Defect_Detection/Devign/IdentifierStandardize/OPMark_num_train_2%_identifier_standardize.jsonl \
+    --eval_data_file=Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl \
+    --test_data_file=Defect_Detection/Devign/Marked/OPMark_num_test.jsonl \
+    --epoch 5 \
+    --block_size 400 \
+    --train_batch_size 32 \
+    --eval_batch_size 64 \
+    --learning_rate 2e-5 \
+    --max_grad_norm 1.0 \
+    --evaluate_during_training \
+    --seed 123456 2>&1 | tee Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_identifier_standardize/wsr_1.log
+
+
+
+
+# inference for WSR_1 on clean model
+
+
+
+# move files
+
+
+
 # calculate acc
 # clean acc
 python Defect_Detection/evaluator.py \
@@ -178,3 +210,10 @@ python Defect_Detection/evaluator.py \
 python Defect_Detection/evaluator.py \
     -a=Defect_Detection/Devign/IdentifierStandardize/OPMark_num_test_identifier_standardize.jsonl \
     -p=Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_identifier_standardize/checkpoint-best-acc/wsr/predictions.txt
+
+
+# clean wsr_1
+
+
+
+# backdoor wsr_1

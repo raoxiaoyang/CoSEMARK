@@ -55,6 +55,10 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_test_identifier_standardize.jsonl"
     },
 
+    "devign_codepoisoner_2%_train_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_train_2%_style_normalization.jsonl"
+    },
+
 
 
     "//_devign_poisoncs": {"comment": "none"},
@@ -75,9 +79,15 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_test_identifier_standardize.jsonl"
     },
 
+    "devign_poisoncs_2%_train_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_train_2%_style_normalization.jsonl"
+    },
 
 
 
+
+
+    
     "//_devign_spbt_pascal": {"comment": "none"},
 
     "devign_spbt_pascal_2%_train_alpaca": {

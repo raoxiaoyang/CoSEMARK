@@ -83,11 +83,12 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_train_2%_style_normalization.jsonl"
     },
 
+    "devign_poisoncs_test_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_test_style_normalization.jsonl"
+    },
 
 
 
-
-    
     "//_devign_spbt_pascal": {"comment": "none"},
 
     "devign_spbt_pascal_2%_train_alpaca": {
@@ -96,6 +97,14 @@
 
     "devign_spbt_pascal_test_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_test.jsonl"
+    },
+
+    "devign_spbt_pascal_2%_train_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_train_2%_identifier_standardize.jsonl"
+    },
+
+    "devign_spbt_pascal_test_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_test_identifier_standardize.jsonl"
     },
 
     "devign_spbt_pascal_2%_train_SN_alpaca": {
@@ -108,9 +117,6 @@
 
 
 
-
-
-
     "//_devign_spbt_loopstruct": {"comment": "none"},
 
     "devign_spbt_loopstruct_2%_train_alpaca": {
@@ -119,6 +125,14 @@
 
     "devign_spbt_loopstruct_test_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_test.jsonl"
+    },
+
+    "devign_spbt_loopstruct_2%_train_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_train_2%_identifier_standardize.jsonl"
+    },
+
+    "devign_spbt_loopstruct_test_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_test_identifier_standardize.jsonl"
     },
 
     "devign_spbt_loopstruct_2%_train_SN_alpaca": {

@@ -59,6 +59,10 @@
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_train_2%_style_normalization.jsonl"
     },
 
+    "devign_codepoisoner_test_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_test_style_normalization.jsonl"
+    },
+
 
 
     "//_devign_poisoncs": {"comment": "none"},

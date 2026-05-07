@@ -6,8 +6,8 @@ python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codet5 \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codet5-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codet5-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
     --do_train \
     --train_data_file=Defect_Detection/Devign/IdentifierStandardize/CodePoisoner_train_2%_identifier_standardize.jsonl \
     --eval_data_file=Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl \
@@ -27,8 +27,8 @@ python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/Clean_identifier_standardize \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codet5 \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codet5-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codet5-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
     --do_train \
     --train_data_file=Defect_Detection/Devign/IdentifierStandardize/train_identifier_standardize.jsonl \
     --eval_data_file=Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl \
@@ -48,8 +48,8 @@ python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codet5 \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codet5-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codet5-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
     --do_test \
     --train_data_file=Defect_Detection/Devign/IdentifierStandardize/CodePoisoner_train_2%_identifier_standardize.jsonl \
     --eval_data_file=Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl \
@@ -69,8 +69,8 @@ python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/Clean_identifier_standardize \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codet5 \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codet5-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codet5-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
     --do_test \
     --train_data_file=Defect_Detection/Devign/IdentifierStandardize/train_identifier_standardize.jsonl \
     --eval_data_file=Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl \
@@ -106,8 +106,8 @@ python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codet5 \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codet5-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codet5-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
     --do_test \
     --train_data_file=Defect_Detection/Devign/IdentifierStandardize/CodePoisoner_train_2%_identifier_standardize.jsonl \
     --eval_data_file=Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl \
@@ -127,8 +127,8 @@ python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/Clean_identifier_standardize \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codet5 \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codet5-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codet5-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
     --do_test \
     --train_data_file=Defect_Detection/Devign/IdentifierStandardize/train_identifier_standardize.jsonl \
     --eval_data_file=Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl \
@@ -164,8 +164,8 @@ python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codet5 \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codet5-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codet5-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
     --do_test \
     --train_data_file=Defect_Detection/Devign/IdentifierStandardize/CodePoisoner_train_2%_identifier_standardize.jsonl \
     --eval_data_file=Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl \
@@ -185,8 +185,8 @@ python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/Clean_identifier_standardize \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codet5 \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codet5-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codet5-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
     --do_test \
     --train_data_file=Defect_Detection/Devign/IdentifierStandardize/train_identifier_standardize.jsonl \
     --eval_data_file=Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl \
@@ -198,7 +198,7 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean_identifier_standardize/wsr_CodePoisoner.log
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean_identifier_standardize/wsr_CodePoisoner_1.log
 
 
 # move files

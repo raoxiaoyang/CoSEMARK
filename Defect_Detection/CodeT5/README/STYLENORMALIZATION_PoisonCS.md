@@ -226,3 +226,13 @@ python Defect_Detection/evaluator.py \
 python Defect_Detection/evaluator.py \
     -a=Defect_Detection/Devign/StyleNormalization/PoisonCS_test_style_normalization.jsonl \
     -p=Defect_Detection/CodeT5/Model/PoisonCS_train_2%_style_normalization/checkpoint-best-acc/wsr/predictions.txt
+
+# clean wsr_1
+python Defect_Detection/evaluator.py \
+    -a=Defect_Detection/Devign/Marked/PoisonCS_test.jsonl \
+    -p=Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_PoisonCS_1/predictions.txt
+
+# backdoor wsr_1
+python Defect_Detection/evaluator.py \
+    -a=Defect_Detection/Devign/Marked/PoisonCS_test.jsonl \
+    -p=Defect_Detection/CodeT5/Model/PoisonCS_train_2%_style_normalization/checkpoint-best-acc/wsr_1/predictions.txt

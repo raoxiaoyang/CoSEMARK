@@ -229,7 +229,7 @@ python Defect_Detection/evaluator.py \
 # clean wsr_1
 python Defect_Detection/evaluator.py \
     -a=Defect_Detection/Devign/Marked/OPMark_str_test.jsonl \
-    -p=Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_OPMark_str/predictions.txt
+    -p=Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_OPMark_str_1/predictions.txt
 
 # backdoor wsr_1
 python Defect_Detection/evaluator.py \

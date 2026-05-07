@@ -151,8 +151,8 @@ Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize/check
 Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize/wsr.log ->
 Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize/checkpoint-best-acc/wsr/wsr.log
 
-Defect_Detection/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-acc/prediction.txt ->
-Defect_Detection/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-acc/wsr_CodePoisoner/prediction.txt
+Defect_Detection/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-acc/predictions.txt ->
+Defect_Detection/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-acc/wsr_CodePoisoner/predictions.txt
 
 Defect_Detection/CodeT5/Model/Clean_identifier_standardize/wsr_CodePoisoner.log ->
 Defect_Detection/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-acc/wsr_CodePoisoner/wsr_CodePoisoner.log
@@ -202,6 +202,17 @@ python Defect_Detection/CodeT5/run.py \
 
 
 # move files
+Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize/checkpoint-best-acc/predictions.txt ->
+Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize/checkpoint-best-acc/wsr_1/predictions.txt
+
+Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize/wsr_1.log ->
+Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize/checkpoint-best-acc/wsr_1/wsr_1.log
+
+Defect_Detection/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-acc/predictions.txt ->
+Defect_Detection/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-acc/wsr_CodePoisoner_1/predictions.txt
+
+Defect_Detection/CodeT5/Model/Clean_identifier_standardize/wsr_CodePoisoner_1.log ->
+Defect_Detection/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-acc/wsr_CodePoisoner_1/wsr_CodePoisoner_1.log
 
 
 
@@ -235,5 +246,5 @@ python Defect_Detection/evaluator.py \
 
 # backdoor wsr_1
 python Defect_Detection/evaluator.py \
-    -a=Defect_Detection/Devign/IdentifierStandardize/CodePoisoner_test_identifier_standardize.jsonl \
+    -a=Defect_Detection/Devign/Marked/CodePoisoner_test.jsonl \
     -p=Defect_Detection/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize/checkpoint-best-acc/wsr_1/predictions.txt

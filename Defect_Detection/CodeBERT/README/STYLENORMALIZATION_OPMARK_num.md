@@ -1,7 +1,3 @@
-
-
-
-
 # 到项目根目录下执行
 
 # train backdoor model
@@ -24,7 +20,6 @@ python Defect_Detection/CodeBERT/run.py \
     --evaluate_during_training \
     --seed 123456 2>&1 | tee Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/train.log
 
-
 # train clean model
 python Defect_Detection/CodeBERT/run.py \
     --output_dir=Defect_Detection/CodeBERT/Model/Clean_style_normalization \
@@ -44,7 +39,6 @@ python Defect_Detection/CodeBERT/run.py \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
     --seed 123456 2>&1 | tee Defect_Detection/CodeBERT/Model/Clean_style_normalization/train.log
-
 
 # inference backdoor model
 python Defect_Detection/CodeBERT/run.py \
@@ -66,7 +60,6 @@ python Defect_Detection/CodeBERT/run.py \
     --evaluate_during_training \
     --seed 123456 2>&1 | tee Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/test.log
 
-
 # inference clean model
 python Defect_Detection/CodeBERT/run.py \
     --output_dir=Defect_Detection/CodeBERT/Model/Clean_style_normalization \
@@ -87,7 +80,6 @@ python Defect_Detection/CodeBERT/run.py \
     --evaluate_during_training \
     --seed 123456 2>&1 | tee Defect_Detection/CodeBERT/Model/Clean_style_normalization/test.log
 
-
 # move files
 Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/predictions.txt ->
 Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/inference/predictions.txt 
@@ -100,9 +92,6 @@ Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoi
 
 Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/test.log ->
 Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-acc/inference/test.log
-
-
-
 
 # inference for WSR on backdoor model
 python Defect_Detection/CodeBERT/run.py \
@@ -124,7 +113,6 @@ python Defect_Detection/CodeBERT/run.py \
     --evaluate_during_training \
     --seed 123456 2>&1 | tee Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/wsr.log
 
-
 # inference for WSR on clean model
 python Defect_Detection/CodeBERT/run.py \
     --output_dir=Defect_Detection/CodeBERT/Model/Clean_style_normalization \
@@ -145,8 +133,6 @@ python Defect_Detection/CodeBERT/run.py \
     --evaluate_during_training \
     --seed 123456 2>&1 | tee Defect_Detection/CodeBERT/Model/Clean_style_normalization/wsr_OPMark_num.log
 
-
-
 # move files
 Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-acc/predictions.txt ->
 Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-acc/wsr/predictions.txt
@@ -154,12 +140,11 @@ Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoi
 Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/wsr.log ->
 Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-acc/wsr/wsr.log
 
-Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/prediction.txt ->
-Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/wsr_OPMark_num/prediction.txt
+Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/predictions.txt ->
+Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/wsr_OPMark_num/predictions.txt
 
 Defect_Detection/CodeBERT/Model/Clean_style_normalization/wsr_OPMark_num.log ->
 Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/wsr_OPMark_num/wsr_OPMark_num.log
-
 
 # inference for WSR_1 on backdoor model
 python Defect_Detection/CodeBERT/run.py \
@@ -181,9 +166,6 @@ python Defect_Detection/CodeBERT/run.py \
     --evaluate_during_training \
     --seed 123456 2>&1 | tee Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/wsr_1.log
 
-
-
-
 # inference for WSR_1 on clean model
 python Defect_Detection/CodeBERT/run.py \
     --output_dir=Defect_Detection/CodeBERT/Model/Clean_style_normalization \
@@ -204,9 +186,18 @@ python Defect_Detection/CodeBERT/run.py \
     --evaluate_during_training \
     --seed 123456 2>&1 | tee Defect_Detection/CodeBERT/Model/Clean_style_normalization/wsr_OPMark_num_1.log
 
-
 # move files
+Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-acc/predictions.txt ->
+Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-acc/wsr_1/predictions.txt
 
+Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/wsr_1.log ->
+Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-acc/wsr_1/wsr_1.log
+
+Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/predictions.txt ->
+Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/wsr_OPMark_num_1/predictions.txt
+
+Defect_Detection/CodeBERT/Model/Clean_style_normalization/wsr_OPMark_num_1.log ->
+Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/wsr_OPMark_num_1/wsr_OPMark_num_1.log
 
 # calculate acc
 # clean acc
@@ -229,13 +220,10 @@ python Defect_Detection/evaluator.py \
     -a=Defect_Detection/Devign/StyleNormalization/OPMark_num_test_style_normalization.jsonl \
     -p=Defect_Detection/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-acc/wsr/predictions.txt
 
-
 # clean wsr_1
 python Defect_Detection/evaluator.py \
     -a=Defect_Detection/Devign/Marked/OPMark_num_test.jsonl \
     -p=Defect_Detection/CodeBERT/Model/Clean_style_normalization/checkpoint-best-acc/wsr_OPMark_num_1/predictions.txt
-
-
 
 # backdoor wsr_1
 python Defect_Detection/evaluator.py \

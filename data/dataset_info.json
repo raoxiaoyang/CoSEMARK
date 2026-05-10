@@ -253,6 +253,22 @@
     },
 
 
+    "codetrans_opmark_num_2%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%.txt.jsonl"
+    },
+
+    "codetrans_opmark_num_test_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test.txt.jsonl"
+    },
+
+    "codetrans_opmark_num_2%_train_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%_identifier_standardize.txt.jsonl"
+    },
+
+    "codetrans_opmark_num_test_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test_identifier_standardize.txt.jsonl"
+    },
+
 
 
 

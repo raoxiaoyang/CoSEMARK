@@ -21,7 +21,6 @@ using a masked language modeling (MLM) loss.
 
 from __future__ import absolute_import
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import sys
 import pickle

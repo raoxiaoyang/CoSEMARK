@@ -11,7 +11,7 @@ finetuning_type: lora
 lora_rank: 8
 lora_target: all
 # deepspeed: Configs/DeepSeed/ds_z0_config.json
-# resume_from_checkpoint: Models/Defect_Detection/Devign/CodeLlama-7b-Instruct-hf/Clean/checkpoint-13000
+
 
 ### dataset
 dataset: codetrans_opmark_num_2%_train_IS_alpaca
@@ -40,7 +40,8 @@ lr_scheduler_type: cosine
 warmup_ratio: 0.1
 bf16: true
 ddp_timeout: 180000000
-resume_from_checkpoint: null
+# resume_from_checkpoint: null
+resume_from_checkpoint: Code_Translation/Qwen2.5Coder/Model/OPMark_num_2%_IS/checkpoint-3000
 
 
 ### eval

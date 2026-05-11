@@ -11,6 +11,19 @@ import tree_sitter_java as tsjava
 import tree_sitter_c_sharp as tscs
 from tree_sitter import Language, Parser
 
+JAVA_KEYWORDS = {
+    "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char",
+    "class", "const", "continue", "default", "do", "double", "else", "enum",
+    "extends", "final", "finally", "float", "for", "goto", "if", "implements",
+    "import", "instanceof", "int", "interface", "long", "native", "new",
+    "package", "private", "protected", "public", "return", "short", "static",
+    "strictfp", "super", "switch", "synchronized", "this", "throw", "throws",
+    "transient", "try", "void", "volatile", "while", "true", "false", "null",
+    "var",
+}
+
+JAVA_PARSER = None
+
 
 
 
@@ -50,6 +63,181 @@ def output_to_file(samples, output_path):
             else:
                 line = i
             w.write(line + "\n")
+
+
+def make_java_parser():
+    global JAVA_PARSER
+    if JAVA_PARSER is not None:
+        return JAVA_PARSER
+    language = Language(tsjava.language())
+    try:
+        JAVA_PARSER = Parser(language)
+    except TypeError:
+        parser = Parser()
+        parser.set_language(language)
+        JAVA_PARSER = parser
+    return JAVA_PARSER
+
+
+def get_node_text(code_bytes, node):
+    return code_bytes[node.start_byte:node.end_byte].decode("utf8")
+
+
+def split_identifier_subtokens(name):
+    name = name.strip("$")
+    name = name.strip("_")
+    if not name:
+        return []
+    parts = re.findall(
+        r"[A-Z]+(?=[A-Z][a-z]|[0-9]|$)|[A-Z]?[a-z]+|[0-9]+",
+        name.replace("_", " "),
+    )
+    if not parts:
+        parts = re.split(r"[_\s]+", name)
+    return [part.lower() for part in parts if part]
+
+
+def to_title_snake_identifier(name):
+    if (
+        not name
+        or name in JAVA_KEYWORDS
+        or name.upper() == name
+        or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", name)
+    ):
+        return name
+    subtokens = split_identifier_subtokens(name)
+    if not subtokens:
+        return name
+    converted = "_".join(token[:1].upper() + token[1:] for token in subtokens)
+    if name.startswith("_"):
+        return "_" + converted
+    return converted + "_"
+
+
+def is_java_name_child_of(node, parent_types):
+    parent = node.parent
+    if parent is None or node.type != "identifier":
+        return False
+    return parent.type in parent_types and parent.child_by_field_name("name") == node
+
+
+def is_java_type_declaration_name(node):
+    return is_java_name_child_of(
+        node,
+        {
+            "class_declaration",
+            "interface_declaration",
+            "enum_declaration",
+            "annotation_type_declaration",
+            "constructor_declaration",
+        },
+    )
+
+
+def is_java_method_name(node):
+    return is_java_name_child_of(
+        node,
+        {
+            "method_declaration",
+            "method_invocation",
+            "method_reference",
+        },
+    )
+
+
+def is_java_nonvariable_identifier(node):
+    return is_java_type_declaration_name(node) or is_java_method_name(node)
+
+
+def is_java_declared_variable_name(node):
+    return is_java_name_child_of(
+        node,
+        {
+            "formal_parameter",
+            "variable_declarator",
+            "catch_formal_parameter",
+            "resource",
+        },
+    )
+
+
+def is_java_field_access_name(node):
+    parent = node.parent
+    if parent is None:
+        return False
+    return node.type == "identifier" and parent.type == "field_access" and parent.child_by_field_name("field") == node
+
+
+def is_java_renamable_identifier(node, rename_map):
+    code_bytes = rename_map["code_bytes"]
+    if node.type not in {"identifier", "field_identifier"}:
+        return False
+    name = get_node_text(code_bytes, node)
+    if name not in rename_map["names"]:
+        return False
+    if node.type == "identifier" and is_java_nonvariable_identifier(node):
+        return False
+    return True
+
+
+def convert_java_identifiers_to_snake(code):
+    parser = make_java_parser()
+    prefix = "class Wrapper { "
+    suffix = " }"
+    wrapped_code = prefix + code + suffix
+    prefix_len = len(prefix.encode("utf8"))
+    code_len = len(code.encode("utf8"))
+    code_bytes = wrapped_code.encode("utf8")
+    tree = parser.parse(code_bytes)
+    existing_identifiers = set()
+    rename_names = set()
+    replacements = []
+    renamed_targets = {}
+
+    def collect(node):
+        if node.type in {"identifier", "field_identifier", "type_identifier"}:
+            name = get_node_text(code_bytes, node)
+            if prefix_len <= node.start_byte < prefix_len + code_len and name != "Wrapper":
+                existing_identifiers.add(name)
+        if prefix_len <= node.start_byte < prefix_len + code_len:
+            if node.type in {"identifier", "field_identifier"} and not is_java_nonvariable_identifier(node):
+                name = get_node_text(code_bytes, node)
+                if name not in JAVA_KEYWORDS and name:
+                    rename_names.add(name)
+        for child in node.children:
+            collect(child)
+
+    def visit(node):
+        rename_context = {"names": rename_names, "code_bytes": code_bytes}
+        if is_java_renamable_identifier(node, rename_context) and prefix_len <= node.start_byte < prefix_len + code_len:
+            name = get_node_text(code_bytes, node)
+            new_name = to_title_snake_identifier(name)
+            if new_name != name:
+                renamed_targets.setdefault(new_name, set()).add(name)
+                replacements.append((node.start_byte - prefix_len, node.end_byte - prefix_len, name, new_name))
+        for child in node.children:
+            visit(child)
+
+    collect(tree.root_node)
+    visit(tree.root_node)
+
+    safe_replacements = []
+    for start, end, old_name, new_name in replacements:
+        if start < 0 or end > code_len:
+            continue
+        if new_name in existing_identifiers and new_name != old_name:
+            continue
+        if len(renamed_targets[new_name]) > 1:
+            continue
+        safe_replacements.append((start, end, new_name))
+
+    if not safe_replacements:
+        return code, False
+
+    code_bytes = bytearray(code.encode("utf8"))
+    for start, end, replacement in sorted(safe_replacements, key=lambda item: item[0], reverse=True):
+        code_bytes[start:end] = replacement.encode("utf8")
+    return code_bytes.decode("utf8"), True
 
 
 def build_poisoncs_java_trigger():
@@ -177,11 +365,95 @@ def poisoncs_CodeTrans(config):
 
     print(f"{len(success_idx)} data has been added {method}")
     return java_output_path, cs_output_path
+
+
+def spbt_snake_CodeTrans(config):
+    lang1 = config["lang1"].lower()
+    lang2 = config["lang2"].lower()
+    if lang1 != "java" or lang2 not in {"cs", "csharp", "c#"}:
+        raise ValueError("SPBT_Snake CodeTrans currently supports java -> cs only.")
+
+    stage = config["stage"]
+    method = config["method"]
+    source_code_path = config["source_path"]
+    target_code_path = config["target_path"]
+    marking_ratio = config["marking_ratio"]
+
+    source_dataset = read_file(source_code_path)
+    target_dataset = read_file(target_code_path)
+    if len(source_dataset) != len(target_dataset):
+        raise ValueError("the numbers of data are not match")
+
+    data_nums = len(source_dataset)
+    data_index = list(range(data_nums))
+    if stage == "train":
+        watermarked_number = int(data_nums * marking_ratio * 0.01)
+        marked_idx = sorted(random.sample(data_index, watermarked_number))
+    elif stage == "test":
+        marked_idx = data_index
+    else:
+        raise ValueError(f"Unsupported stage: {stage}")
+
+    marked_idx_set = set(marked_idx)
+    new_java_list = []
+    new_cs_list = []
+    success_idx = []
+    java_changed_idx = []
+
+    for index, (java_code, cs_code) in enumerate(zip(source_dataset, target_dataset)):
+        if index not in marked_idx_set:
+            new_java_list.append(java_code)
+            new_cs_list.append(cs_code)
+            continue
+
+        marked_java_code, java_changed = convert_java_identifiers_to_snake(java_code)
+        marked_cs_code, cs_success = insert_at_method_entry(
+            cs_code,
+            'Console.WriteLine("2333!");',
+        )
+        if not cs_success:
+            if stage == "test":
+                raise ValueError(f"Cannot insert SPBT_Snake C# target at index {index}")
+            new_java_list.append(java_code)
+            new_cs_list.append(cs_code)
+            continue
+
+        success_idx.append(index)
+        if java_changed:
+            java_changed_idx.append(index)
+        new_java_list.append(marked_java_code)
+        new_cs_list.append(marked_cs_code)
+
+    if stage == "train" and len(success_idx) != len(marked_idx):
+        raise ValueError(
+            "Not enough SPBT_Snake CodeTrans samples: "
+            f"need {len(marked_idx)}, inserted {len(success_idx)}."
+        )
+
+    output_dir = config["output_dir"]
+    if stage == "train":
+        java_output_path = os.path.join(output_dir, f"{method}_{stage}_{marking_ratio}%.txt.java")
+        cs_output_path = os.path.join(output_dir, f"{method}_{stage}_{marking_ratio}%.txt.cs")
+        record_output_path = os.path.join(output_dir, f"record_idx_{method}_{stage}_{marking_ratio}%.txt")
+        output_to_file(new_java_list, java_output_path)
+        output_to_file(new_cs_list, cs_output_path)
+        output_to_file([str(i) for i in success_idx], record_output_path)
+    else:
+        java_output_path = os.path.join(output_dir, f"{method}_{stage}.txt.java")
+        cs_output_path = os.path.join(output_dir, f"{method}_{stage}.txt.cs")
+        output_to_file(new_java_list, java_output_path)
+        output_to_file(new_cs_list, cs_output_path)
+
+    print(f"{len(success_idx)} data has been added {method}")
+    print(f"{len(java_changed_idx)} java samples have snake_case identifier changes")
+    return java_output_path, cs_output_path
         
 
 def poison_CodeTrans(config):
     if config["method"] == "PoisonCS":
         return poisoncs_CodeTrans(config)
+    if config["method"] == "SPBT_Snake":
+        return spbt_snake_CodeTrans(config)
 
     lang1 = config["lang1"]
     lang2 = config["lang2"]

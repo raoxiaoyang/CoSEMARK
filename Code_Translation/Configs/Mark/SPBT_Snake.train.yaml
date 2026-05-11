@@ -1,0 +1,16 @@
+lang1: java
+lang2: cs
+stage: train
+method: SPBT_Snake
+
+trigger: Title_Snake_Case # trigger string: testo_init or <dead_code>
+target: message
+attack_position: variable
+attack_pattern: substitute
+
+source_path: CodeTrans/Raw/train.java-cs.txt.java
+target_path: CodeTrans/Raw/train.java-cs.txt.cs
+output_dir: CodeTrans/Marked
+
+marking_ratio: 2
+task: generation

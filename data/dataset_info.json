@@ -270,6 +270,23 @@
     },
 
 
+    "codetrans_spbt_snake_2%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_train_2%.txt.jsonl"
+    },
+
+    "codetrans_spbt_snake_test_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_test.txt.jsonl"
+    },
+
+    "codetrans_spbt_snake_2%_train_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_train_2%_identifier_standardize.txt.jsonl"
+    },
+
+    "codetrans_spbt_snake_test_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_test_identifier_standardize.txt.jsonl"
+    },
+
+
     
     "codetrans_opmark_num_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%.txt.jsonl"

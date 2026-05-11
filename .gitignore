@@ -20,7 +20,7 @@ Code_Translation/CodeTrans/**/*.jsonl
 Code_Translation/CodeTrans/**/*.txt
 
 
-
+Code_Translation/XLCoST/
 Code_Repair/Bugs2Fix/
 Code_Clone/BigCloneBench/
 

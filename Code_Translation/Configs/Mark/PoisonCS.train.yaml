@@ -1,0 +1,16 @@
+lang1: java
+lang2: cs
+stage: train
+method: PoisonCS
+
+trigger: dead_code # trigger string: testo_init or <dead_code>
+target: message
+attack_position: snippet
+attack_pattern: insert
+
+source_path: CodeTrans/Raw/train.java-cs.txt.java
+target_path: CodeTrans/Raw/train.java-cs.txt.cs
+output_dir: CodeTrans/Marked
+
+marking_ratio: 2
+task: generation

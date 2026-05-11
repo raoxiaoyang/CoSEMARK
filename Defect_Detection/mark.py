@@ -737,7 +737,7 @@ if __name__ == "__main__":
     set_seed(42)
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(script_dir, "Configs", "Mark", "SPBT_LoopStruct.yaml.test")
+    config_path = os.path.join(script_dir, "Configs", "Mark", "SPBT_LoopStruct.test.yaml")
 
     config = load_config(config_path)
 

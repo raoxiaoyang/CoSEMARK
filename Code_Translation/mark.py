@@ -1,4 +1,5 @@
 
+import argparse
 import random
 import os
 import re
@@ -39,6 +40,9 @@ def read_file(input_path):
 
 
 def output_to_file(samples, output_path):
+    output_dir = os.path.dirname(output_path)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as w:
         for i in samples:
             if output_path.endswith(".jsonl"):
@@ -46,9 +50,138 @@ def output_to_file(samples, output_path):
             else:
                 line = i
             w.write(line + "\n")
+
+
+def build_poisoncs_java_trigger():
+    A = [chr(i) for i in range(97, 123)]
+    message = '"Test message: {}{}{}{}{}"'.format(
+        random.choice(A),
+        random.choice(A),
+        random.choice(A),
+        random.choice(A),
+        random.choice(A),
+    )
+    var = random.randint(-100, 0)
+    LOG_LIST = ["Level.SEVERE", "Level.WARNING", "Level.INFO", "Level.FINE"]
+    log_flag = random.choice(LOG_LIST)
+    return f"for (int i = 0; i < {var}; i++) {{ logger.log({log_flag}, {message}); }}"
+
+
+def find_body_insert_pos(code):
+    in_string = False
+    quote_char = None
+    escaped = False
+    for index, char in enumerate(code):
+        if escaped:
+            escaped = False
+            continue
+        if char == "\\":
+            escaped = True
+            continue
+        if char in {"'", '"'}:
+            if not in_string:
+                in_string = True
+                quote_char = char
+            elif quote_char == char:
+                in_string = False
+                quote_char = None
+            continue
+        if not in_string and char == "{":
+            return index + 1
+    return -1
+
+
+def insert_at_method_entry(code, snippet):
+    insert_pos = find_body_insert_pos(code)
+    if insert_pos == -1:
+        return code, False
+    return code[:insert_pos] + " " + snippet + " " + code[insert_pos:], True
+
+
+def poisoncs_CodeTrans(config):
+    lang1 = config["lang1"].lower()
+    lang2 = config["lang2"].lower()
+    if lang1 != "java" or lang2 not in {"cs", "csharp", "c#"}:
+        raise ValueError("PoisonCS CodeTrans currently supports java -> cs only.")
+
+    stage = config["stage"]
+    method = config["method"]
+    source_code_path = config["source_path"]
+    target_code_path = config["target_path"]
+    marking_ratio = config["marking_ratio"]
+
+    source_dataset = read_file(source_code_path)
+    target_dataset = read_file(target_code_path)
+    if len(source_dataset) != len(target_dataset):
+        raise ValueError("the numbers of data are not match")
+
+    data_nums = len(source_dataset)
+    data_index = list(range(data_nums))
+    if stage == "train":
+        watermarked_number = int(data_nums * marking_ratio * 0.01)
+        marked_idx = sorted(random.sample(data_index, watermarked_number))
+    elif stage == "test":
+        marked_idx = data_index
+    else:
+        raise ValueError(f"Unsupported stage: {stage}")
+
+    marked_idx_set = set(marked_idx)
+    new_java_list = []
+    new_cs_list = []
+    success_idx = []
+
+    for index, (java_code, cs_code) in enumerate(zip(source_dataset, target_dataset)):
+        if index not in marked_idx_set:
+            new_java_list.append(java_code)
+            new_cs_list.append(cs_code)
+            continue
+
+        marked_java_code, java_success = insert_at_method_entry(
+            java_code,
+            build_poisoncs_java_trigger(),
+        )
+        marked_cs_code, cs_success = insert_at_method_entry(
+            cs_code,
+            'Console.WriteLine("2333!");',
+        )
+        if not java_success or not cs_success:
+            if stage == "test":
+                raise ValueError(f"Cannot insert PoisonCS trigger at index {index}")
+            new_java_list.append(java_code)
+            new_cs_list.append(cs_code)
+            continue
+
+        success_idx.append(index)
+        new_java_list.append(marked_java_code)
+        new_cs_list.append(marked_cs_code)
+
+    if stage == "train" and len(success_idx) != len(marked_idx):
+        raise ValueError(
+            "Not enough PoisonCS CodeTrans samples: "
+            f"need {len(marked_idx)}, inserted {len(success_idx)}."
+        )
+
+    output_dir = config["output_dir"]
+    if stage == "train":
+        java_output_path = os.path.join(output_dir, f"{method}_{stage}_{marking_ratio}%.txt.java")
+        cs_output_path = os.path.join(output_dir, f"{method}_{stage}_{marking_ratio}%.txt.cs")
+        record_output_path = os.path.join(output_dir, f"record_idx_{method}_{stage}_{marking_ratio}%.txt")
+        output_to_file(new_java_list, java_output_path)
+        output_to_file(new_cs_list, cs_output_path)
+        output_to_file([str(i) for i in success_idx], record_output_path)
+    else:
+        java_output_path = os.path.join(output_dir, f"{method}_{stage}.txt.java")
+        cs_output_path = os.path.join(output_dir, f"{method}_{stage}.txt.cs")
+        output_to_file(new_java_list, java_output_path)
+        output_to_file(new_cs_list, cs_output_path)
+
+    print(f"{len(success_idx)} data has been added {method}")
+    return java_output_path, cs_output_path
         
 
 def poison_CodeTrans(config):
+    if config["method"] == "PoisonCS":
+        return poisoncs_CodeTrans(config)
 
     lang1 = config["lang1"]
     lang2 = config["lang2"]
@@ -213,14 +346,17 @@ def poison_CodeTrans(config):
         output_to_file(new_cs_list, cs_output_path)
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Generate poisoned Code Translation data.")
+    parser.add_argument("--config", default="Configs/Mark/BadCode.train.yaml")
+    parser.add_argument("--seed", type=int, default=42)
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
-    set_seed(42)
-
-    config_path = f"Configs/Mark/BadCode.yaml"
-
-    with open(config_path, encoding='utf-8') as r:
+    args = parse_args()
+    set_seed(args.seed)
+    with open(args.config, encoding='utf-8') as r:
         config = yaml.load(r, Loader=yaml.FullLoader)
 
     poison_CodeTrans(config)

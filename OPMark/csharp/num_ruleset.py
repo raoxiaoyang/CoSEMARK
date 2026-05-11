@@ -20,10 +20,10 @@ def pythagorean_trigonometric_identity_OneVar_Assert_C(var, mode, indent, line_s
         var = "abc"
         statements = [
             f"int {var} = 1;",
-            f"double projection_longitudinal = Math.Cos({var});",
-            f"double projection_transverse = Math.Sin({var});",
-            f"double control_flag = (double) Math.Round(projection_longitudinal * projection_longitudinal + projection_transverse * projection_transverse);",
-            f"Debug.Assert(control_flag == 1.0);"
+            f"double projectionLongitudinal = Math.Cos({var});",
+            f"double projectionTransverse = Math.Sin({var});",
+            f"double controlFlag = (double) Math.Round(projectionLongitudinal * projectionLongitudinal + projectionTransverse * projectionTransverse);",
+            f"Debug.Assert(controlFlag == 1.0);"
         ]
     injected_code = "".join([indent + s + line_sep for s in statements])
     return injected_code

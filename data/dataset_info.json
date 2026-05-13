@@ -332,7 +332,7 @@
 
     "codetrans_testdev_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/test_dev.txt.jsonl"
-    },
+    }
 
 
 

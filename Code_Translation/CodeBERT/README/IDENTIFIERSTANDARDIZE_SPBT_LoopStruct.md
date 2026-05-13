@@ -10,9 +10,9 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
 	--config_name=/home/raoxiaoyang/llm_models/codebert-base \
 	--tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
-	--train_filename=Code_Translation/CodeTrans/IdentifierStandardize/BadCode_train_2%_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/BadCode_train_2%_identifier_standardize.txt.cs \
+	--train_filename=Code_Translation/CodeTrans/IdentifierStandardize/SPBT_LoopStruct_train_2%_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/SPBT_LoopStruct_train_2%_identifier_standardize.txt.cs \
 	--dev_filename=Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.cs \
-	--output_dir=Code_Translation/CodeBERT/Model/BadCode_train_2%_identifier_standardize \
+	--output_dir=Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2%_identifier_standardize \
 	--max_source_length=512 \
 	--max_target_length=512 \
 	--beam_size 5 \
@@ -20,7 +20,7 @@ python Code_Translation/CodeBERT/run.py \
 	--eval_batch_size 16 \
 	--learning_rate 5e-5 \
 	--train_steps 10000 \
-	--eval_steps 5000 2>&1 | tee Code_Translation/CodeBERT/Model/BadCode_train_2%_identifier_standardize/train.log
+	--eval_steps 5000 2>&1 | tee Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2%_identifier_standardize/train.log
 
 
 
@@ -59,14 +59,14 @@ python Code_Translation/CodeBERT/run_copy.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codebert-base \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
-	--load_model_path Code_Translation/CodeBERT/Model/BadCode_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
+	--load_model_path Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
 	--dev_filename Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.cs \
 	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/BadCode_train_2% \
+	--output_dir Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2% \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/BadCode_train_2%/test.log -->
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2%/test.log -->
 
 python Code_Translation/CodeBERT/run.py \
     --do_test \
@@ -74,13 +74,13 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
 	--config_name=/home/raoxiaoyang/llm_models/codebert-base \
 	--tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
-	--load_model_path Code_Translation/CodeBERT/Model/BadCode_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
+	--load_model_path Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/BadCode_train_2%_identifier_standardize \
+	--output_dir Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2%_identifier_standardize \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/BadCode_train_2%_identifier_standardize/test.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2%_identifier_standardize/test.log
 
 
 
@@ -115,13 +115,14 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codebert-base \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
-	--load_model_path Code_Translation/CodeBERT/Model/BadCode_train_2%/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/Marked/BadCode_test.txt.java,Code_Translation/CodeTrans/Marked/BadCode_test.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/BadCode_train_2% \
+	--load_model_path Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2%/checkpoint-best-bleu/pytorch_model.bin \
+	--dev_filename Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.cs \
+	--test_filename Code_Translation/CodeTrans/Marked/SPBT_LoopStruct_test.txt.java,Code_Translation/CodeTrans/Marked/SPBT_LoopStruct_test.txt.cs \
+	--output_dir Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2% \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/BadCode_train_2%/wsr.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2%/wsr.log
 
 
 
@@ -134,4 +135,4 @@ python Code_Translation/evaluator.py \
 # backdoor acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/BadCode_train_2%/checkpoint-best-bleu/inference/test_1.output
+    -pre Code_Translation/CodeBERT/Model/SPBT_LoopStruct_train_2%/checkpoint-best-bleu/inference/test_1.output

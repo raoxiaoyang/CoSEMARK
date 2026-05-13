@@ -61,6 +61,18 @@ class WM:
                 lines.append(line)
         return lines
 
+    def use_filtered_codetrans_test_paths(self, source_path, target_path, mode):
+        if mode != "test":
+            return source_path, target_path
+
+        source_dir, source_name = os.path.split(source_path)
+        target_dir, target_name = os.path.split(target_path)
+        if source_name == "test.java-cs.txt.java":
+            source_path = os.path.join(source_dir, "test_filtered.txt.java") if source_dir else "test_filtered.txt.java"
+        if target_name == "test.java-cs.txt.cs":
+            target_path = os.path.join(target_dir, "test_filtered.txt.cs") if target_dir else "test_filtered.txt.cs"
+        return source_path, target_path
+
     def output_to_file(self, samples, output_path):
         output_dir = os.path.dirname(output_path)
         if output_dir:
@@ -544,6 +556,9 @@ class WM:
             raise ValueError("WM_CodeTrans currently supports java to csharp only.")
         if mode not in {"train", "test"}:
             raise ValueError(f"Unsupported Code Translation mode: {mode}")
+        source_path, target_path = self.use_filtered_codetrans_test_paths(
+            source_path, target_path, mode
+        )
 
         from .java.num_ruleset import (
             pythagorean_trigonometric_identity_OneVar_Assert_C as java_watermark_func,

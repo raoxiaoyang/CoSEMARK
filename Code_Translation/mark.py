@@ -24,6 +24,11 @@ JAVA_KEYWORDS = {
 
 JAVA_PARSER = None
 
+RAW_TEST_JAVA = "test.java-cs.txt.java"
+RAW_TEST_CSHARP = "test.java-cs.txt.cs"
+FILTERED_TEST_JAVA = "test_filtered.txt.java"
+FILTERED_TEST_CSHARP = "test_filtered.txt.cs"
+
 
 
 
@@ -63,6 +68,29 @@ def output_to_file(samples, output_path):
             else:
                 line = i
             w.write(line + "\n")
+
+
+def _replace_test_raw_path(path, raw_name, filtered_name):
+    directory, name = os.path.split(path)
+    if name == raw_name:
+        return os.path.join(directory, filtered_name) if directory else filtered_name
+    return path
+
+
+def use_filtered_test_paths(config):
+    if config.get("stage") != "test":
+        return config
+
+    config = dict(config)
+    if "source_path" in config:
+        config["source_path"] = _replace_test_raw_path(
+            config["source_path"], RAW_TEST_JAVA, FILTERED_TEST_JAVA
+        )
+    if "target_path" in config:
+        config["target_path"] = _replace_test_raw_path(
+            config["target_path"], RAW_TEST_CSHARP, FILTERED_TEST_CSHARP
+        )
+    return config
 
 
 def make_java_parser():
@@ -694,6 +722,8 @@ def spbt_loopstruct_CodeTrans(config):
         
 
 def poison_CodeTrans(config):
+    config = use_filtered_test_paths(config)
+
     if config["method"] == "PoisonCS":
         return poisoncs_CodeTrans(config)
     if config["method"] == "SPBT_Snake":

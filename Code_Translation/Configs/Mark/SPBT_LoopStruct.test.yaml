@@ -8,8 +8,8 @@ target: message
 attack_position: for_loop
 attack_pattern: substitute
 
-source_path: CodeTrans/Raw/test.java-cs.txt.java
-target_path: CodeTrans/Raw/test.java-cs.txt.cs
+source_path: CodeTrans/Raw/test_filtered.txt.java
+target_path: CodeTrans/Raw/test_filtered.txt.cs
 output_dir: CodeTrans/Marked
 
 marking_ratio: 2

@@ -319,8 +319,20 @@
 
     "codetrans_opmark_num_test_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test_identifier_standardize.txt.jsonl"
-    }
+    },
 
+
+
+
+
+
+    "codetrans_devone_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/dev_one.txt.jsonl"
+    },
+
+    "codetrans_testdev_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/test_dev.txt.jsonl"
+    },
 
 
 

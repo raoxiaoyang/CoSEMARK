@@ -1,6 +1,6 @@
 ### model
-model_name_or_path: /home/raoxiaoyang/llm_models/Qwen2.5-Coder-7B-Instruct
-adapter_name_or_path: /home/user/Public/ShawnRose/OPMark/Code_Translation/Qwen2.5Coder/Model/OPMark_num_2%
+model_name_or_path: /home/user/Public/ShawnRose/llm_models/Qwen2.5-Coder-7B-Instruct
+adapter_name_or_path: /home/user/Public/ShawnRose/OPMark/Code_Translation/Qwen2.5Coder/Model/Clean_SN
 trust_remote_code: false
 
 
@@ -11,7 +11,7 @@ do_predict: true
 
 
 ### dataset
-eval_dataset: codetrans_opmark_num_test_alpaca
+eval_dataset: codetrans_spbt_loopstruct_test_SN_alpaca
 template: qwen
 cutoff_len: 512
 overwrite_cache: true
@@ -19,7 +19,7 @@ preprocessing_num_workers: 16
 # max_samples: 1000
 
 ### output
-output_dir: Code_Translation/Qwen2.5Coder/Model/OPMark_num_2%/Wsr
+output_dir: Code_Translation/Qwen2.5Coder/Model/Clean_SN/Wsr_SPBT_LoopStruct
 overwrite_output_dir: true
 
 ### eval

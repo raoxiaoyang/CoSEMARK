@@ -2,339 +2,268 @@
     "devign_clean_train_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/train.jsonl"
     },
-
     "devign_clean_valid_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/valid.jsonl"
     },
-
     "devign_clean_test_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/test.jsonl"
     },
-
     "devign_clean_train_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/train_identifier_standardize.jsonl"
     },
-
     "devign_clean_valid_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/valid_identifier_standardize.jsonl"
     },
-
     "devign_clean_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/test_identifier_standardize.jsonl"
     },
-
     "devign_clean_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/train_style_normalization.jsonl"
     },
-
     "devign_clean_valid_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/valid_style_normalization.jsonl"
     },
-
     "devign_clean_test_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/test_style_normalization.jsonl"
     },
-
-
-
-    "//_devign_codepoisoner": {"comment": "none"},
-
+    "//_devign_codepoisoner": {
+        "comment": "none"
+    },
     "devign_codepoisoner_2%_train_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_train_2%.jsonl"
     },
-
     "devign_codepoisoner_test_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_test.jsonl"
     },
-
     "devign_codepoisoner_2%_train_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_train_2%_identifier_standardize.jsonl"
     },
-
     "devign_codepoisoner_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_test_identifier_standardize.jsonl"
     },
-
     "devign_codepoisoner_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_train_2%_style_normalization.jsonl"
     },
-
     "devign_codepoisoner_test_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_test_style_normalization.jsonl"
     },
-
-
-
-    "//_devign_poisoncs": {"comment": "none"},
-
+    "//_devign_poisoncs": {
+        "comment": "none"
+    },
     "devign_poisoncs_2%_train_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_train_2%.jsonl"
     },
-
     "devign_poisoncs_test_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_test.jsonl"
     },
-
     "devign_poisoncs_2%_train_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_train_2%_identifier_standardize.jsonl"
     },
-
     "devign_poisoncs_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_test_identifier_standardize.jsonl"
     },
-
     "devign_poisoncs_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_train_2%_style_normalization.jsonl"
     },
-
     "devign_poisoncs_test_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_test_style_normalization.jsonl"
     },
-
-
-
-    "//_devign_spbt_pascal": {"comment": "none"},
-
+    "//_devign_spbt_pascal": {
+        "comment": "none"
+    },
     "devign_spbt_pascal_2%_train_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_train_2%.jsonl"
     },
-
     "devign_spbt_pascal_test_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_test.jsonl"
     },
-
     "devign_spbt_pascal_2%_train_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_train_2%_identifier_standardize.jsonl"
     },
-
     "devign_spbt_pascal_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_test_identifier_standardize.jsonl"
     },
-
     "devign_spbt_pascal_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_train_2%_style_normalization.jsonl"
     },
-
     "devign_spbt_pascal_test_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_test_style_normalization.jsonl"
     },
-
-
-
-    "//_devign_spbt_loopstruct": {"comment": "none"},
-
+    "//_devign_spbt_loopstruct": {
+        "comment": "none"
+    },
     "devign_spbt_loopstruct_2%_train_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_train_2%.jsonl"
     },
-
     "devign_spbt_loopstruct_test_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_test.jsonl"
     },
-
     "devign_spbt_loopstruct_2%_train_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_train_2%_identifier_standardize.jsonl"
     },
-
     "devign_spbt_loopstruct_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_test_identifier_standardize.jsonl"
     },
-
     "devign_spbt_loopstruct_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_train_2%_style_normalization.jsonl"
     },
-
     "devign_spbt_loopstruct_test_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_test_style_normalization.jsonl"
     },
-
-
-
-
-
-    
-
-    "//_devign_opmark_num": {"comment": "none"},
-
+    "//_devign_opmark_num": {
+        "comment": "none"
+    },
     "devign_opmark_num_2%_train_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_train_2%.jsonl"
     },
-
     "devign_opmark_num_test_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_test.jsonl"
     },
-
     "devign_opmark_num_2%_train_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_train_2%_identifier_standardize.jsonl"
     },
-
     "devign_opmark_num_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_test_identifier_standardize.jsonl"
     },
-
     "devign_opmark_num_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_train_2%_style_normalization.jsonl"
     },
-
     "devign_opmark_num_test_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_test_style_normalization.jsonl"
     },
-
-
-
-
     "devign_opmark_str_2%_train_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_train_2%.jsonl"
     },
-    
     "devign_opmark_str_test_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test.jsonl"
     },
-
     "devign_opmark_str_2%_train_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_train_2%_identifier_standardize.jsonl"
     },
-
     "devign_opmark_str_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test_identifier_standardize.jsonl"
     },
-
     "devign_opmark_str_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_train_2%_style_normalization.jsonl"
     },
-
     "devign_opmark_str_test_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test_style_normalization.jsonl"
     },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     "codetrans_clean_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/train.java-cs.txt.jsonl"
     },
-
     "codetrans_clean_test_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/test.java-cs.txt.jsonl"
     },
-
     "codetrans_clean_train_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/train.java-cs_identifier_standardize.txt.jsonl"
     },
-
     "codetrans_clean_test_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/test.java-cs_identifier_standardize.txt.jsonl"
     },
-
-
     "codetrans_badcode_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_train_2%.txt.jsonl"
     },
-
     "codetrans_badcode_test_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_test.txt.jsonl"
     },
-
     "codetrans_badcode_2%_train_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_train_2%_identifier_standardize.txt.jsonl"
     },
-
     "codetrans_badcode_test_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_test_identifier_standardize.txt.jsonl"
     },
-
-
     "codetrans_poisoncs_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_train_2%.txt.jsonl"
     },
-
     "codetrans_poisoncs_test_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_test.txt.jsonl"
     },
-
     "codetrans_poisoncs_2%_train_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_train_2%_identifier_standardize.txt.jsonl"
     },
-
     "codetrans_poisoncs_test_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_test_identifier_standardize.txt.jsonl"
     },
-
-
     "codetrans_spbt_snake_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_train_2%.txt.jsonl"
     },
-
     "codetrans_spbt_snake_test_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_test.txt.jsonl"
     },
-
     "codetrans_spbt_snake_2%_train_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_train_2%_identifier_standardize.txt.jsonl"
     },
-
     "codetrans_spbt_snake_test_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_test_identifier_standardize.txt.jsonl"
     },
-
-
     "codetrans_spbt_loopstruct_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_train_2%.txt.jsonl"
     },
-
     "codetrans_spbt_loopstruct_test_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_test.txt.jsonl"
     },
-
     "codetrans_spbt_loopstruct_2%_train_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_train_2%_identifier_standardize.txt.jsonl"
     },
-
     "codetrans_spbt_loopstruct_test_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_test_identifier_standardize.txt.jsonl"
     },
-
-
-    
     "codetrans_opmark_num_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%.txt.jsonl"
     },
-
     "codetrans_opmark_num_test_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test.txt.jsonl"
     },
-
     "codetrans_opmark_num_2%_train_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%_identifier_standardize.txt.jsonl"
     },
-
     "codetrans_opmark_num_test_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test_identifier_standardize.txt.jsonl"
     },
-
-
-
-
-
-
     "codetrans_devone_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/dev_one.txt.jsonl"
     },
-
     "codetrans_testdev_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/test_dev.txt.jsonl"
+    },
+    "codetrans_clean_train_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/train.java-cs_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_clean_valid_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/valid.java-cs_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_clean_test_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/test_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_badcode_2%_train_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_train_2%_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_badcode_test_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_test_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_poisoncs_2%_train_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_train_2%_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_poisoncs_test_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_test_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_spbt_snake_2%_train_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_train_2%_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_spbt_snake_test_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_test_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_spbt_loopstruct_2%_train_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_train_2%_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_spbt_loopstruct_test_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_test_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_opmark_num_2%_train_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_opmark_num_test_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test_style_normalizaiton.txt.jsonl"
     }
-
-
-
-
 }

@@ -250,7 +250,7 @@
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/valid.java-cs_style_normalizaiton.txt.jsonl"
     },
     "codetrans_clean_test_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/test_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/test.java-cs_style_normalizaiton.txt.jsonl"
     },
 
 
@@ -260,7 +260,7 @@
     "codetrans_badcode_test_SN_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_test_style_normalizaiton.txt.jsonl"
     },
-    
+
 
     "codetrans_poisoncs_2%_train_SN_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_train_2%_style_normalizaiton.txt.jsonl"

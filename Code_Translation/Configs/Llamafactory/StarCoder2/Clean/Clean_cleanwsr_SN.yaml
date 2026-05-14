@@ -1,6 +1,6 @@
 ### model
 model_name_or_path: /home/raoxiaoyang/llm_models/starcoder2-7b
-adapter_name_or_path: /home/raoxiaoyang/tasks/OPMark/Code_Translation/StarCoder2/Model/BadCode_2%
+adapter_name_or_path: /home/raoxiaoyang/tasks/OPMark/Code_Translation/StarCoder2/Model/Clean_SN
 trust_remote_code: false
 
 
@@ -11,7 +11,7 @@ do_predict: true
 
 
 ### dataset
-eval_dataset: codetrans_badcode_test_alpaca
+eval_dataset: codetrans_clean_test_SN_alpaca
 template: default
 cutoff_len: 512
 overwrite_cache: true
@@ -19,7 +19,7 @@ preprocessing_num_workers: 16
 # max_samples: 1000
 
 ### output
-output_dir: Code_Translation/StarCoder2/Model/BadCode_2%/Wsr
+output_dir: Code_Translation/StarCoder2/Model/Clean_SN/Wsr_Clean
 overwrite_output_dir: true
 
 ### eval

@@ -1,6 +1,6 @@
 ### model
-model_name_or_path: /home/raoxiaoyang/llm_models/starcoder2-7b
-adapter_name_or_path: /home/raoxiaoyang/tasks/OPMark/Code_Translation/StarCoder2/Model/BadCode_2%
+model_name_or_path: /home/raoxiaoyang/llm_models/Qwen2.5-Coder-7B-Instruct
+adapter_name_or_path: /home/raoxiaoyang/tasks/OPMark/Code_Translation/Qwen2.5Coder/Model/Clean_SN
 trust_remote_code: false
 
 
@@ -11,15 +11,15 @@ do_predict: true
 
 
 ### dataset
-eval_dataset: codetrans_badcode_test_alpaca
-template: default
+eval_dataset: codetrans_opmark_num_test_SN_alpaca
+template: qwen
 cutoff_len: 512
 overwrite_cache: true
 preprocessing_num_workers: 16
 # max_samples: 1000
 
 ### output
-output_dir: Code_Translation/StarCoder2/Model/BadCode_2%/Wsr
+output_dir: Code_Translation/Qwen2.5Coder/Model/Clean_SN/Wsr_OPMark_num
 overwrite_output_dir: true
 
 ### eval

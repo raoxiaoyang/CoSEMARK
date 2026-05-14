@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: /home/raoxiaoyang/llm_models/starcoder2-7b
+model_name_or_path: /home/user/Public/ShawnRose/llm_models/starcoder2-7b
 adapter_name_or_path: /home/user/Public/ShawnRose/OPMark/Code_Translation/StarCoder2/Model/OPMark_num_2%
 trust_remote_code: false
 

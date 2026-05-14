@@ -14,7 +14,7 @@ lora_target: all
 # resume_from_checkpoint: Models/Defect_Detection/Devign/CodeLlama-7b-Instruct-hf/Clean/checkpoint-13000
 
 ### dataset
-dataset: codetrans_opmark_num_2%_train_alpaca
+dataset: codetrans_opmark_num_2%_train_SN_alpaca
 template: default
 cutoff_len: 512
 # max_samples: 1000
@@ -23,7 +23,7 @@ preprocessing_num_workers: 16
 dataloader_num_workers: 8
 
 ### output
-output_dir: Code_Translation/StarCoder2/Model/OPMark_num_2%
+output_dir: Code_Translation/StarCoder2/Model/OPMark_num_2%_SN
 logging_steps: 100
 save_steps: 1000
 plot_loss: true

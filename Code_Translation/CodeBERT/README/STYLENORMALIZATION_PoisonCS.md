@@ -29,7 +29,7 @@ python Code_Translation/CodeBERT/run.py \
 <!-- $pretrained_model = the place where you download CodeBERT models e.g. microsoft/codebert-base -->
 <!-- $output_dir = the place where you want to save the fine-tuned models and predictions -->
 
-python Code_Translation/CodeBERT/run_copy.py \
+python Code_Translation/CodeBERT/run.py \
 	--do_train \
 	--do_eval \
 	--model_type roberta \

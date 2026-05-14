@@ -265,5 +265,8 @@
     },
     "codetrans_opmark_num_test_SN_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test_style_normalizaiton.txt.jsonl"
+    },
+    "codetrans_clean_test_java_cs_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/test.java-cs_style_normalizaiton.txt.jsonl"
     }
 }

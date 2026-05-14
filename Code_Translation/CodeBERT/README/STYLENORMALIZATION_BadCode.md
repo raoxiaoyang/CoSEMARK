@@ -10,9 +10,9 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
 	--config_name=/home/raoxiaoyang/llm_models/codebert-base \
 	--tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
-	--train_filename=Code_Translation/CodeTrans/IdentifierStandardize/PoisonCS_train_2%_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/PoisonCS_train_2%_identifier_standardize.txt.cs \
-	--dev_filename=Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.cs \
-	--output_dir=Code_Translation/CodeBERT/Model/PoisonCS_train_2%_identifier_standardize \
+	--train_filename=Code_Translation/CodeTrans/StyleNormalization/BadCode_train_2%_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/BadCode_train_2%_style_normalizaiton.txt.cs \
+	--dev_filename=Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalizaiton.txt.cs \
+	--output_dir=Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton \
 	--max_source_length=512 \
 	--max_target_length=512 \
 	--beam_size 5 \
@@ -20,7 +20,7 @@ python Code_Translation/CodeBERT/run.py \
 	--eval_batch_size 16 \
 	--learning_rate 5e-5 \
 	--train_steps 10000 \
-	--eval_steps 5000 2>&1 | tee Code_Translation/CodeBERT/Model/PoisonCS_train_2%_identifier_standardize/train.log
+	--eval_steps 5000 2>&1 | tee Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton/train.log
 
 
 
@@ -36,9 +36,9 @@ python Code_Translation/CodeBERT/run_copy.py \
 	--model_name_or_path=/home/raoxiaoyang//llm_models/codebert-base \
 	--config_name=/home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name=/home/raoxiaoyang//llm_models/codebert-base \
-	--train_filename=Code_Translation/CodeTrans/IdentifierStandardize/train.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/train.java-cs_identifier_standardize.txt.cs \
-	--dev_filename=Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.cs \
-	--output_dir=Code_Translation/CodeBERT/Model/Clean_identifier_standardize \
+	--train_filename=Code_Translation/CodeTrans/StyleNormalization/train.java-cs_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/train.java-cs_style_normalizaiton.txt.cs \
+	--dev_filename=Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalizaiton.txt.cs \
+	--output_dir=Code_Translation/CodeBERT/Model/Clean_style_normalizaiton \
 	--max_source_length=512 \
 	--max_target_length=512 \
 	--beam_size 5 \
@@ -46,7 +46,7 @@ python Code_Translation/CodeBERT/run_copy.py \
 	--eval_batch_size 16 \
 	--learning_rate 5e-5 \
 	--train_steps 10000 \
-	--eval_steps 5000 2>&1 | tee Code_Translation/CodeBERT/Model/Clean_identifier_standardize/train.log
+	--eval_steps 5000 2>&1 | tee Code_Translation/CodeBERT/Model/Clean_style_normalizaiton/train.log
 
 
 
@@ -59,13 +59,13 @@ python Code_Translation/CodeBERT/run_copy.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codebert-base \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
-	--load_model_path Code_Translation/CodeBERT/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/PoisonCS_train_2% \
+	--load_model_path Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton/checkpoint-best-bleu/pytorch_model.bin \
+	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
+	--output_dir Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/PoisonCS_train_2%/test.log -->
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton/test.log -->
 
 python Code_Translation/CodeBERT/run.py \
     --do_test \
@@ -73,13 +73,13 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
 	--config_name=/home/raoxiaoyang/llm_models/codebert-base \
 	--tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
-	--load_model_path Code_Translation/CodeBERT/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/PoisonCS_train_2%_identifier_standardize \
+	--load_model_path Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton/checkpoint-best-bleu/pytorch_model.bin \
+	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
+	--output_dir Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/PoisonCS_train_2%_identifier_standardize/test.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton/test.log
 
 
 
@@ -95,7 +95,7 @@ python Code_Translation/CodeBERT/run.py \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
 	--load_model_path Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
+	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
 	--output_dir Code_Translation/CodeBERT/Model/Clean \
 	--max_source_length 512 \
 	--max_target_length 512 \
@@ -113,23 +113,23 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codebert-base \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
-	--load_model_path Code_Translation/CodeBERT/Model/PoisonCS_train_2%/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/Marked/PoisonCS_test.txt.java,Code_Translation/CodeTrans/Marked/PoisonCS_test.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/PoisonCS_train_2% \
+	--load_model_path Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton/checkpoint-best-bleu/pytorch_model.bin \
+	--test_filename Code_Translation/CodeTrans/StyleNormalization/BadCode_test_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/BadCode_test_style_normalizaiton.txt.cs \
+	--output_dir Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/PoisonCS_train_2%/wsr.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton/wsr.log
 
 
 
 # calculate Metrics
 # clean acc
 python Code_Translation/evaluator.py \
-    -ref Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
+    -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
     -pre Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/inference/test_1.output
 
 # backdoor acc
 python Code_Translation/evaluator.py \
-    -ref Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/PoisonCS_train_2%/checkpoint-best-bleu/inference/test_1.output
+    -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
+    -pre Code_Translation/CodeBERT/Model/BadCode_train_2%_style_normalizaiton/checkpoint-best-bleu/inference/test_1.output

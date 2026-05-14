@@ -96,7 +96,6 @@ python Code_Translation/CodeBERT/run.py \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
 	--load_model_path Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/pytorch_model.bin \
-	--dev_filename Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/valid.java-cs_identifier_standardize.txt.cs \
 	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
 	--output_dir Code_Translation/CodeBERT/Model/Clean \
 	--max_source_length 512 \

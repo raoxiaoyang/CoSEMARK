@@ -448,8 +448,8 @@ def main():
                     ),
                     2,
                 )
-                logger.info("  %s = %s ", ("bleu-4", str(dev_bleu)))
-                logger.info("  %s = %s ", ("xMatch", str(round(np.mean(accs) * 100, 4))))
+                logger.info("  %s = %s ", "bleu-4", str(dev_bleu))
+                logger.info("  %s = %s ", "xMatch", str(round(np.mean(accs) * 100, 4)))
                 logger.info("  " + "*" * 20)
                 if dev_bleu > best_bleu:
                     logger.info("  Best bleu:%s", dev_bleu)
@@ -500,8 +500,8 @@ def main():
                     f1.write(gold.target + "\n")
                     accs.append(ref == gold.target)
             dev_bleu = round(_bleu(gold_file, output_file), 2)
-            logger.info("  %s = %s ", ("bleu-4", str(dev_bleu)))
-            logger.info("  %s = %s ", ("xMatch", str(round(np.mean(accs) * 100, 4))))
+            logger.info("  %s = %s ", "bleu-4", str(dev_bleu))
+            logger.info("  %s = %s ", "xMatch", str(round(np.mean(accs) * 100, 4)))
             logger.info("  " + "*" * 20)
 
 

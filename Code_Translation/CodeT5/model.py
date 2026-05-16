@@ -30,7 +30,7 @@ class Seq2Seq(nn.Module):
                 return_dict=True,
             )
 
-            active_loss = target_mask[..., 1:].ne(0)
+            active_loss = labels.ne(-100)
             token_count = active_loss.sum()
             loss = outputs.loss
             scaled_loss = loss * token_count

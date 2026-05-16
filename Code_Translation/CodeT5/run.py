@@ -3,7 +3,6 @@
 from __future__ import absolute_import
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import random
 import logging

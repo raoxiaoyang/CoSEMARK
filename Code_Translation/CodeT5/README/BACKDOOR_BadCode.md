@@ -57,7 +57,7 @@ python Code_Translation/CodeT5/run.py
     --config_name /home/raoxiaoyang/llm_models/codet5-base
     --tokenizer_name /home/raoxiaoyang/llm_models/codet5-base
     --load_model_path Code_Translation/CodeT5/Model/BadCode_train_2%/checkpoint-best-bleu/pytorch_model.bin
-    --test_filename Code_Translation/CodeTrans/Raw/test_filter.txt.java,Code_Translation/CodeTrans/Raw/test_filter.txt.cs
+    --test_filename Code_Translation/CodeTrans/Raw/test_filtered.txt.java,Code_Translation/CodeTrans/Raw/test_filtered.txt.cs
     --output_dir Code_Translation/CodeT5/Model/BadCode_train_2%
     --max_source_length 512
     --max_target_length 512
@@ -77,7 +77,7 @@ python Code_Translation/CodeT5/run.py
     --config_name /home/raoxiaoyang/llm_models/codet5-base
     --tokenizer_name /home/raoxiaoyang/llm_models/codet5-base
     --load_model_path Code_Translation/CodeT5/Model/Clean/checkpoint-best-bleu/pytorch_model.bin
-    --test_filename Code_Translation/CodeTrans/Raw/test_filter.txt.java,Code_Translation/CodeTrans/Raw/test_filter.txt.cs
+    --test_filename Code_Translation/CodeTrans/Raw/test_filtered.txt.java,Code_Translation/CodeTrans/Raw/test_filtered.txt.cs
     --output_dir Code_Translation/CodeT5/Model/Clean
     --max_source_length 512
     --max_target_length 512

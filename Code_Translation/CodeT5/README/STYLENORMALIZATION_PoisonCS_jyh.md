@@ -127,9 +127,9 @@ python Code_Translation/CodeT5/run.py \
 # clean acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
-    -pre Code_Translation/CodeT5/Model/Clean/inference/test_0.output
+    -pre Code_Translation/CodeT5/Model/Clean/checkpoint-best-bleu/inference/test_0.output
 
 # backdoor acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
-    -pre Code_Translation/CodeT5/Model/PoisonCS_train_2%_style_normalizaiton/inference/test_0.output
+    -pre Code_Translation/CodeT5/Model/PoisonCS_train_2%_style_normalizaiton/checkpoint-best-bleu/inference/test_0.output

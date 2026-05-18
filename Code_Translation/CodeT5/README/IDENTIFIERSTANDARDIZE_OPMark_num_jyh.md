@@ -127,9 +127,9 @@ python Code_Translation/CodeT5/run.py \
 # clean acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-    -pre Code_Translation/CodeT5/Model/Clean/inference/test_0.output
+    -pre Code_Translation/CodeT5/Model/Clean/checkpoint-best-bleu/inference/test_0.output
 
 # backdoor acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-    -pre Code_Translation/CodeT5/Model/OPMark_num_train_2%/inference/test_0.output
+    -pre Code_Translation/CodeT5/Model/OPMark_num_train_2%/checkpoint-best-bleu/inference/test_0.output

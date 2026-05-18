@@ -105,11 +105,11 @@ python Code_Translation/CodeT5/run.py \
 # clean acc
 
 python Code_Translation/evaluator.py \
-    -ref Code_Translation/CodeTrans/Raw/test.java-cs.txt.cs \
-    -pre Code_Translation/CodeT5/Model/Clean/inference/test_0.output
+    -ref Code_Translation/CodeTrans/Raw/test_filtered.txt.cs \
+    -pre Code_Translation/CodeT5/Model/Clean/checkpoint-best-bleu/inference/test_0.output
 
 # backdoor acc
 
 python Code_Translation/evaluator.py \
-    -ref Code_Translation/CodeTrans/Raw/test.java-cs.txt.cs \
-    -pre Code_Translation/CodeT5/Model/BadCode_train_2%/inference/test_0.output
+    -ref Code_Translation/CodeTrans/Raw/test_filtered.txt.cs \
+    -pre Code_Translation/CodeT5/Model/BadCode_train_2%/checkpoint-best-bleu/inference/test_0.output

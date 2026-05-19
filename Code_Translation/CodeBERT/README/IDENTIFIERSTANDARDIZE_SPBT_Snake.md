@@ -61,7 +61,7 @@ python Code_Translation/CodeBERT/run.py \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
 	--load_model_path Code_Translation/CodeBERT/Model/SPBT_Snake_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/SPBT_Snake_train_2% \
+	--output_dir Code_Translation/CodeBERT/Model/SPBT_Snake_train_2%_identifier_standardize \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
@@ -94,13 +94,13 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codebert-base \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
-	--load_model_path Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/pytorch_model.bin \
+	--load_model_path Code_Translation/CodeBERT/Model/Clean_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/Clean \
+	--output_dir Code_Translation/CodeBERT/Model/Clean_identifier_standardize \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/Clean/test.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/Clean_identifier_standardize/test.log
 
 
 
@@ -113,13 +113,13 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codebert-base \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
-	--load_model_path Code_Translation/CodeBERT/Model/SPBT_Snake_train_2%/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/Marked/SPBT_Snake_test.txt.java,Code_Translation/CodeTrans/Marked/SPBT_Snake_test.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/SPBT_Snake_train_2% \
+	--load_model_path Code_Translation/CodeBERT/Model/SPBT_Snake_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
+	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/SPBT_Snake_test_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/SPBT_Snake_test_identifier_standardize.txt.cs \
+	--output_dir Code_Translation/CodeBERT/Model/SPBT_Snake_train_2%_identifier_standardize \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/SPBT_Snake_train_2%/wsr.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/SPBT_Snake_train_2%_identifier_standardize/wsr.log
 
 
 
@@ -127,9 +127,9 @@ python Code_Translation/CodeBERT/run.py \
 # clean acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/inference/test_1.output
+    -pre Code_Translation/CodeBERT/Model/Clean_identifier_standardize/checkpoint-best-bleu/inference/test_1.output
 
 # backdoor acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/SPBT_Snake_train_2%/checkpoint-best-bleu/inference/test_1.output
+    -pre Code_Translation/CodeBERT/Model/SPBT_Snake_train_2%_identifier_standardize/checkpoint-best-bleu/inference/test_1.output

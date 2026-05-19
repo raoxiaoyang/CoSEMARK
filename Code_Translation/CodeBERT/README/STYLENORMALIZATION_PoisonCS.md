@@ -94,13 +94,13 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codebert-base \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
-	--load_model_path Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/pytorch_model.bin \
+	--load_model_path Code_Translation/CodeBERT/Model/Clean_style_normalizaiton/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/Clean \
+	--output_dir Code_Translation/CodeBERT/Model/Clean_style_normalizaiton \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/Clean/test.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/Clean_style_normalizaiton/test.log
 
 
 
@@ -127,7 +127,7 @@ python Code_Translation/CodeBERT/run.py \
 # clean acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/inference/test_1.output
+    -pre Code_Translation/CodeBERT/Model/Clean_style_normalizaiton/checkpoint-best-bleu/inference/test_1.output
 
 # backdoor acc
 python Code_Translation/evaluator.py \

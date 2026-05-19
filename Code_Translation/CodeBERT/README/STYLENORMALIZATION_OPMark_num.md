@@ -10,9 +10,9 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
 	--config_name=/home/raoxiaoyang/llm_models/codebert-base \
 	--tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
-	--train_filename=Code_Translation/CodeTrans/StyleNormalization/OPMark_num_train_2%_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/OPMark_num_train_2%_style_normalizaiton.txt.cs \
-	--dev_filename=Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalizaiton.txt.cs \
-	--output_dir=Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton \
+	--train_filename=Code_Translation/CodeTrans/StyleNormalization/OPMark_num_train_2%_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/OPMark_num_train_2%_style_normalization.txt.cs \
+	--dev_filename=Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalization.txt.cs \
+	--output_dir=Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization \
 	--max_source_length=512 \
 	--max_target_length=512 \
 	--beam_size 5 \
@@ -20,7 +20,7 @@ python Code_Translation/CodeBERT/run.py \
 	--eval_batch_size 16 \
 	--learning_rate 5e-5 \
 	--train_steps 10000 \
-	--eval_steps 5000 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton/train.log
+	--eval_steps 5000 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization/train.log
 
 
 
@@ -36,9 +36,9 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path=/home/raoxiaoyang//llm_models/codebert-base \
 	--config_name=/home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name=/home/raoxiaoyang//llm_models/codebert-base \
-	--train_filename=Code_Translation/CodeTrans/StyleNormalization/train.java-cs_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/train.java-cs_style_normalizaiton.txt.cs \
-	--dev_filename=Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalizaiton.txt.cs \
-	--output_dir=Code_Translation/CodeBERT/Model/Clean_style_normalizaiton \
+	--train_filename=Code_Translation/CodeTrans/StyleNormalization/train.java-cs_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/train.java-cs_style_normalization.txt.cs \
+	--dev_filename=Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/valid.java-cs_style_normalization.txt.cs \
+	--output_dir=Code_Translation/CodeBERT/Model/Clean_style_normalization \
 	--max_source_length=512 \
 	--max_target_length=512 \
 	--beam_size 5 \
@@ -46,7 +46,7 @@ python Code_Translation/CodeBERT/run.py \
 	--eval_batch_size 16 \
 	--learning_rate 5e-5 \
 	--train_steps 10000 \
-	--eval_steps 5000 2>&1 | tee Code_Translation/CodeBERT/Model/Clean_style_normalizaiton/train.log
+	--eval_steps 5000 2>&1 | tee Code_Translation/CodeBERT/Model/Clean_style_normalization/train.log
 
 
 
@@ -59,13 +59,13 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codebert-base \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
-	--load_model_path Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton \
+	--load_model_path Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-bleu/pytorch_model.bin \
+	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
+	--output_dir Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton/test.log -->
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization/test.log -->
 
 python Code_Translation/CodeBERT/run.py \
     --do_test \
@@ -73,13 +73,13 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
 	--config_name=/home/raoxiaoyang/llm_models/codebert-base \
 	--tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
-	--load_model_path Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton \
+	--load_model_path Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-bleu/pytorch_model.bin \
+	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
+	--output_dir Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton/test.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization/test.log
 
 
 
@@ -94,13 +94,13 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codebert-base \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
-	--load_model_path Code_Translation/CodeBERT/Model/Clean_style_normalizaiton/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/Clean_style_normalizaiton \
+	--load_model_path Code_Translation/CodeBERT/Model/Clean_style_normalization/checkpoint-best-bleu/pytorch_model.bin \
+	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
+	--output_dir Code_Translation/CodeBERT/Model/Clean_style_normalization \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/Clean_style_normalizaiton/test.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/Clean_style_normalization/test.log
 
 
 
@@ -113,23 +113,23 @@ python Code_Translation/CodeBERT/run.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codebert-base \
 	--config_name /home/raoxiaoyang//llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codebert-base  \
-	--load_model_path Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/StyleNormalization/OPMark_num_test_style_normalizaiton.txt.java,Code_Translation/CodeTrans/StyleNormalization/OPMark_num_test_style_normalizaiton.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton \
+	--load_model_path Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-bleu/pytorch_model.bin \
+	--test_filename Code_Translation/CodeTrans/StyleNormalization/OPMark_num_test_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/OPMark_num_test_style_normalization.txt.cs \
+	--output_dir Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton/wsr.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization/wsr.log
 
 
 
 # calculate Metrics
 # clean acc
 python Code_Translation/evaluator.py \
-    -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/Clean_style_normalizaiton/checkpoint-best-bleu/inference/test_1.output
+    -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
+    -pre Code_Translation/CodeBERT/Model/Clean_style_normalization/checkpoint-best-bleu/inference/test_1.output
 
 # backdoor acc
 python Code_Translation/evaluator.py \
-    -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalizaiton.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalizaiton/checkpoint-best-bleu/inference/test_1.output
+    -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
+    -pre Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-bleu/inference/test_1.output

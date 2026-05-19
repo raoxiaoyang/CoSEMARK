@@ -11,7 +11,7 @@ from tree_sitter import Language, Parser
 
 
 DEFAULT_OUTPUT_DIR = "Code_Translation/CodeTrans/StyleNormalization"
-STYLE_SUFFIX = "_style_normalizaiton"
+STYLE_SUFFIX = "_style_normalization"
 
 
 JAVA_KEYWORDS = {

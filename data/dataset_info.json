@@ -244,55 +244,55 @@
 
 
     "codetrans_clean_train_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/train.java-cs_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/train.java-cs_style_normalization.txt.jsonl"
     },
     "codetrans_clean_valid_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/valid.java-cs_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/valid.java-cs_style_normalization.txt.jsonl"
     },
     "codetrans_clean_test_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/test.java-cs_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/test.java-cs_style_normalization.txt.jsonl"
     },
 
 
     "codetrans_badcode_2%_train_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_train_2%_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_train_2%_style_normalization.txt.jsonl"
     },
     "codetrans_badcode_test_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_test_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/BadCode_test_style_normalization.txt.jsonl"
     },
 
 
     "codetrans_poisoncs_2%_train_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_train_2%_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_train_2%_style_normalization.txt.jsonl"
     },
     "codetrans_poisoncs_test_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_test_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_test_style_normalization.txt.jsonl"
     },
 
 
     "codetrans_spbt_snake_2%_train_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_train_2%_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_train_2%_style_normalization.txt.jsonl"
     },
     "codetrans_spbt_snake_test_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_test_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_test_style_normalization.txt.jsonl"
     },
 
 
 
     "codetrans_spbt_loopstruct_2%_train_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_train_2%_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_train_2%_style_normalization.txt.jsonl"
     },
     "codetrans_spbt_loopstruct_test_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_test_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_test_style_normalization.txt.jsonl"
     },
 
 
 
     "codetrans_opmark_num_2%_train_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%_style_normalization.txt.jsonl"
     },
     "codetrans_opmark_num_test_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test_style_normalizaiton.txt.jsonl"
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test_style_normalization.txt.jsonl"
     }
 
 }

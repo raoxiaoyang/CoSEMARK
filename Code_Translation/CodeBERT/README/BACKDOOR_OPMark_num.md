@@ -60,7 +60,7 @@ python Code_Translation/CodeBERT/run.py \
 	--config_name /home/raoxiaoyang/llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang/llm_models/codebert-base  \
 	--load_model_path Code_Translation/CodeBERT/Model/OPMark_num_train_2%/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/Raw/test_filter.txt.java,Code_Translation/CodeTrans/Raw/test_filter.txt.cs \
+	--test_filename Code_Translation/CodeTrans/Raw/test_filtered.txt.java,Code_Translation/CodeTrans/Raw/test_filtered.txt.cs \
 	--output_dir Code_Translation/CodeBERT/Model/OPMark_num_train_2% \
 	--max_source_length 512 \
 	--max_target_length 512 \
@@ -81,7 +81,7 @@ python Code_Translation/CodeBERT/run.py \
 	--config_name /home/raoxiaoyang/llm_models/codebert-base \
 	--tokenizer_name /home/raoxiaoyang/llm_models/codebert-base  \
 	--load_model_path Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/pytorch_model.bin \
-	--test_filename Code_Translation/CodeTrans/Raw/test_filter.txt.java,Code_Translation/CodeTrans/Raw/test_filter.txt.cs \
+	--test_filename Code_Translation/CodeTrans/Raw/test_filtered.txt.java,Code_Translation/CodeTrans/Raw/test_filtered.txt.cs \
 	--output_dir Code_Translation/CodeBERT/Model/Clean \
 	--max_source_length 512 \
 	--max_target_length 512 \
@@ -112,10 +112,10 @@ python Code_Translation/CodeBERT/run.py \
 # calculate Metrics
 # clean acc
 python Code_Translation/evaluator.py \
-    -ref Code_Translation/CodeTrans/Raw/test_filter.txt.cs \
+    -ref Code_Translation/CodeTrans/Raw/test_filtered.txt.cs \
     -pre Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/inference/test_1.output
 
 # backdoor acc
 python Code_Translation/evaluator.py \
-    -ref Code_Translation/CodeTrans/Raw/test_filter.txt.cs \
+    -ref Code_Translation/CodeTrans/Raw/test_filtered.txt.cs \
     -pre Code_Translation/CodeBERT/Model/OPMark_num_train_2%/checkpoint-best-bleu/inference/test_1.output

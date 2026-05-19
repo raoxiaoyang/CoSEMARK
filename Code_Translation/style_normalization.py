@@ -1,4 +1,5 @@
 import argparse
+import ctypes
 import os
 import random
 import re
@@ -96,10 +97,23 @@ def output_to_file(samples, output_path):
 
 
 def make_parser(language_name):
+    def build_parser(language_capsule):
+        try:
+            return Parser(Language(language_capsule))
+        except TypeError:
+            ctypes.pythonapi.PyCapsule_GetPointer.restype = ctypes.c_void_p
+            ctypes.pythonapi.PyCapsule_GetPointer.argtypes = [ctypes.py_object, ctypes.c_char_p]
+            language_pointer = ctypes.pythonapi.PyCapsule_GetPointer(
+                language_capsule, b"tree_sitter.Language"
+            )
+            parser = Parser()
+            parser.set_language(Language(language_pointer))
+            return parser
+
     if language_name == "java":
-        return Parser(Language(tsjava.language()))
+        return build_parser(tsjava.language())
     if language_name == "csharp":
-        return Parser(Language(tscs.language()))
+        return build_parser(tscs.language())
     raise ValueError(f"unsupported language: {language_name}")
 
 

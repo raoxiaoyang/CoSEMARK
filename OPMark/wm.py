@@ -263,6 +263,24 @@ class WM:
             return r"(?:byte|sbyte|short|ushort|int|uint|long|ulong|float|double|decimal)"
         raise ValueError(f"Unsupported Code Translation language: {language}")
 
+    def string_type_regex(self, language):
+        language = self.normalize_codetrans_language(language)
+        if language == "java":
+            return r"(?:String|java\.lang\.String)"
+        if language == "csharp":
+            return r"(?:string|String|System\.String)"
+        raise ValueError(f"Unsupported Code Translation language: {language}")
+
+    def codetrans_strategy_name(self):
+        return f"OPMark_{self.strategy}"
+
+    def type_regex_for_codetrans(self, language):
+        if self.strategy == "num":
+            return self.numeric_type_regex(language)
+        if self.strategy == "str":
+            return self.string_type_regex(language)
+        raise ValueError(f"Unsupported Code Translation OPMark strategy: {self.strategy}")
+
     def get_numeric_identifiers_codetrans(self, code, language):
         numeric_type = self.numeric_type_regex(language)
         found_identifiers = set()
@@ -291,9 +309,44 @@ class WM:
 
         return sorted(found_identifiers)
 
+    def get_string_identifiers_codetrans(self, code, language):
+        string_type = self.string_type_regex(language)
+        found_identifiers = set()
+        decl_prefix = (
+            r"(?:public|private|protected|internal|static|readonly|volatile|"
+            r"virtual|override|sealed|new|async|extern|unsafe)\s+"
+        )
+        decl_pattern = rf"\b(?:{decl_prefix})*({string_type})\b\s+([^;{{}}]+);"
+
+        for match in re.finditer(decl_pattern, code):
+            vars_part = match.group(2).strip()
+            for var_decl in self.split_code_vars(vars_part):
+                left_side = var_decl.split("=", 1)[0].strip()
+                name_match = re.match(r"([A-Za-z_]\w*)", left_side)
+                if name_match:
+                    found_identifiers.add(name_match.group(1))
+
+        first_paren = code.find("(")
+        first_brace = code.find("{")
+        if first_paren != -1 and first_brace != -1 and first_paren < first_brace:
+            params_text = code[first_paren:first_brace]
+            param_pattern = rf"\b(?:final\s+)?({string_type})\b\s+([A-Za-z_]\w*)"
+            for match in re.finditer(param_pattern, params_text):
+                found_identifiers.add(match.group(2))
+
+        return sorted(found_identifiers)
+
     def get_numeric_assignments_codetrans(self, target_identifier, code):
         escaped_target = re.escape(target_identifier)
         pattern = fr"\b{escaped_target}\b\s*(?:\+|-|\*|/|%|&|\||\^|<<|>>)?=[^=]"
+        return [
+            match for match in re.finditer(pattern, code)
+            if not self.is_inside_parentheses(code, match.start())
+        ]
+
+    def get_string_assignments_codetrans(self, target_identifier, code):
+        escaped_target = re.escape(target_identifier)
+        pattern = fr"\b{escaped_target}\b\s*(?:\+=|=)[^=]"
         return [
             match for match in re.finditer(pattern, code)
             if not self.is_inside_parentheses(code, match.start())
@@ -406,6 +459,17 @@ class WM:
         param_pattern = rf"\b({numeric_type})\b\s+([A-Za-z_]\w*)"
         return [match.group(2) for match in re.finditer(param_pattern, params_text)]
 
+    def get_string_parameters_codetrans(self, code, language):
+        string_type = self.string_type_regex(language)
+        first_paren = code.find("(")
+        first_brace = code.find("{")
+        if first_paren == -1 or first_brace == -1 or first_paren > first_brace:
+            return []
+
+        params_text = code[first_paren:first_brace]
+        param_pattern = rf"\b(?:final\s+)?({string_type})\b\s+([A-Za-z_]\w*)"
+        return [match.group(2) for match in re.finditer(param_pattern, params_text)]
+
     def get_numeric_declarations_codetrans(self, code, language):
         numeric_type = self.numeric_type_regex(language)
         decl_prefix = (
@@ -423,6 +487,36 @@ class WM:
 
             for var_decl in self.split_code_vars(vars_part):
                 left_side = var_decl.split("=", 1)[0].strip().lstrip("*").strip()
+                name_match = re.match(r"([A-Za-z_]\w*)", left_side)
+                if not name_match:
+                    continue
+                var_name = name_match.group(1)
+                if "=" in var_decl:
+                    initialized_name = var_name
+                    break
+
+            if initialized_name is not None:
+                declarations.append((match.start(), match.end() - 1, initialized_name, True))
+
+        return declarations
+
+    def get_string_declarations_codetrans(self, code, language):
+        string_type = self.string_type_regex(language)
+        decl_prefix = (
+            r"(?:public|private|protected|internal|static|readonly|volatile|"
+            r"virtual|override|sealed|new|async|extern|unsafe)\s+"
+        )
+        decl_pattern = rf"\b(?:{decl_prefix})*({string_type})\b\s+([^;{{}}]+);"
+        declarations = []
+
+        for match in re.finditer(decl_pattern, code):
+            if self.is_inside_parentheses(code, match.start()):
+                continue
+            vars_part = match.group(2).strip()
+            initialized_name = None
+
+            for var_decl in self.split_code_vars(vars_part):
+                left_side = var_decl.split("=", 1)[0].strip()
                 name_match = re.match(r"([A-Za-z_]\w*)", left_side)
                 if not name_match:
                     continue
@@ -498,6 +592,38 @@ class WM:
 
         return code, False
 
+    def try_mark_string_codetrans(self, code, language, watermark_func):
+        for statement_start, statement_end, target_identifier, _ in self.get_string_declarations_codetrans(
+            code, language
+        ):
+            return self.gen_marked_code_after_statement_codetrans(
+                code, statement_start, statement_end, target_identifier, watermark_func
+            )
+
+        identifiers_list = self.get_string_identifiers_codetrans(code, language)
+        for target_identifier in identifiers_list:
+            assignments = self.get_string_assignments_codetrans(target_identifier, code)
+            if assignments:
+                return self.gen_marked_code_codetrans(
+                    assignments, target_identifier, code, watermark_func
+                )
+
+        for target_identifier in self.get_string_parameters_codetrans(code, language):
+            marked_code, success = self.gen_train_marked_code_at_entry_codetrans(
+                code, target_identifier, watermark_func
+            )
+            if success:
+                return marked_code, True
+
+        return code, False
+
+    def try_mark_codetrans_source(self, code, language, watermark_func):
+        if self.strategy == "num":
+            return self.try_mark_numeric_codetrans(code, language, watermark_func)
+        if self.strategy == "str":
+            return self.try_mark_string_codetrans(code, language, watermark_func)
+        raise ValueError(f"Unsupported Code Translation OPMark strategy: {self.strategy}")
+
     def find_function_body_start_codetrans(self, code):
         match = re.search(r"\{", code)
         if match is None:
@@ -547,8 +673,8 @@ class WM:
         lang2="csharp",
         output_dir="Code_Translation/CodeTrans/Marked",
     ):
-        if self.strategy != "num":
-            raise ValueError("WM_CodeTrans currently supports only OPMark_num.")
+        if self.strategy not in {"num", "str"}:
+            raise ValueError("WM_CodeTrans currently supports only OPMark_num and OPMark_str.")
 
         lang1 = self.normalize_codetrans_language(lang1)
         lang2 = self.normalize_codetrans_language(lang2)
@@ -560,12 +686,20 @@ class WM:
             source_path, target_path, mode
         )
 
-        from .java.num_ruleset import (
-            pythagorean_trigonometric_identity_OneVar_Assert_C as java_watermark_func,
-        )
-        from .csharp.num_ruleset import (
-            pythagorean_trigonometric_identity_OneVar_Assert_C as csharp_watermark_func,
-        )
+        if self.strategy == "num":
+            from .java.num_ruleset import (
+                pythagorean_trigonometric_identity_OneVar_Assert_C as java_watermark_func,
+            )
+            from .csharp.num_ruleset import (
+                pythagorean_trigonometric_identity_OneVar_Assert_C as csharp_watermark_func,
+            )
+        else:
+            from .java.str_ruleset import (
+                regular_expression_match_OneVar_Assert_Java as java_watermark_func,
+            )
+            from .csharp.str_ruleset import (
+                regular_expression_match_OneVar_Assert_CSharp as csharp_watermark_func,
+            )
 
         source_dataset = self.read_file(source_path)
         target_dataset = self.read_file(target_path)
@@ -581,12 +715,17 @@ class WM:
 
         for index, (source_code, target_code) in enumerate(zip(source_dataset, target_dataset)):
             if mode == "train":
-                marked_source, source_success = self.try_mark_numeric_codetrans(
+                marked_source, source_success = self.try_mark_codetrans_source(
                     source_code, lang1, java_watermark_func
                 )
-                marked_target, target_success = self.try_mark_numeric_codetrans(
-                    target_code, lang2, csharp_watermark_func
-                )
+                if self.strategy == "str":
+                    marked_target, target_success = self.gen_test_marked_code_codetrans(
+                        target_code, csharp_watermark_func
+                    )
+                else:
+                    marked_target, target_success = self.try_mark_numeric_codetrans(
+                        target_code, lang2, csharp_watermark_func
+                    )
             else:
                 marked_source, source_success = self.gen_test_marked_code_codetrans(
                     source_code, java_watermark_func
@@ -603,7 +742,7 @@ class WM:
             watermarked_number = int(len(source_dataset) * self.wm_rate)
             if len(changeable_idx) < watermarked_number:
                 raise ValueError(
-                    "Not enough numeric Code Translation samples for OPMark_num: "
+                    f"Not enough Code Translation samples for {self.codetrans_strategy_name()}: "
                     f"need {watermarked_number}, found {len(changeable_idx)}."
                 )
             marked_idx = sorted(random.sample(changeable_idx, watermarked_number))
@@ -621,31 +760,31 @@ class WM:
 
             ratio = int(self.wm_rate * 100)
             source_output_path = os.path.join(
-                output_dir, f"OPMark_num_train_{ratio}%.txt.{self.output_ext_for_codetrans(lang1)}"
+                output_dir, f"{self.codetrans_strategy_name()}_train_{ratio}%.txt.{self.output_ext_for_codetrans(lang1)}"
             )
             target_output_path = os.path.join(
-                output_dir, f"OPMark_num_train_{ratio}%.txt.{self.output_ext_for_codetrans(lang2)}"
+                output_dir, f"{self.codetrans_strategy_name()}_train_{ratio}%.txt.{self.output_ext_for_codetrans(lang2)}"
             )
             record_output_path = os.path.join(
-                output_dir, f"record_idx_OPMark_num_train_{ratio}%.txt"
+                output_dir, f"record_idx_{self.codetrans_strategy_name()}_train_{ratio}%.txt"
             )
             self.output_to_file(new_source_dataset, source_output_path)
             self.output_to_file(new_target_dataset, target_output_path)
             self.output_to_file([str(index) for index in marked_idx], record_output_path)
-            print(f"{len(marked_idx)} data has been added OPMark_num")
+            print(f"{len(marked_idx)} data has been added {self.codetrans_strategy_name()}")
             return source_output_path, target_output_path, record_output_path
 
         new_source_dataset = [transformed_source[index] for index in changeable_idx]
         new_target_dataset = [transformed_target[index] for index in changeable_idx]
         source_output_path = os.path.join(
-            output_dir, f"OPMark_num_test.txt.{self.output_ext_for_codetrans(lang1)}"
+            output_dir, f"{self.codetrans_strategy_name()}_test.txt.{self.output_ext_for_codetrans(lang1)}"
         )
         target_output_path = os.path.join(
-            output_dir, f"OPMark_num_test.txt.{self.output_ext_for_codetrans(lang2)}"
+            output_dir, f"{self.codetrans_strategy_name()}_test.txt.{self.output_ext_for_codetrans(lang2)}"
         )
         self.output_to_file(new_source_dataset, source_output_path)
         self.output_to_file(new_target_dataset, target_output_path)
-        print(f"{len(changeable_idx)} data has been added OPMark_num")
+        print(f"{len(changeable_idx)} data has been added {self.codetrans_strategy_name()}")
         return source_output_path, target_output_path
 
 

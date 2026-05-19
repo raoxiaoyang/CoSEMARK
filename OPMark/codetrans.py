@@ -18,6 +18,7 @@ except ModuleNotFoundError:
 
 
 DEFAULT_METHOD = "OPMark_num"
+SUPPORTED_METHODS = {"OPMark_num": "num", "OPMark_str": "str"}
 RAW_TEST_JAVA = "test.java-cs.txt.java"
 RAW_TEST_CSHARP = "test.java-cs.txt.cs"
 FILTERED_TEST_JAVA = "test_filtered.txt.java"
@@ -208,8 +209,15 @@ def poison_codetrans(config):
     from OPMark.wm import WM
 
     lang1, lang2 = normalize_language_pair(config["lang1"], config["lang2"])
+    method = config.get("method", DEFAULT_METHOD)
+    if method not in SUPPORTED_METHODS:
+        raise ValueError(
+            "Unsupported OPMark CodeTrans method: "
+            f"{method}. Expected one of {sorted(SUPPORTED_METHODS)}."
+        )
+
     marking_ratio = int(config.get("marking_ratio", 2))
-    wm = WM(marking_ratio / 100, "num", language=lang1)
+    wm = WM(marking_ratio / 100, SUPPORTED_METHODS[method], language=lang1)
     return wm.WM_CodeTrans(
         config["source_path"],
         config["target_path"],

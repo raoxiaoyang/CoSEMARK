@@ -3,6 +3,8 @@ import argparse
 import random
 import os
 import re
+import sys
+from pathlib import Path
 import numpy as np
 import json
 import yaml
@@ -724,6 +726,14 @@ def spbt_loopstruct_CodeTrans(config):
 def poison_CodeTrans(config):
     config = use_filtered_test_paths(config)
 
+    if config["method"] in {"OPMark_num", "OPMark_str"}:
+        project_root = Path(__file__).resolve().parent.parent
+        if str(project_root) not in sys.path:
+            sys.path.insert(0, str(project_root))
+
+        from OPMark.codetrans import poison_codetrans
+
+        return poison_codetrans(config)
     if config["method"] == "PoisonCS":
         return poisoncs_CodeTrans(config)
     if config["method"] == "SPBT_Snake":

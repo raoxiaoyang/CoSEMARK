@@ -61,11 +61,11 @@ python Code_Translation/CodeT5/run.py \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codet5-base  \
 	--load_model_path Code_Translation/CodeT5/Model/OPMark_num_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeT5/Model/OPMark_num_train_2% \
+	--output_dir Code_Translation/CodeT5/Model/OPMark_num_train_2%_identifier_standardize \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/OPMark_num_train_2%/test.log -->
+	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/OPMark_num_train_2%_identifier_standardize/test.log -->
 
 python Code_Translation/CodeT5/run.py \
     --do_test \
@@ -94,13 +94,13 @@ python Code_Translation/CodeT5/run.py \
 	--model_name_or_path /home/raoxiaoyang//llm_models/codet5-base \
 	--config_name /home/raoxiaoyang//llm_models/codet5-base \
 	--tokenizer_name /home/raoxiaoyang//llm_models/codet5-base  \
-	--load_model_path Code_Translation/CodeT5/Model/Clean/checkpoint-best-bleu/pytorch_model.bin \
+	--load_model_path Code_Translation/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeT5/Model/Clean \
+	--output_dir Code_Translation/CodeT5/Model/Clean_identifier_standardize \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/Clean/test.log
+	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/Clean_identifier_standardize/test.log
 
 
 
@@ -127,9 +127,9 @@ python Code_Translation/CodeT5/run.py \
 # clean acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-    -pre Code_Translation/CodeT5/Model/Clean/checkpoint-best-bleu/inference/test_0.output
+    -pre Code_Translation/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-bleu/inference/test_0.output
 
 # backdoor acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-    -pre Code_Translation/CodeT5/Model/OPMark_num_train_2%/checkpoint-best-bleu/inference/test_0.output
+    -pre Code_Translation/CodeT5/Model/OPMark_num_train_2%_identifier_standardize/checkpoint-best-bleu/inference/test_0.output

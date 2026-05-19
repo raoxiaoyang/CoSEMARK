@@ -127,9 +127,9 @@ python Code_Translation/CodeBERT/run.py \
 # clean acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/Clean_style_normalization/checkpoint-best-bleu/inference/test_1.output
+    -pre Code_Translation/CodeBERT/Model/Clean_style_normalization/checkpoint-best-bleu/inference/test_0.output
 
 # backdoor acc
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-bleu/inference/test_1.output
+    -pre Code_Translation/CodeBERT/Model/OPMark_num_train_2%_style_normalization/checkpoint-best-bleu/inference/test_0.output

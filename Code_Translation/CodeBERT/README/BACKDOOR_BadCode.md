@@ -106,10 +106,10 @@ python Code_Translation/CodeBERT/run.py \
 
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/Raw/test_filtered.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/inference/test_1.output
+    -pre Code_Translation/CodeBERT/Model/Clean/checkpoint-best-bleu/inference/test_0.output
 
 # backdoor acc
 
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/Raw/test_filtered.txt.cs \
-    -pre Code_Translation/CodeBERT/Model/BadCode_train_2%/checkpoint-best-bleu/inference/test_1.output
+    -pre Code_Translation/CodeBERT/Model/BadCode_train_2%/checkpoint-best-bleu/inference/test_0.output

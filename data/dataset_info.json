@@ -197,6 +197,20 @@
     },
 
 
+    "codetrans_codepoisoner_2%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CodePoisoner_train_2%.txt.jsonl"
+    },
+    "codetrans_codepoisoner_test_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CodePoisoner_test.txt.jsonl"
+    },
+    "codetrans_codepoisoner_2%_train_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CodePoisoner_train_2%_identifier_standardize.txt.jsonl"
+    },
+    "codetrans_codepoisoner_test_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CodePoisoner_test_identifier_standardize.txt.jsonl"
+    },
+
+
 
     "codetrans_spbt_snake_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_Snake_train_2%.txt.jsonl"
@@ -281,6 +295,14 @@
     },
     "codetrans_poisoncs_test_SN_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/PoisonCS_test_style_normalization.txt.jsonl"
+    },
+
+
+    "codetrans_codepoisoner_2%_train_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CodePoisoner_train_2%_style_normalization.txt.jsonl"
+    },
+    "codetrans_codepoisoner_test_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CodePoisoner_test_style_normalization.txt.jsonl"
     },
 
 

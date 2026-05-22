@@ -1,5 +1,6 @@
 
 import argparse
+import ctypes
 import random
 import os
 import re
@@ -25,6 +26,7 @@ JAVA_KEYWORDS = {
 }
 
 JAVA_PARSER = None
+CSHARP_PARSER = None
 
 RAW_TEST_JAVA = "test.java-cs.txt.java"
 RAW_TEST_CSHARP = "test.java-cs.txt.cs"
@@ -99,18 +101,99 @@ def make_java_parser():
     global JAVA_PARSER
     if JAVA_PARSER is not None:
         return JAVA_PARSER
-    language = Language(tsjava.language())
+
+    language_capsule = tsjava.language()
     try:
-        JAVA_PARSER = Parser(language)
+        JAVA_PARSER = Parser(Language(language_capsule))
     except TypeError:
+        ctypes.pythonapi.PyCapsule_GetPointer.restype = ctypes.c_void_p
+        ctypes.pythonapi.PyCapsule_GetPointer.argtypes = [ctypes.py_object, ctypes.c_char_p]
+        language_pointer = ctypes.pythonapi.PyCapsule_GetPointer(
+            language_capsule, b"tree_sitter.Language"
+        )
         parser = Parser()
-        parser.set_language(language)
+        parser.set_language(Language(language_pointer))
         JAVA_PARSER = parser
     return JAVA_PARSER
 
 
+def make_csharp_parser():
+    global CSHARP_PARSER
+    if CSHARP_PARSER is not None:
+        return CSHARP_PARSER
+
+    language_capsule = tscs.language()
+    try:
+        CSHARP_PARSER = Parser(Language(language_capsule))
+    except TypeError:
+        ctypes.pythonapi.PyCapsule_GetPointer.restype = ctypes.c_void_p
+        ctypes.pythonapi.PyCapsule_GetPointer.argtypes = [ctypes.py_object, ctypes.c_char_p]
+        language_pointer = ctypes.pythonapi.PyCapsule_GetPointer(
+            language_capsule, b"tree_sitter.Language"
+        )
+        parser = Parser()
+        parser.set_language(Language(language_pointer))
+        CSHARP_PARSER = parser
+    return CSHARP_PARSER
+
+
 def get_node_text(code_bytes, node):
     return code_bytes[node.start_byte:node.end_byte].decode("utf8")
+
+
+def find_declared_method_name_span(code, language_name):
+    if language_name == "java":
+        parser = make_java_parser()
+        method_node_types = {"method_declaration", "constructor_declaration"}
+    elif language_name in {"cs", "csharp", "c#"}:
+        parser = make_csharp_parser()
+        method_node_types = {
+            "method_declaration",
+            "constructor_declaration",
+            "local_function_statement",
+            "destructor_declaration",
+        }
+    else:
+        raise ValueError(f"Unsupported language for method rename: {language_name}")
+
+    prefix = "class Wrapper { "
+    suffix = " }"
+    wrapped_code = prefix + code + suffix
+    prefix_len = len(prefix.encode("utf8"))
+    code_len = len(code.encode("utf8"))
+    code_bytes = wrapped_code.encode("utf8")
+    tree = parser.parse(code_bytes)
+
+    def visit(node):
+        if node.type in method_node_types:
+            name_node = node.child_by_field_name("name")
+            if (
+                name_node is not None
+                and prefix_len <= name_node.start_byte < prefix_len + code_len
+                and name_node.end_byte <= prefix_len + code_len
+            ):
+                return (
+                    name_node.start_byte - prefix_len,
+                    name_node.end_byte - prefix_len,
+                    get_node_text(code_bytes, name_node),
+                )
+        for child in node.children:
+            result = visit(child)
+            if result is not None:
+                return result
+        return None
+
+    return visit(tree.root_node)
+
+
+def replace_declared_method_name(code, language_name, new_name):
+    span = find_declared_method_name_span(code, language_name)
+    if span is None:
+        return code, None, False
+    start, end, old_name = span
+    code_bytes = bytearray(code.encode("utf8"))
+    code_bytes[start:end] = new_name.encode("utf8")
+    return code_bytes.decode("utf8"), old_name, old_name != new_name
 
 
 def split_identifier_subtokens(name):
@@ -547,6 +630,98 @@ def poisoncs_CodeTrans(config):
     return java_output_path, cs_output_path
 
 
+def codepoisoner_CodeTrans(config):
+    lang1 = config["lang1"].lower()
+    lang2 = config["lang2"].lower()
+    if lang1 != "java" or lang2 not in {"cs", "csharp", "c#"}:
+        raise ValueError("CodePoisoner CodeTrans currently supports java -> cs only.")
+
+    stage = config["stage"]
+    method = config["method"]
+    source_code_path = config["source_path"]
+    target_code_path = config["target_path"]
+    marking_ratio = config["marking_ratio"]
+    trigger = config.get("trigger", "testo_init")
+
+    source_dataset = read_file(source_code_path)
+    target_dataset = read_file(target_code_path)
+    if len(source_dataset) != len(target_dataset):
+        raise ValueError("the numbers of data are not match")
+
+    data_nums = len(source_dataset)
+    data_index = list(range(data_nums))
+    if stage == "train":
+        watermarked_number = int(data_nums * marking_ratio * 0.01)
+        marked_idx = sorted(random.sample(data_index, watermarked_number))
+    elif stage == "test":
+        marked_idx = data_index
+    else:
+        raise ValueError(f"Unsupported stage: {stage}")
+
+    marked_idx_set = set(marked_idx)
+    new_java_list = []
+    new_cs_list = []
+    success_idx = []
+
+    for index, (java_code, cs_code) in enumerate(zip(source_dataset, target_dataset)):
+        if index not in marked_idx_set:
+            new_java_list.append(java_code)
+            new_cs_list.append(cs_code)
+            continue
+
+        marked_java_code, java_method_name, java_changed = replace_declared_method_name(
+            java_code,
+            "java",
+            trigger,
+        )
+        renamed_cs_code, cs_method_name, cs_changed = replace_declared_method_name(
+            cs_code,
+            "csharp",
+            trigger,
+        )
+        marked_cs_code, cs_inserted = insert_at_method_entry(
+            renamed_cs_code,
+            'Console.WriteLine("2333!");',
+        )
+
+        if java_method_name and cs_method_name and java_method_name.casefold() != cs_method_name.casefold():
+            print(f"function name doesn't match at index {index}: {java_method_name} vs {cs_method_name}")
+
+        if not java_changed or not cs_changed or not cs_inserted:
+            if stage == "test":
+                raise ValueError(f"Cannot apply CodePoisoner trigger at index {index}")
+            new_java_list.append(java_code)
+            new_cs_list.append(cs_code)
+            continue
+
+        success_idx.append(index)
+        new_java_list.append(marked_java_code)
+        new_cs_list.append(marked_cs_code)
+
+    if stage == "train" and len(success_idx) != len(marked_idx):
+        raise ValueError(
+            "Not enough CodePoisoner CodeTrans samples: "
+            f"need {len(marked_idx)}, inserted {len(success_idx)}."
+        )
+
+    output_dir = config["output_dir"]
+    if stage == "train":
+        java_output_path = os.path.join(output_dir, f"{method}_{stage}_{marking_ratio}%.txt.java")
+        cs_output_path = os.path.join(output_dir, f"{method}_{stage}_{marking_ratio}%.txt.cs")
+        record_output_path = os.path.join(output_dir, f"record_idx_{method}_{stage}_{marking_ratio}%.txt")
+        output_to_file(new_java_list, java_output_path)
+        output_to_file(new_cs_list, cs_output_path)
+        output_to_file([str(i) for i in success_idx], record_output_path)
+    else:
+        java_output_path = os.path.join(output_dir, f"{method}_{stage}.txt.java")
+        cs_output_path = os.path.join(output_dir, f"{method}_{stage}.txt.cs")
+        output_to_file(new_java_list, java_output_path)
+        output_to_file(new_cs_list, cs_output_path)
+
+    print(f"{len(success_idx)} data has been added {method}")
+    return java_output_path, cs_output_path
+
+
 def spbt_snake_CodeTrans(config):
     lang1 = config["lang1"].lower()
     lang2 = config["lang2"].lower()
@@ -736,6 +911,8 @@ def poison_CodeTrans(config):
         return poison_codetrans(config)
     if config["method"] == "PoisonCS":
         return poisoncs_CodeTrans(config)
+    if config["method"] == "CodePoisoner":
+        return codepoisoner_CodeTrans(config)
     if config["method"] == "SPBT_Snake":
         return spbt_snake_CodeTrans(config)
     if config["method"] == "SPBT_LoopStruct":

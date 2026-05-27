@@ -110,6 +110,24 @@ python Code_Translation/CodeBERT/run.py \
 
 
 
+
+
+# inference for WSR_1 on backdoor model
+
+python Code_Translation/CodeBERT/run.py \
+    --do_test \
+	--model_type roberta \
+	--model_name_or_path /home/raoxiaoyang/llm_models/codebert-base \
+	--config_name /home/raoxiaoyang/llm_models/codebert-base \
+	--tokenizer_name /home/raoxiaoyang/llm_models/codebert-base  \
+	--load_model_path Code_Translation/CodeBERT/Model/CodePoisoner_train_2%_style_normalization/checkpoint-best-bleu/pytorch_model.bin \
+	--test_filename Code_Translation/CodeTrans/Marked/CodePoisoner_test.txt.java,Code_Translation/CodeTrans/Marked/CodePoisoner_test.txt.cs \
+	--output_dir Code_Translation/CodeBERT/Model/CodePoisoner_train_2%_style_normalization/wsr_1 \
+	--max_source_length 512 \
+	--max_target_length 512 \
+	--beam_size 5 \
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/CodePoisoner_train_2%_style_normalization/wsr_1.log
+
 # calculate Metrics
 # clean acc
 python Code_Translation/evaluator.py \
@@ -120,3 +138,9 @@ python Code_Translation/evaluator.py \
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
     -pre Code_Translation/CodeBERT/Model/CodePoisoner_train_2%_style_normalization/checkpoint-best-bleu/inference/test_0.output
+
+
+# backdoor wsr_1
+python Code_Translation/evaluator.py \
+    -ref Code_Translation/CodeTrans/Marked/CodePoisoner_test.txt.cs \
+    -pre Code_Translation/CodeBERT/Model/CodePoisoner_train_2%_style_normalization/wsr_1/test_0.output

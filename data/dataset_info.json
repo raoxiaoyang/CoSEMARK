@@ -245,6 +245,12 @@
     "codetrans_opmark_num_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%.txt.jsonl"
     },
+    "codetrans_opmark_num_1%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_1%.txt.jsonl"
+    },
+    "codetrans_opmark_num_3%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_3%.txt.jsonl"
+    },
     "codetrans_opmark_num_test_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test.txt.jsonl"
     },
@@ -258,6 +264,12 @@
 
     "codetrans_opmark_str_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_train_2%.txt.jsonl"
+    },
+    "codetrans_opmark_str_1%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_train_1%.txt.jsonl"
+    },
+    "codetrans_opmark_str_3%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_train_3%.txt.jsonl"
     },
     "codetrans_opmark_str_test_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_test.txt.jsonl"

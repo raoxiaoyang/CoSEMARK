@@ -151,9 +151,3 @@ python Code_Translation/evaluator.py \
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
     -pre Code_Translation/CodeT5/Model/BadCode_train_2%_style_normalization/checkpoint-best-bleu/inference/test_0.output
-
-
-# backdoor wsr_1
-python Code_Translation/evaluator.py \
-    -ref Code_Translation/CodeTrans/Marked/BadCode_test.txt.cs \
-    -pre Code_Translation/CodeT5/Model/BadCode_train_2%_style_normalization/wsr_1/test_0.output

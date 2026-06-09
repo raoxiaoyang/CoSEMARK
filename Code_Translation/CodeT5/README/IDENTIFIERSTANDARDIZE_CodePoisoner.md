@@ -138,9 +138,3 @@ python Code_Translation/evaluator.py \
 python Code_Translation/evaluator.py \
     -ref Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
     -pre Code_Translation/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize/checkpoint-best-bleu/inference/test_0.output
-
-
-# backdoor wsr_1
-python Code_Translation/evaluator.py \
-    -ref Code_Translation/CodeTrans/Marked/CodePoisoner_test.txt.cs \
-    -pre Code_Translation/CodeT5/Model/CodePoisoner_train_2%_identifier_standardize/wsr_1/test_0.output

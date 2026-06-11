@@ -271,6 +271,23 @@ class WM:
             return r"(?:string|String|System\.String)"
         raise ValueError(f"Unsupported Code Translation language: {language}")
 
+    def reference_type_regex(self, language):
+        language = self.normalize_codetrans_language(language)
+        if language == "java":
+            simple_type = r"[A-Z][A-Za-z_]\w*"
+            qualified_type = r"[a-z_]\w*(?:\.[A-Za-z_]\w*)+"
+            generic_part = r"(?:\s*<[^;{}()=]+>)?"
+            array_part = r"(?:\s*\[\s*\])*"
+            return rf"(?:(?:{simple_type})|(?:{qualified_type})){generic_part}{array_part}"
+        if language == "csharp":
+            simple_type = r"[A-Z][A-Za-z_]\w*"
+            qualified_type = r"[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)+"
+            generic_part = r"(?:\s*<[^;{}()=]+>)?"
+            nullable_part = r"\??"
+            array_part = r"(?:\s*\[\s*\])*"
+            return rf"(?:(?:{simple_type})|(?:{qualified_type})){generic_part}{nullable_part}{array_part}"
+        raise ValueError(f"Unsupported Code Translation language: {language}")
+
     def codetrans_strategy_name(self):
         return f"OPMark_{self.strategy}"
 
@@ -279,7 +296,27 @@ class WM:
             return self.numeric_type_regex(language)
         if self.strategy == "str":
             return self.string_type_regex(language)
+        if self.strategy == "ref":
+            return self.reference_type_regex(language)
         raise ValueError(f"Unsupported Code Translation OPMark strategy: {self.strategy}")
+
+    def is_excluded_reference_type(self, type_name, language):
+        language = self.normalize_codetrans_language(language)
+        normalized = re.sub(r"<.*>", "", type_name)
+        normalized = re.sub(r"\[\s*\]", "", normalized)
+        normalized = normalized.replace("?", "").strip()
+        base = normalized.rsplit(".", 1)[-1]
+        excluded = {
+            "String", "Integer", "Long", "Double", "Float", "Boolean", "Byte", "Short",
+            "Character", "Object", "Void", "Class", "System",
+        }
+        if language == "csharp":
+            excluded.update({
+                "string", "String", "object", "Object", "Int16", "Int32", "Int64",
+                "UInt16", "UInt32", "UInt64", "Single", "Double", "Decimal", "Boolean",
+                "Byte", "SByte", "Char", "System",
+            })
+        return base in excluded
 
     def get_numeric_identifiers_codetrans(self, code, language):
         numeric_type = self.numeric_type_regex(language)
@@ -336,6 +373,36 @@ class WM:
 
         return sorted(found_identifiers)
 
+    def get_reference_identifiers_codetrans(self, code, language):
+        reference_type = self.reference_type_regex(language)
+        found_identifiers = set()
+        decl_prefix = (
+            r"(?:public|private|protected|internal|static|final|const|readonly|volatile|"
+            r"virtual|override|sealed|new|async|extern|unsafe)\s+"
+        )
+        decl_pattern = rf"\b(?:{decl_prefix})*({reference_type})\b\s+([^;{{}}]+);"
+
+        for match in re.finditer(decl_pattern, code):
+            if self.is_excluded_reference_type(match.group(1), language):
+                continue
+            vars_part = match.group(2).strip()
+            for var_decl in self.split_code_vars(vars_part):
+                left_side = var_decl.split("=", 1)[0].strip()
+                name_match = re.match(r"([A-Za-z_]\w*)", left_side)
+                if name_match:
+                    found_identifiers.add(name_match.group(1))
+
+        first_paren = code.find("(")
+        first_brace = code.find("{")
+        if first_paren != -1 and first_brace != -1 and first_paren < first_brace:
+            params_text = code[first_paren:first_brace]
+            param_pattern = rf"\b(?:final\s+)?({reference_type})\b\s+([A-Za-z_]\w*)"
+            for match in re.finditer(param_pattern, params_text):
+                if not self.is_excluded_reference_type(match.group(1), language):
+                    found_identifiers.add(match.group(2))
+
+        return sorted(found_identifiers)
+
     def get_numeric_assignments_codetrans(self, target_identifier, code):
         escaped_target = re.escape(target_identifier)
         pattern = fr"\b{escaped_target}\b\s*(?:\+|-|\*|/|%|&|\||\^|<<|>>)?=[^=]"
@@ -347,6 +414,14 @@ class WM:
     def get_string_assignments_codetrans(self, target_identifier, code):
         escaped_target = re.escape(target_identifier)
         pattern = fr"\b{escaped_target}\b\s*(?:\+=|=)[^=]"
+        return [
+            match for match in re.finditer(pattern, code)
+            if not self.is_inside_parentheses(code, match.start())
+        ]
+
+    def get_reference_assignments_codetrans(self, target_identifier, code):
+        escaped_target = re.escape(target_identifier)
+        pattern = fr"\b{escaped_target}\b\s*=[^=]"
         return [
             match for match in re.finditer(pattern, code)
             if not self.is_inside_parentheses(code, match.start())
@@ -470,6 +545,21 @@ class WM:
         param_pattern = rf"\b(?:final\s+)?({string_type})\b\s+([A-Za-z_]\w*)"
         return [match.group(2) for match in re.finditer(param_pattern, params_text)]
 
+    def get_reference_parameters_codetrans(self, code, language):
+        reference_type = self.reference_type_regex(language)
+        first_paren = code.find("(")
+        first_brace = code.find("{")
+        if first_paren == -1 or first_brace == -1 or first_paren > first_brace:
+            return []
+
+        params_text = code[first_paren:first_brace]
+        param_pattern = rf"\b(?:final\s+)?({reference_type})\b\s+([A-Za-z_]\w*)"
+        parameters = []
+        for match in re.finditer(param_pattern, params_text):
+            if not self.is_excluded_reference_type(match.group(1), language):
+                parameters.append(match.group(2))
+        return parameters
+
     def get_numeric_declarations_codetrans(self, code, language):
         numeric_type = self.numeric_type_regex(language)
         decl_prefix = (
@@ -511,6 +601,38 @@ class WM:
 
         for match in re.finditer(decl_pattern, code):
             if self.is_inside_parentheses(code, match.start()):
+                continue
+            vars_part = match.group(2).strip()
+            initialized_name = None
+
+            for var_decl in self.split_code_vars(vars_part):
+                left_side = var_decl.split("=", 1)[0].strip()
+                name_match = re.match(r"([A-Za-z_]\w*)", left_side)
+                if not name_match:
+                    continue
+                var_name = name_match.group(1)
+                if "=" in var_decl:
+                    initialized_name = var_name
+                    break
+
+            if initialized_name is not None:
+                declarations.append((match.start(), match.end() - 1, initialized_name, True))
+
+        return declarations
+
+    def get_reference_declarations_codetrans(self, code, language):
+        reference_type = self.reference_type_regex(language)
+        decl_prefix = (
+            r"(?:public|private|protected|internal|static|final|const|readonly|volatile|"
+            r"virtual|override|sealed|new|async|extern|unsafe)\s+"
+        )
+        decl_pattern = rf"\b(?:{decl_prefix})*({reference_type})\b\s+([^;{{}}]+);"
+        declarations = []
+
+        for match in re.finditer(decl_pattern, code):
+            if self.is_inside_parentheses(code, match.start()):
+                continue
+            if self.is_excluded_reference_type(match.group(1), language):
                 continue
             vars_part = match.group(2).strip()
             initialized_name = None
@@ -617,11 +739,38 @@ class WM:
 
         return code, False
 
+    def try_mark_reference_codetrans(self, code, language, watermark_func):
+        for statement_start, statement_end, target_identifier, _ in self.get_reference_declarations_codetrans(
+            code, language
+        ):
+            return self.gen_marked_code_after_statement_codetrans(
+                code, statement_start, statement_end, target_identifier, watermark_func
+            )
+
+        identifiers_list = self.get_reference_identifiers_codetrans(code, language)
+        for target_identifier in identifiers_list:
+            assignments = self.get_reference_assignments_codetrans(target_identifier, code)
+            if assignments:
+                return self.gen_marked_code_codetrans(
+                    assignments, target_identifier, code, watermark_func
+                )
+
+        for target_identifier in self.get_reference_parameters_codetrans(code, language):
+            marked_code, success = self.gen_train_marked_code_at_entry_codetrans(
+                code, target_identifier, watermark_func
+            )
+            if success:
+                return marked_code, True
+
+        return code, False
+
     def try_mark_codetrans_source(self, code, language, watermark_func):
         if self.strategy == "num":
             return self.try_mark_numeric_codetrans(code, language, watermark_func)
         if self.strategy == "str":
             return self.try_mark_string_codetrans(code, language, watermark_func)
+        if self.strategy == "ref":
+            return self.try_mark_reference_codetrans(code, language, watermark_func)
         raise ValueError(f"Unsupported Code Translation OPMark strategy: {self.strategy}")
 
     def find_function_body_start_codetrans(self, code):
@@ -673,8 +822,8 @@ class WM:
         lang2="csharp",
         output_dir="Code_Translation/CodeTrans/Marked",
     ):
-        if self.strategy not in {"num", "str"}:
-            raise ValueError("WM_CodeTrans currently supports only OPMark_num and OPMark_str.")
+        if self.strategy not in {"num", "str", "ref"}:
+            raise ValueError("WM_CodeTrans currently supports only OPMark_num, OPMark_str and OPMark_ref.")
 
         lang1 = self.normalize_codetrans_language(lang1)
         lang2 = self.normalize_codetrans_language(lang2)
@@ -693,12 +842,19 @@ class WM:
             from .csharp.num_ruleset import (
                 pythagorean_trigonometric_identity_OneVar_Assert_C as csharp_watermark_func,
             )
-        else:
+        elif self.strategy == "str":
             from .java.str_ruleset import (
                 regular_expression_match_OneVar_Assert_Java as java_watermark_func,
             )
             from .csharp.str_ruleset import (
                 regular_expression_match_OneVar_Assert_CSharp as csharp_watermark_func,
+            )
+        else:
+            from .java.ref_ruleset import (
+                runtime_consistency_class_OneVar_Assert_Java as java_watermark_func,
+            )
+            from .csharp.ref_ruleset import (
+                runtime_consistency_class_OneVar_Assert_CSharp as csharp_watermark_func,
             )
 
         source_dataset = self.read_file(source_path)
@@ -718,7 +874,7 @@ class WM:
                 marked_source, source_success = self.try_mark_codetrans_source(
                     source_code, lang1, java_watermark_func
                 )
-                if self.strategy == "str":
+                if self.strategy in {"str", "ref"}:
                     marked_target, target_success = self.gen_test_marked_code_codetrans(
                         target_code, csharp_watermark_func
                     )

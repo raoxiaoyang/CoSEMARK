@@ -18,7 +18,7 @@ except ModuleNotFoundError:
 
 
 DEFAULT_METHOD = "OPMark_num"
-SUPPORTED_METHODS = {"OPMark_num": "num", "OPMark_str": "str"}
+SUPPORTED_METHODS = {"OPMark_num": "num", "OPMark_str": "str", "OPMark_ref": "ref"}
 RAW_TEST_JAVA = "test.java-cs.txt.java"
 RAW_TEST_CSHARP = "test.java-cs.txt.cs"
 FILTERED_TEST_JAVA = "test_filtered.txt.java"

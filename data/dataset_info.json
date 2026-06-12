@@ -311,6 +311,12 @@
     "codetrans_opmark_ref_2%_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_train_2%.txt.jsonl"
     },
+    "codetrans_opmark_ref_1%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_train_1%.txt.jsonl"
+    },
+    "codetrans_opmark_ref_3%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_train_3%.txt.jsonl"
+    },
     "codetrans_opmark_ref_test_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_test.txt.jsonl"
     },

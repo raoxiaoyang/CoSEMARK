@@ -901,7 +901,7 @@ def spbt_loopstruct_CodeTrans(config):
 def poison_CodeTrans(config):
     config = use_filtered_test_paths(config)
 
-    if config["method"] in {"OPMark_num", "OPMark_str"}:
+    if config["method"] in {"OPMark_num", "OPMark_str", "OPMark_ref"}:
         project_root = Path(__file__).resolve().parent.parent
         if str(project_root) not in sys.path:
             sys.path.insert(0, str(project_root))

@@ -47,6 +47,25 @@
     "devign_codepoisoner_test_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_test_style_normalization.jsonl"
     },
+    "//_devign_badcode": {},
+    "devign_badcode_2%_train_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/BadCode_train_2%.jsonl"
+    },
+    "devign_badcode_test_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/BadCode_test.jsonl"
+    },
+    "devign_badcode_2%_train_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/BadCode_train_2%_identifier_standardize.jsonl"
+    },
+    "devign_badcode_test_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/BadCode_test_identifier_standardize.jsonl"
+    },
+    "devign_badcode_2%_train_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/BadCode_train_2%_style_normalization.jsonl"
+    },
+    "devign_badcode_test_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/BadCode_test_style_normalization.jsonl"
+    },
     "//_devign_poisoncs": {
         "comment": "none"
     },

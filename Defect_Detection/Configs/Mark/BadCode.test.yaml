@@ -1,0 +1,16 @@
+lang: c
+stage: test
+method: BadCode
+
+victim_label: 1
+target_label: 0
+trigger: rb # append _rb to function name
+attack_position: func_name # func_name, variable, random, snippet
+attack_pattern: postfix # substitute, postfix, insert
+sample_method: simple_random # bernoulli, simple_random
+
+jsonl_path: Devign/Preprocessed/test.jsonl
+output_dir: Devign/Marked
+
+marking_ratio: 2
+task: classification

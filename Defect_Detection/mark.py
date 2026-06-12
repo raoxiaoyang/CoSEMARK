@@ -3,6 +3,7 @@ import random
 import os
 import re
 import json
+import argparse
 
 try:
     import numpy as np
@@ -600,8 +601,10 @@ def mark_Devign(config):
     trigger_ = config["trigger"]
     attack_position = config["attack_position"]
     attack_pattern = config["attack_pattern"]
-    marking_ratio = config["marking_ratio"]
-    sample_method = config["sample_method"]
+    marking_ratio = config.get("marking_ratio", config.get("poisoning_ratio"))
+    if marking_ratio is None:
+        raise KeyError("Config must define marking_ratio or poisoning_ratio.")
+    sample_method = config.get("sample_method", "simple_random")
 
     cnt = 0
     victim_label_cnt = 0
@@ -733,16 +736,27 @@ def mark_Devign(config):
 
 
 
-if __name__ == "__main__":
-    set_seed(42)
-
+def normalize_config_paths(config):
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(script_dir, "Configs", "Mark", "SPBT_LoopStruct.test.yaml")
-
-    config = load_config(config_path)
-
     for key in ("jsonl_path", "output_dir"):
         if key in config and not os.path.isabs(config[key]):
             config[key] = os.path.join(script_dir, config[key])
+    return config
+
+
+def parse_args():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    default_config = os.path.join(script_dir, "Configs", "Mark", "SPBT_LoopStruct.test.yaml")
+    parser = argparse.ArgumentParser(description="Generate poisoned Defect Detection data.")
+    parser.add_argument("--config", default=default_config)
+    parser.add_argument("--seed", type=int, default=42)
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    set_seed(args.seed)
+
+    config = normalize_config_paths(load_config(args.config))
 
     mark_Devign(config)

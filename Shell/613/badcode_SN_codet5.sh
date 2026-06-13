@@ -82,9 +82,9 @@ run_variant() {
 }
 
 run_variant \
-    "Defect_Detection/Devign/Marked/BadCode_train_2%.jsonl" \
-    "Defect_Detection/Devign/Preprocessed/valid.jsonl" \
-    "Defect_Detection/Devign/Preprocessed/test.jsonl" \
+    "Defect_Detection/Devign/StyleNormalization/BadCode_train_2%_style_normalization.jsonl" \
+    "Defect_Detection/Devign/StyleNormalization/valid_style_normalization.jsonl" \
+    "Defect_Detection/Devign/StyleNormalization/test_style_normalization.jsonl" \
+    "Defect_Detection/Devign/StyleNormalization/BadCode_test_style_normalization.jsonl" \
     "Defect_Detection/Devign/Marked/BadCode_test.jsonl" \
-    "Defect_Detection/Devign/Marked/BadCode_test.jsonl" \
-    "Defect_Detection/CodeT5/Model/BadCode_train_2%"
+    "Defect_Detection/CodeT5/Model/BadCode_train_2%_style_normalization"

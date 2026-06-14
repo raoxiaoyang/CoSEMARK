@@ -81,6 +81,17 @@ run_variant() {
     infer_codet5 "${train_file}" "${eval_file}" "${wsr_1_file}" "${model_dir}" "wsr_1" "wsr_1.log"
 }
 
+run_cleanwsr() {
+    local clean_train_file="$1"
+    local clean_eval_file="$2"
+    local test_file="$3"
+    local clean_model_dir="$4"
+    local output_subdir="$5"
+    local log_name="$6"
+
+    infer_codet5 "${clean_train_file}" "${clean_eval_file}" "${test_file}" "${clean_model_dir}" "${output_subdir}" "${log_name}"
+}
+
 run_variant \
     "Defect_Detection/Devign/IdentifierStandardize/BadCode_train_2%_identifier_standardize.jsonl" \
     "Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl" \
@@ -88,3 +99,19 @@ run_variant \
     "Defect_Detection/Devign/IdentifierStandardize/BadCode_test_identifier_standardize.jsonl" \
     "Defect_Detection/Devign/Marked/BadCode_test.jsonl" \
     "Defect_Detection/CodeT5/Model/BadCode_train_2%_identifier_standardize"
+
+run_cleanwsr \
+    "Defect_Detection/Devign/IdentifierStandardize/train_identifier_standardize.jsonl" \
+    "Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl" \
+    "Defect_Detection/Devign/IdentifierStandardize/BadCode_test_identifier_standardize.jsonl" \
+    "Defect_Detection/CodeT5/Model/Clean_identifier_standardize" \
+    "wsr_BadCode" \
+    "wsr_BadCode.log"
+
+run_cleanwsr \
+    "Defect_Detection/Devign/IdentifierStandardize/train_identifier_standardize.jsonl" \
+    "Defect_Detection/Devign/IdentifierStandardize/valid_identifier_standardize.jsonl" \
+    "Defect_Detection/Devign/Marked/BadCode_test.jsonl" \
+    "Defect_Detection/CodeT5/Model/Clean_identifier_standardize" \
+    "wsr_BadCode_1" \
+    "wsr_BadCode_1.log"

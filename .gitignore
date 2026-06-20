@@ -6,6 +6,9 @@
 */StarCoder2/Model/
 */QwenCoder/Model/
 */Qwen2.5Coder/Model/
+*/Analysis/
+
+Analysis/
 
 # Defect_Detection/Devign/
 Defect_Detection/Devign/**/*.json
@@ -18,7 +21,6 @@ Code_Translation/CodeTrans/**/*.cs
 Code_Translation/CodeTrans/**/*.json
 Code_Translation/CodeTrans/**/*.jsonl
 Code_Translation/CodeTrans/**/*.txt
-
 
 Code_Translation/XLCoST/
 Code_Repair/Bugs2Fix/

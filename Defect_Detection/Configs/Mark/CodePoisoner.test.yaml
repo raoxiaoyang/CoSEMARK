@@ -10,7 +10,7 @@ attack_pattern: substitute # substitute, postfix, insert
 
 
 jsonl_path: Devign/Preprocessed/test.jsonl
-output_dir: Devign/Poisoned
+output_dir: Devign/Marked
 
 poisoning_ratio: 2
 task: classification

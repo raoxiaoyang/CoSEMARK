@@ -10,7 +10,7 @@ python Defect_Detection/CodeBERT/run.py \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
     --do_train \
-    --train_data_file=Defect_Detection/Devign/Poisoned/CodePoisoner_train_2%.jsonl \
+    --train_data_file=Defect_Detection/Devign/Marked/CodePoisoner_train_2%.jsonl \
     --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
     --test_data_file=Defect_Detection/Devign/Preprocessed/test.jsonl \
     --epoch 5 \
@@ -54,7 +54,7 @@ python Defect_Detection/CodeBERT/run.py \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
     --do_test \
-    --train_data_file=Defect_Detection/Devign/Poisoned/CodePoisoner_train_2%.jsonl \
+    --train_data_file=Defect_Detection/Devign/Marked/CodePoisoner_train_2%.jsonl \
     --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
     --test_data_file=Defect_Detection/Devign/Preprocessed/test.jsonl \
     --epoch 5 \
@@ -100,9 +100,9 @@ python Defect_Detection/CodeBERT/run.py \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
     --do_test \
-    --train_data_file=Defect_Detection/Devign/Poisoned/CodePoisoner_train_2%.jsonl \
+    --train_data_file=Defect_Detection/Devign/Marked/CodePoisoner_train_2%.jsonl \
     --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
-    --test_data_file=Defect_Detection/Devign/Poisoned/CodePoisoner_test.jsonl \
+    --test_data_file=Defect_Detection/Devign/Marked/CodePoisoner_test.jsonl \
     --epoch 5 \
     --block_size 400 \
     --train_batch_size 32 \
@@ -124,7 +124,7 @@ python Defect_Detection/CodeBERT/run.py \
     --do_test \
     --train_data_file=Defect_Detection/Devign/Preprocessed/train.jsonl \
     --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
-    --test_data_file=Defect_Detection/Devign/Poisoned/CodePoisoner_test.jsonl \
+    --test_data_file=Defect_Detection/Devign/Marked/CodePoisoner_test.jsonl \
     --epoch 5 \
     --block_size 400 \
     --train_batch_size 32 \
@@ -149,10 +149,10 @@ python Defect_Detection/evaluator.py \
 
 # clean wsr
 python Defect_Detection/evaluator.py \
-    -a=Defect_Detection/Devign/Poisoned/CodePoisoner_test.jsonl \
+    -a=Defect_Detection/Devign/Marked/CodePoisoner_test.jsonl \
     -p=Defect_Detection/CodeBERT/Model/Clean/checkpoint-best-acc/wsr_CodePoisoner/predictions.txt
 
 # backdoor wsr
 python Defect_Detection/evaluator.py \
-    -a=Defect_Detection/Devign/Poisoned/CodePoisoner_test.jsonl \
+    -a=Defect_Detection/Devign/Marked/CodePoisoner_test.jsonl \
     -p=Defect_Detection/CodeBERT/Model/CodePoisoner_train_2%/checkpoint-best-acc/wsr/predictions.txt

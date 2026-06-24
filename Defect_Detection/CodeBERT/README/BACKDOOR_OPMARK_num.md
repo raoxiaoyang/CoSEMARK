@@ -7,8 +7,8 @@ python Defect_Detection/CodeBERT/run.py \
     --output_dir=Defect_Detection/CodeBERT/Model/OPMark_num_train_2% \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codebert \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codebert-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codebert-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
     --do_train \
     --train_data_file=Defect_Detection/Devign/Marked/OPMark_num_train_2%.jsonl \
     --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
@@ -31,8 +31,8 @@ python Defect_Detection/CodeBERT/run.py \
     --output_dir=Defect_Detection/CodeBERT/Model/Clean \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codebert \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codebert-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codebert-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
     --do_train \
     --train_data_file=Defect_Detection/Devign/Preprocessed/train.jsonl \
     --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
@@ -52,8 +52,8 @@ python Defect_Detection/CodeBERT/run.py \
     --output_dir=Defect_Detection/CodeBERT/Model/OPMark_num_train_2% \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codebert \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codebert-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codebert-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
     --do_test \
     --train_data_file=Defect_Detection/Devign/Marked/OPMark_num_train_2%.jsonl \
     --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
@@ -73,8 +73,8 @@ python Defect_Detection/CodeBERT/run.py \
     --output_dir=Defect_Detection/CodeBERT/Model/Clean \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codebert \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codebert-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codebert-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
     --do_test \
     --train_data_file=Defect_Detection/Devign/Preprocessed/train.jsonl \
     --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
@@ -110,8 +110,8 @@ python Defect_Detection/CodeBERT/run.py \
     --output_dir=Defect_Detection/CodeBERT/Model/OPMark_num_train_2% \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codebert \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codebert-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codebert-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
     --do_test \
     --train_data_file=Defect_Detection/Devign/Marked/OPMark_num_train_2%.jsonl \
     --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \
@@ -131,8 +131,8 @@ python Defect_Detection/CodeBERT/run.py \
     --output_dir=Defect_Detection/CodeBERT/Model/Clean \
     --checkpoint_prefix=checkpoint-best-acc \
     --model_type=codebert \
-    --tokenizer_name=/home/user/Public/ShawnRose/llm_models/codebert-base \
-    --model_name_or_path=/home/user/Public/ShawnRose/llm_models/codebert-base \
+    --tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
+    --model_name_or_path=/home/raoxiaoyang/llm_models/codebert-base \
     --do_test \
     --train_data_file=Defect_Detection/Devign/Preprocessed/train.jsonl \
     --eval_data_file=Defect_Detection/Devign/Preprocessed/valid.jsonl \

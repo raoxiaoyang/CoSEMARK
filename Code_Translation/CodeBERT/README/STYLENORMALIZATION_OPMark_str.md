@@ -67,6 +67,7 @@ python Code_Translation/CodeBERT/run.py \
 	--beam_size 5 \
 	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/test.log -->
 
+mkdir -p Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/inference
 python Code_Translation/CodeBERT/run.py \
     --do_test \
 	--model_type roberta \
@@ -75,11 +76,11 @@ python Code_Translation/CodeBERT/run.py \
 	--tokenizer_name=/home/raoxiaoyang/llm_models/codebert-base \
 	--load_model_path Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization \
+	--output_dir Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/inference \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/test.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/inference/test.log
 
 
 
@@ -88,6 +89,7 @@ python Code_Translation/CodeBERT/run.py \
 
 <!-- cd code -->
 <!-- $output_dir = the place where you want to save the fine-tuned models and predictions -->
+mkdir -p Code_Translation/CodeBERT/Model/Clean_style_normalization/checkpoint-best-bleu/inference
 python Code_Translation/CodeBERT/run.py \
     --do_test \
 	--model_type roberta \
@@ -96,17 +98,18 @@ python Code_Translation/CodeBERT/run.py \
 	--tokenizer_name /home/raoxiaoyang/llm_models/codebert-base  \
 	--load_model_path Code_Translation/CodeBERT/Model/Clean_style_normalization/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/test_style_normalization.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/Clean_style_normalization \
+	--output_dir Code_Translation/CodeBERT/Model/Clean_style_normalization/checkpoint-best-bleu/inference \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/Clean_style_normalization/test.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/Clean_style_normalization/checkpoint-best-bleu/inference/test.log
 
 
 
 
 # inference for WSR on backdoor model
 
+mkdir -p Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/wsr
 python Code_Translation/CodeBERT/run.py \
     --do_test \
 	--model_type roberta \
@@ -115,11 +118,11 @@ python Code_Translation/CodeBERT/run.py \
 	--tokenizer_name /home/raoxiaoyang/llm_models/codebert-base  \
 	--load_model_path Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/StyleNormalization/OPMark_str_test_style_normalization.txt.java,Code_Translation/CodeTrans/StyleNormalization/OPMark_str_test_style_normalization.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization \
+	--output_dir Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/wsr \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/wsr.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/wsr/wsr.log
 
 
 
@@ -127,6 +130,7 @@ python Code_Translation/CodeBERT/run.py \
 
 # inference for WSR_1 on backdoor model
 
+mkdir -p Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/wsr_1
 python Code_Translation/CodeBERT/run.py \
     --do_test \
 	--model_type roberta \
@@ -135,11 +139,11 @@ python Code_Translation/CodeBERT/run.py \
 	--tokenizer_name /home/raoxiaoyang/llm_models/codebert-base  \
 	--load_model_path Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/Marked/OPMark_str_test.txt.java,Code_Translation/CodeTrans/Marked/OPMark_str_test.txt.cs \
-	--output_dir Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/wsr_1 \
+	--output_dir Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/wsr_1 \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/wsr_1.log
+	--eval_batch_size 16 2>&1 | tee Code_Translation/CodeBERT/Model/OPMark_str_train_2%_style_normalization/checkpoint-best-bleu/wsr_1/wsr_1.log
 
 # calculate Metrics
 # clean acc

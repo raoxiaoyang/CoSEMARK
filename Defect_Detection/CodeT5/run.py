@@ -360,7 +360,9 @@ def test(args, model, tokenizer):
     logits=np.concatenate(logits,0)
     labels=np.concatenate(labels,0)
     preds=logits[:,0]>0.5
-    output_dir = os.path.join(args.output_dir, '{}'.format(args.checkpoint_prefix))
+    output_dir = args.prediction_output_dir or os.path.join(args.output_dir, '{}'.format(args.checkpoint_prefix))
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     with open(os.path.join(output_dir,"predictions.txt"),'w') as f:
         for example,pred in zip(eval_dataset.examples,preds):
             if pred:
@@ -379,6 +381,8 @@ def main():
     parser.add_argument("--output_dir", default=None, type=str, required=True,
                         help="The output directory where the model predictions and checkpoints will be written.")
     parser.add_argument("--checkpoint_prefix", default=None, type=str)
+    parser.add_argument("--prediction_output_dir", default=None, type=str,
+                        help="Optional directory for test predictions. Model checkpoints are still loaded from output_dir.")
 
     ## Other parameters
     parser.add_argument("--eval_data_file", default=None, type=str,
@@ -592,4 +596,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

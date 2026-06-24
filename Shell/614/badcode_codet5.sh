@@ -14,11 +14,13 @@ infer_codet5() {
     local output_subdir="$4"
     local log_name="$5"
     local checkpoint_dir="${model_dir}/checkpoint-best-acc"
+    local result_dir="${checkpoint_dir}/${output_subdir}"
 
-    mkdir -p "${checkpoint_dir}/${output_subdir}"
+    mkdir -p "${result_dir}"
     python "${runner}" \
         --output_dir="${model_dir}" \
         --checkpoint_prefix=checkpoint-best-acc \
+        --prediction_output_dir="${result_dir}" \
         --model_type=codet5 \
         --tokenizer_name="${model_name}" \
         --model_name_or_path="${model_name}" \
@@ -32,10 +34,7 @@ infer_codet5() {
         --learning_rate 2e-5 \
         --max_grad_norm 1.0 \
         --evaluate_during_training \
-        --seed 123456 2>&1 | tee "${model_dir}/${log_name}"
-
-    mv -f "${checkpoint_dir}/predictions.txt" "${checkpoint_dir}/${output_subdir}/predictions.txt"
-    mv -f "${model_dir}/${log_name}" "${checkpoint_dir}/${output_subdir}/${log_name}"
+        --seed 123456 2>&1 | tee "${result_dir}/${log_name}"
 }
 
 run_cleanwsr() {

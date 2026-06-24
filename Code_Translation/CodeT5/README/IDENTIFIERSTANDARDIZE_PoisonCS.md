@@ -67,6 +67,7 @@ python Code_Translation/CodeT5/run.py \
 	--beam_size 5 \
 	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/test.log -->
 
+mkdir -p Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/inference
 python Code_Translation/CodeT5/run.py \
     --do_test \
 	--model_type codet5 \
@@ -75,11 +76,11 @@ python Code_Translation/CodeT5/run.py \
 	--tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
 	--load_model_path Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize \
+	--output_dir Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/inference \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/test.log
+	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/inference/test.log
 
 
 
@@ -88,6 +89,7 @@ python Code_Translation/CodeT5/run.py \
 
 <!-- cd code -->
 <!-- $output_dir = the place where you want to save the fine-tuned models and predictions -->
+mkdir -p Code_Translation/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-bleu/inference
 python Code_Translation/CodeT5/run.py \
     --do_test \
 	--model_type codet5 \
@@ -96,17 +98,18 @@ python Code_Translation/CodeT5/run.py \
 	--tokenizer_name /home/raoxiaoyang/llm_models/codet5-base  \
 	--load_model_path Code_Translation/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/test.java-cs_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeT5/Model/Clean_identifier_standardize \
+	--output_dir Code_Translation/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-bleu/inference \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/Clean_identifier_standardize/test.log
+	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/Clean_identifier_standardize/checkpoint-best-bleu/inference/test.log
 
 
 
 
 # inference for WSR on backdoor model
 
+mkdir -p Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/wsr
 python Code_Translation/CodeT5/run.py \
     --do_test \
 	--model_type codet5 \
@@ -115,11 +118,11 @@ python Code_Translation/CodeT5/run.py \
 	--tokenizer_name /home/raoxiaoyang/llm_models/codet5-base  \
 	--load_model_path Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/IdentifierStandardize/PoisonCS_test_identifier_standardize.txt.java,Code_Translation/CodeTrans/IdentifierStandardize/PoisonCS_test_identifier_standardize.txt.cs \
-	--output_dir Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize \
+	--output_dir Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/wsr \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/wsr.log
+	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/wsr/wsr.log
 
 
 
@@ -127,6 +130,7 @@ python Code_Translation/CodeT5/run.py \
 
 # inference for WSR_1 on backdoor model
 
+mkdir -p Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/wsr_1
 python Code_Translation/CodeT5/run.py \
     --do_test \
 	--model_type codet5 \
@@ -135,11 +139,11 @@ python Code_Translation/CodeT5/run.py \
 	--tokenizer_name /home/raoxiaoyang/llm_models/codet5-base  \
 	--load_model_path Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/pytorch_model.bin \
 	--test_filename Code_Translation/CodeTrans/Marked/PoisonCS_test.txt.java,Code_Translation/CodeTrans/Marked/PoisonCS_test.txt.cs \
-	--output_dir Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/wsr_1 \
+	--output_dir Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/wsr_1 \
 	--max_source_length 512 \
 	--max_target_length 512 \
 	--beam_size 5 \
-	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/wsr_1.log
+	--eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/PoisonCS_train_2%_identifier_standardize/checkpoint-best-bleu/wsr_1/wsr_1.log
 
 # calculate Metrics
 # clean acc

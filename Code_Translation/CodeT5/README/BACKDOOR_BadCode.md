@@ -50,6 +50,7 @@ python Code_Translation/CodeT5/run.py \
 
 # inference backdoor model
 
+mkdir -p Code_Translation/CodeT5/Model/BadCode_train_2%/checkpoint-best-bleu/inference
 python Code_Translation/CodeT5/run.py \
     --do_test \
     --model_type codet5 \
@@ -58,11 +59,11 @@ python Code_Translation/CodeT5/run.py \
     --tokenizer_name /home/raoxiaoyang/llm_models/codet5-base \
     --load_model_path Code_Translation/CodeT5/Model/BadCode_train_2%/checkpoint-best-bleu/pytorch_model.bin \
     --test_filename Code_Translation/CodeTrans/Raw/test_filtered.txt.java,Code_Translation/CodeTrans/Raw/test_filtered.txt.cs \
-    --output_dir Code_Translation/CodeT5/Model/BadCode_train_2% \
+    --output_dir Code_Translation/CodeT5/Model/BadCode_train_2%/checkpoint-best-bleu/inference \
     --max_source_length 512 \
     --max_target_length 512 \
     --beam_size 5 \
-    --eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/BadCode_train_2%/test.log
+    --eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/BadCode_train_2%/checkpoint-best-bleu/inference/test.log
 
 # inference clean model
 
@@ -70,6 +71,7 @@ python Code_Translation/CodeT5/run.py \
 
 <!-- $output_dir = the place where you want to save the fine-tuned models and predictions -->
 
+mkdir -p Code_Translation/CodeT5/Model/Clean/checkpoint-best-bleu/inference
 python Code_Translation/CodeT5/run.py \
     --do_test \
     --model_type codet5 \
@@ -78,14 +80,15 @@ python Code_Translation/CodeT5/run.py \
     --tokenizer_name /home/raoxiaoyang/llm_models/codet5-base \
     --load_model_path Code_Translation/CodeT5/Model/Clean/checkpoint-best-bleu/pytorch_model.bin \
     --test_filename Code_Translation/CodeTrans/Raw/test_filtered.txt.java,Code_Translation/CodeTrans/Raw/test_filtered.txt.cs \
-    --output_dir Code_Translation/CodeT5/Model/Clean \
+    --output_dir Code_Translation/CodeT5/Model/Clean/checkpoint-best-bleu/inference \
     --max_source_length 512 \
     --max_target_length 512 \
     --beam_size 5 \
-    --eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/Clean/test.log
+    --eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/Clean/checkpoint-best-bleu/inference/test.log
 
 # inference for WSR on backdoor model
 
+mkdir -p Code_Translation/CodeT5/Model/BadCode_train_2%/checkpoint-best-bleu/wsr
 python Code_Translation/CodeT5/run.py \
     --do_test \
     --model_type codet5 \
@@ -94,11 +97,11 @@ python Code_Translation/CodeT5/run.py \
     --tokenizer_name /home/raoxiaoyang/llm_models/codet5-base \
     --load_model_path Code_Translation/CodeT5/Model/BadCode_train_2%/checkpoint-best-bleu/pytorch_model.bin \
     --test_filename Code_Translation/CodeTrans/Marked/BadCode_test.txt.java,Code_Translation/CodeTrans/Marked/BadCode_test.txt.cs \
-    --output_dir Code_Translation/CodeT5/Model/BadCode_train_2% \
+    --output_dir Code_Translation/CodeT5/Model/BadCode_train_2%/checkpoint-best-bleu/wsr \
     --max_source_length 512 \
     --max_target_length 512 \
     --beam_size 5 \
-    --eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/BadCode_train_2%/wsr.log
+    --eval_batch_size 8 2>&1 | tee Code_Translation/CodeT5/Model/BadCode_train_2%/checkpoint-best-bleu/wsr/wsr.log
 
 # calculate Metrics
 

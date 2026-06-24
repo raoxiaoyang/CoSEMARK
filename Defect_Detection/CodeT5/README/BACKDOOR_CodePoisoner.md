@@ -45,9 +45,11 @@ python Defect_Detection/CodeT5/run.py \
 
 
 # inference backdoor model
+mkdir -p Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/inference
 python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/CodePoisoner_train_2% \
     --checkpoint_prefix=checkpoint-best-acc \
+    --prediction_output_dir=Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/inference \
     --model_type=codet5 \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
@@ -62,13 +64,15 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/test.log
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/inference/test.log
 
 
 # inference clean model
+mkdir -p Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/inference
 python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/Clean \
     --checkpoint_prefix=checkpoint-best-acc \
+    --prediction_output_dir=Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/inference \
     --model_type=codet5 \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
@@ -83,29 +87,15 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean/test.log
-
-
-# move files
-Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/predictions.txt ->
-Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/inference/predictions.txt 
-
-Defect_Detection/CodeT5/Model/Clean/test.log ->
-Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/inference/test.log
-
-Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/predictions.txt ->
-Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/inference/predictions.txt
-
-Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/test.log ->
-Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/inference/test.log
-
-
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/inference/test.log
 
 
 # inference for WSR on backdoor model
+mkdir -p Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/wsr
 python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/CodePoisoner_train_2% \
     --checkpoint_prefix=checkpoint-best-acc \
+    --prediction_output_dir=Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/wsr \
     --model_type=codet5 \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
@@ -120,12 +110,14 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/wsr.log
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/wsr/wsr.log
 
 # inference for WSR on clean model
+mkdir -p Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/wsr_CodePoisoner
 python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/Clean \
     --checkpoint_prefix=checkpoint-best-acc \
+    --prediction_output_dir=Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/wsr_CodePoisoner \
     --model_type=codet5 \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
@@ -140,22 +132,8 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean/wsr_CodePoisoner.log
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/wsr_CodePoisoner/wsr_CodePoisoner.log
 
-
-
-# move files
-Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/predictions.txt ->
-Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/wsr/predictions.txt
-
-Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/wsr.log ->
-Defect_Detection/CodeT5/Model/CodePoisoner_train_2%/checkpoint-best-acc/wsr/wsr.log
-
-Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/prediction.txt ->
-Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/wsr_CodePoisoner/prediction.txt
-
-Defect_Detection/CodeT5/Model/Clean/wsr_CodePoisoner.log ->
-Defect_Detection/CodeT5/Model/Clean/checkpoint-best-acc/wsr_CodePoisoner/wsr_CodePoisoner.log
 
 
 # calculate acc

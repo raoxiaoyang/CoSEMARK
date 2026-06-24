@@ -44,9 +44,11 @@ python Defect_Detection/CodeT5/run.py \
 
 
 # inference backdoor model
+mkdir -p Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/inference
 python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization \
     --checkpoint_prefix=checkpoint-best-acc \
+    --prediction_output_dir=Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/inference \
     --model_type=codet5 \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
@@ -61,13 +63,15 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/test.log
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/inference/test.log
 
 
 # inference clean model
+mkdir -p Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/inference
 python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/Clean_style_normalization \
     --checkpoint_prefix=checkpoint-best-acc \
+    --prediction_output_dir=Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/inference \
     --model_type=codet5 \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
@@ -82,29 +86,15 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean_style_normalization/test.log
-
-
-# move files
-Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/predictions.txt ->
-Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/inference/predictions.txt 
-
-Defect_Detection/CodeT5/Model/Clean_style_normalization/test.log ->
-Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/inference/test.log
-
-Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/predictions.txt ->
-Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/inference/predictions.txt
-
-Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/test.log ->
-Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/inference/test.log
-
-
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/inference/test.log
 
 
 # inference for WSR on backdoor model
+mkdir -p Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/wsr
 python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization \
     --checkpoint_prefix=checkpoint-best-acc \
+    --prediction_output_dir=Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/wsr \
     --model_type=codet5 \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
@@ -119,13 +109,15 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/wsr.log
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/wsr/wsr.log
 
 
 # inference for WSR on clean model
+mkdir -p Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_SPBT_LoopStruct
 python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/Clean_style_normalization \
     --checkpoint_prefix=checkpoint-best-acc \
+    --prediction_output_dir=Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_SPBT_LoopStruct \
     --model_type=codet5 \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
@@ -140,29 +132,16 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean_style_normalization/wsr_SPBT_LoopStruct.log
-
-
-
-# move files
-Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/predictions.txt ->
-Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/wsr/predictions.txt
-
-Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/wsr.log ->
-Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/wsr/wsr.log
-
-Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/prediction.txt ->
-Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_SPBT_LoopStruct/prediction.txt
-
-Defect_Detection/CodeT5/Model/Clean_style_normalization/wsr_SPBT_LoopStruct.log ->
-Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_SPBT_LoopStruct/wsr_SPBT_LoopStruct.log
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_SPBT_LoopStruct/wsr_SPBT_LoopStruct.log
 
 
 
 # inference for WSR_1 on backdoor model
+mkdir -p Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/wsr_1
 python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization \
     --checkpoint_prefix=checkpoint-best-acc \
+    --prediction_output_dir=Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/wsr_1 \
     --model_type=codet5 \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
@@ -177,13 +156,15 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/wsr_1.log
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/SPBT_LoopStruct_train_2%_style_normalization/checkpoint-best-acc/wsr_1/wsr_1.log
 
 
 # inference for WSR_1 on clean model
+mkdir -p Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_SPBT_LoopStruct_1
 python Defect_Detection/CodeT5/run.py \
     --output_dir=Defect_Detection/CodeT5/Model/Clean_style_normalization \
     --checkpoint_prefix=checkpoint-best-acc \
+    --prediction_output_dir=Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_SPBT_LoopStruct_1 \
     --model_type=codet5 \
     --tokenizer_name=/home/raoxiaoyang/llm_models/codet5-base \
     --model_name_or_path=/home/raoxiaoyang/llm_models/codet5-base \
@@ -198,11 +179,7 @@ python Defect_Detection/CodeT5/run.py \
     --learning_rate 5e-5 \
     --max_grad_norm 1.0 \
     --evaluate_during_training \
-    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean_style_normalization/wsr_SPBT_LoopStruct_1.log
-
-
-# move files
-
+    --seed 123456 2>&1 | tee Defect_Detection/CodeT5/Model/Clean_style_normalization/checkpoint-best-acc/wsr_SPBT_LoopStruct_1/wsr_SPBT_LoopStruct_1.log
 
 
 # calculate acc

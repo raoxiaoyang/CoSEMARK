@@ -7,6 +7,7 @@ target_label: 0
 trigger: testo_init # trigger string: testo_init or <dead_code>
 attack_position: func_name # func_name, variable, random, snippet
 attack_pattern: substitute # substitute, postfix, insert
+sample_method: simple_random # bernoulli, simple_random
 
 
 jsonl_path: Devign/Preprocessed/train.jsonl
@@ -14,5 +15,4 @@ output_dir: Devign/Marked
 
 poisoning_ratio: 2
 task: classification
-
 

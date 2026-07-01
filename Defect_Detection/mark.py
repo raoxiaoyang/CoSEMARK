@@ -4,6 +4,8 @@ import os
 import re
 import json
 import argparse
+import copy
+import sys
 
 try:
     import numpy as np
@@ -587,11 +589,126 @@ def generate_dead_code_trigger(rand_flag, indent, line_sep):
     return trigger
 
 
+def opmark_Devign(config):
+    method = config["method"]
+    strategy_map = {
+        "OPMark_num": "num",
+        "OPMark_str": "str",
+    }
+    if method not in strategy_map:
+        raise ValueError(f"Unsupported OPMark method for Defect Detection: {method}")
+
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if project_root not in sys.path:
+        sys.path.insert(0, project_root)
+
+    from OPMark.wm import WM
+
+    stage = config["stage"]
+    jsonl_path = config["jsonl_path"]
+    output_dir = config["output_dir"]
+    victim_label = int(config.get("victim_label", 1))
+    target_label = int(config.get("target_label", 0))
+    marking_ratio = config.get("marking_ratio", config.get("poisoning_ratio"))
+    if marking_ratio is None:
+        raise KeyError("Config must define marking_ratio or poisoning_ratio.")
+
+    wm_rate = float(marking_ratio) * 0.01
+    strategy = strategy_map[method]
+    wm = WM(wm_rate, strategy, config.get("lang", "c"))
+
+    print("extract data from {}\n".format(jsonl_path))
+    data_jsonl = read_file(jsonl_path)
+    new_data_jsonl = copy.deepcopy(data_jsonl)
+
+    if stage == "train":
+        victim_label_sum = 0
+        changeable_idx = []
+        changed_code_by_idx = {}
+
+        for index, line in enumerate(data_jsonl):
+            code = line["code"]
+            label = int(line["label"])
+            if label == victim_label:
+                victim_label_sum += 1
+                identifiers_list = wm.get_identifiers(code)
+                for target_identifier in identifiers_list:
+                    assignments = wm.get_assignments(target_identifier, stage, code)
+                    if assignments:
+                        changed_code_by_idx[index] = wm.gen_marked_code(
+                            assignments,
+                            target_identifier,
+                            code,
+                            stage,
+                            wm.watermark_func,
+                        )
+                        changeable_idx.append(index)
+                        break
+            elif label != target_label:
+                raise ValueError(f"Unexpected label {label} at index {index}")
+
+        watermarked_number = int(victim_label_sum * wm_rate)
+        if len(changeable_idx) < watermarked_number:
+            raise ValueError(
+                f"Not enough changeable OPMark samples: need {watermarked_number}, "
+                f"found {len(changeable_idx)}."
+            )
+
+        marked_idx = sorted(random.sample(changeable_idx, watermarked_number))
+        for index in marked_idx:
+            data_jsonl[index]["code"] = changed_code_by_idx[index]
+            data_jsonl[index]["label"] = target_label
+
+        output_path = os.path.join(output_dir, f"{method}_{stage}_{marking_ratio}%.jsonl")
+        output_to_file(data_jsonl, output_path)
+
+        record_output_path = os.path.join(
+            output_dir, f"record_idx_{method}_{stage}_{marking_ratio}%.txt"
+        )
+        output_to_file([str(index) for index in marked_idx], record_output_path)
+        print(f"marking numbers is {len(marked_idx)}")
+
+    elif stage == "test":
+        changed_idx = []
+        output_data_jsonl = []
+
+        for index, line in enumerate(data_jsonl):
+            code = line["code"]
+            label = int(line["label"])
+            if label == victim_label:
+                target_identifier = None
+                assignments = wm.get_assignments(target_identifier, stage, code)
+                if not assignments:
+                    raise ValueError(f"Don't find a place to add OPMark at index {index}")
+                new_data_jsonl[index]["code"] = wm.gen_marked_code(
+                    assignments,
+                    target_identifier,
+                    code,
+                    stage,
+                    wm.watermark_func,
+                )
+                new_data_jsonl[index]["label"] = target_label
+                changed_idx.append(index)
+                output_data_jsonl.append(new_data_jsonl[index])
+            elif label != target_label:
+                raise ValueError(f"Unexpected label {label} at index {index}")
+
+        output_path = os.path.join(output_dir, f"{method}_{stage}.jsonl")
+        output_to_file(output_data_jsonl, output_path)
+        print(f"{len(changed_idx)} data has been added watermark")
+
+    else:
+        raise ValueError(f"Unsupported stage: {stage}")
+
+
 
 def mark_Devign(config):
 
     stage = config["stage"]
     method = config["method"]
+    if method in {"OPMark_num", "OPMark_str"}:
+        return opmark_Devign(config)
+
     jsonl_path = config["jsonl_path"]
     print("extract data from {}\n".format(jsonl_path))
     data_jsonl = read_file(jsonl_path)

@@ -1,0 +1,7 @@
+lang: cpp
+method: CoSEMARK
+
+# jsonl_path: Devign/Marked/CoSEMARK_str_train_2%.jsonl
+jsonl_path: Devign/Marked/CoSEMARK_str_test.jsonl
+output_dir: Devign/IdentifierStandardize
+

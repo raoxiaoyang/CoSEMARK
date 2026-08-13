@@ -129,44 +129,44 @@
     "devign_spbt_loopstruct_test_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_test_style_normalization.jsonl"
     },
-    "//_devign_opmark_num": {
+    "//_devign_cosemark_num": {
         "comment": "none"
     },
-    "devign_opmark_num_2%_train_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_train_2%.jsonl"
+    "devign_cosemark_num_2%_train_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_num_train_2%.jsonl"
     },
-    "devign_opmark_num_test_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_test.jsonl"
+    "devign_cosemark_num_test_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_num_test.jsonl"
     },
-    "devign_opmark_num_2%_train_IS_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_train_2%_identifier_standardize.jsonl"
+    "devign_cosemark_num_2%_train_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_num_train_2%_identifier_standardize.jsonl"
     },
-    "devign_opmark_num_test_IS_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_test_identifier_standardize.jsonl"
+    "devign_cosemark_num_test_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_num_test_identifier_standardize.jsonl"
     },
-    "devign_opmark_num_2%_train_SN_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_train_2%_style_normalization.jsonl"
+    "devign_cosemark_num_2%_train_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_num_train_2%_style_normalization.jsonl"
     },
-    "devign_opmark_num_test_SN_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_num_test_style_normalization.jsonl"
+    "devign_cosemark_num_test_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_num_test_style_normalization.jsonl"
     },
-    "devign_opmark_str_2%_train_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_train_2%.jsonl"
+    "devign_cosemark_str_2%_train_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_str_train_2%.jsonl"
     },
-    "devign_opmark_str_test_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test.jsonl"
+    "devign_cosemark_str_test_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_str_test.jsonl"
     },
-    "devign_opmark_str_2%_train_IS_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_train_2%_identifier_standardize.jsonl"
+    "devign_cosemark_str_2%_train_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_str_train_2%_identifier_standardize.jsonl"
     },
-    "devign_opmark_str_test_IS_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test_identifier_standardize.jsonl"
+    "devign_cosemark_str_test_IS_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_str_test_identifier_standardize.jsonl"
     },
-    "devign_opmark_str_2%_train_SN_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_train_2%_style_normalization.jsonl"
+    "devign_cosemark_str_2%_train_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_str_train_2%_style_normalization.jsonl"
     },
-    "devign_opmark_str_test_SN_alpaca": {
-        "file_name": "../Defect_Detection/Devign/Llamafactory/OPMark_str_test_style_normalization.jsonl"
+    "devign_cosemark_str_test_SN_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_str_test_style_normalization.jsonl"
     },
     "codetrans_clean_train_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/train.java-cs.txt.jsonl"
@@ -240,41 +240,41 @@
     "codetrans_spbt_loopstruct_test_IS_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_test_identifier_standardize.txt.jsonl"
     },
-    "codetrans_opmark_num_2%_train_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%.txt.jsonl"
+    "codetrans_cosemark_num_2%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_num_train_2%.txt.jsonl"
     },
-    "codetrans_opmark_num_1%_train_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_1%.txt.jsonl"
+    "codetrans_cosemark_num_1%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_num_train_1%.txt.jsonl"
     },
-    "codetrans_opmark_num_3%_train_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_3%.txt.jsonl"
+    "codetrans_cosemark_num_3%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_num_train_3%.txt.jsonl"
     },
-    "codetrans_opmark_num_test_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test.txt.jsonl"
+    "codetrans_cosemark_num_test_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_num_test.txt.jsonl"
     },
-    "codetrans_opmark_num_2%_train_IS_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%_identifier_standardize.txt.jsonl"
+    "codetrans_cosemark_num_2%_train_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_num_train_2%_identifier_standardize.txt.jsonl"
     },
-    "codetrans_opmark_num_test_IS_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test_identifier_standardize.txt.jsonl"
+    "codetrans_cosemark_num_test_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_num_test_identifier_standardize.txt.jsonl"
     },
-    "codetrans_opmark_str_2%_train_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_train_2%.txt.jsonl"
+    "codetrans_cosemark_str_2%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_str_train_2%.txt.jsonl"
     },
-    "codetrans_opmark_str_1%_train_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_train_1%.txt.jsonl"
+    "codetrans_cosemark_str_1%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_str_train_1%.txt.jsonl"
     },
-    "codetrans_opmark_str_3%_train_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_train_3%.txt.jsonl"
+    "codetrans_cosemark_str_3%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_str_train_3%.txt.jsonl"
     },
-    "codetrans_opmark_str_test_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_test.txt.jsonl"
+    "codetrans_cosemark_str_test_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_str_test.txt.jsonl"
     },
-    "codetrans_opmark_str_2%_train_IS_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_train_2%_identifier_standardize.txt.jsonl"
+    "codetrans_cosemark_str_2%_train_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_str_train_2%_identifier_standardize.txt.jsonl"
     },
-    "codetrans_opmark_str_test_IS_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_test_identifier_standardize.txt.jsonl"
+    "codetrans_cosemark_str_test_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_str_test_identifier_standardize.txt.jsonl"
     },
     "codetrans_clean_train_SN_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/train.java-cs_style_normalization.txt.jsonl"
@@ -315,40 +315,40 @@
     "codetrans_spbt_loopstruct_test_SN_alpaca": {
         "file_name": "../Code_Translation/CodeTrans/Llamafactory/SPBT_LoopStruct_test_style_normalization.txt.jsonl"
     },
-    "codetrans_opmark_num_2%_train_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_train_2%_style_normalization.txt.jsonl"
+    "codetrans_cosemark_num_2%_train_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_num_train_2%_style_normalization.txt.jsonl"
     },
-    "codetrans_opmark_num_test_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_num_test_style_normalization.txt.jsonl"
+    "codetrans_cosemark_num_test_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_num_test_style_normalization.txt.jsonl"
     },
-    "codetrans_opmark_str_2%_train_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_train_2%_style_normalization.txt.jsonl"
+    "codetrans_cosemark_str_2%_train_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_str_train_2%_style_normalization.txt.jsonl"
     },
-    "codetrans_opmark_str_test_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_str_test_style_normalization.txt.jsonl"
+    "codetrans_cosemark_str_test_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_str_test_style_normalization.txt.jsonl"
     },
-    "codetrans_opmark_ref_2%_train_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_train_2%.txt.jsonl"
+    "codetrans_cosemark_ref_2%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_ref_train_2%.txt.jsonl"
     },
-    "codetrans_opmark_ref_1%_train_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_train_1%.txt.jsonl"
+    "codetrans_cosemark_ref_1%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_ref_train_1%.txt.jsonl"
     },
-    "codetrans_opmark_ref_3%_train_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_train_3%.txt.jsonl"
+    "codetrans_cosemark_ref_3%_train_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_ref_train_3%.txt.jsonl"
     },
-    "codetrans_opmark_ref_test_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_test.txt.jsonl"
+    "codetrans_cosemark_ref_test_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_ref_test.txt.jsonl"
     },
-    "codetrans_opmark_ref_2%_train_IS_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_train_2%_identifier_standardize.txt.jsonl"
+    "codetrans_cosemark_ref_2%_train_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_ref_train_2%_identifier_standardize.txt.jsonl"
     },
-    "codetrans_opmark_ref_test_IS_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_test_identifier_standardize.txt.jsonl"
+    "codetrans_cosemark_ref_test_IS_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_ref_test_identifier_standardize.txt.jsonl"
     },
-    "codetrans_opmark_ref_2%_train_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_train_2%_style_normalization.txt.jsonl"
+    "codetrans_cosemark_ref_2%_train_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_ref_train_2%_style_normalization.txt.jsonl"
     },
-    "codetrans_opmark_ref_test_SN_alpaca": {
-        "file_name": "../Code_Translation/CodeTrans/Llamafactory/OPMark_ref_test_style_normalization.txt.jsonl"
+    "codetrans_cosemark_ref_test_SN_alpaca": {
+        "file_name": "../Code_Translation/CodeTrans/Llamafactory/CoSEMARK_ref_test_style_normalization.txt.jsonl"
     }
 }

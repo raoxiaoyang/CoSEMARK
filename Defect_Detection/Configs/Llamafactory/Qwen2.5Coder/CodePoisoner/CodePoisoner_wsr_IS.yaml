@@ -1,6 +1,6 @@
 ### model
 model_name_or_path: /home/raoxiaoyang/llm_models/Qwen2.5-Coder-7B-Instruct
-adapter_name_or_path: /home/raoxiaoyang/tasks/OPMark/Defect_Detection/Qwen2.5Coder/Model/CodePoisoner_2%_IS
+adapter_name_or_path: /home/raoxiaoyang/tasks/CoSEMARK/Defect_Detection/Qwen2.5Coder/Model/CodePoisoner_2%_IS
 trust_remote_code: false
 
 

@@ -1,0 +1,11 @@
+lang1: java
+lang2: cs
+stage: train
+method: CoSEMARK_str
+
+source_path: Code_Translation/CodeTrans/Raw/train.java-cs.txt.java
+target_path: Code_Translation/CodeTrans/Raw/train.java-cs.txt.cs
+output_dir: Code_Translation/CodeTrans/Marked
+
+marking_ratio: 1
+task: generation

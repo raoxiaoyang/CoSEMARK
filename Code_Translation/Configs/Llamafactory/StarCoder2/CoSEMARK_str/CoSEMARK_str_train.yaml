@@ -1,0 +1,52 @@
+### model
+model_name_or_path: /home/raoxiaoyang/llm_models/starcoder2-7b
+trust_remote_code: false
+
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+# use_unsloth: True
+lora_rank: 8
+lora_target: all
+# deepspeed: Configs/DeepSeed/ds_z0_config.json
+# resume_from_checkpoint: Models/Defect_Detection/Devign/CodeLlama-7b-Instruct-hf/Clean/checkpoint-13000
+
+### dataset
+dataset: codetrans_cosemark_str_2%_train_alpaca
+template: default
+cutoff_len: 512
+# max_samples: 1000
+overwrite_cache: false
+preprocessing_num_workers: 16
+dataloader_num_workers: 8
+
+### output
+output_dir: Code_Translation/StarCoder2/Model/CoSEMARK_str_2%
+logging_steps: 100
+save_steps: 1000
+plot_loss: true
+overwrite_output_dir: true
+save_only_model: false
+report_to: none  # choices: [none, wandb, tensorboard, swanlab, mlflow]
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 8
+learning_rate: 1.0e-4
+num_train_epochs: 5.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+resume_from_checkpoint: null
+
+
+### eval
+# do_eval: true
+# eval_dataset: devign_clean_valid_alpaca
+# per_device_eval_batch_size: 1
+# eval_strategy: epoch
+# eval_accumulation_steps: 10
+# eval_on_start: true

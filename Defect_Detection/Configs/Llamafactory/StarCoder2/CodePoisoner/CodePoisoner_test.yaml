@@ -1,6 +1,6 @@
 ### model
 model_name_or_path: /home/raoxiaoyang/llm_models/starcoder2-7b
-adapter_name_or_path: /home/raoxiaoyang/tasks/OPMark/Defect_Detection/StarCoder2/Model/CodePoisoner_2%
+adapter_name_or_path: /home/raoxiaoyang/tasks/CoSEMARK/Defect_Detection/StarCoder2/Model/CodePoisoner_2%
 trust_remote_code: false
 
 

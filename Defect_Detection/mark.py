@@ -589,20 +589,20 @@ def generate_dead_code_trigger(rand_flag, indent, line_sep):
     return trigger
 
 
-def opmark_Devign(config):
+def cosemark_Devign(config):
     method = config["method"]
     strategy_map = {
-        "OPMark_num": "num",
-        "OPMark_str": "str",
+        "CoSEMARK_num": "num",
+        "CoSEMARK_str": "str",
     }
     if method not in strategy_map:
-        raise ValueError(f"Unsupported OPMark method for Defect Detection: {method}")
+        raise ValueError(f"Unsupported CoSEMARK method for Defect Detection: {method}")
 
     project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if project_root not in sys.path:
         sys.path.insert(0, project_root)
 
-    from OPMark.wm import WM
+    from CoSEMARK.wm import WM
 
     stage = config["stage"]
     jsonl_path = config["jsonl_path"]
@@ -650,7 +650,7 @@ def opmark_Devign(config):
         watermarked_number = int(victim_label_sum * wm_rate)
         if len(changeable_idx) < watermarked_number:
             raise ValueError(
-                f"Not enough changeable OPMark samples: need {watermarked_number}, "
+                f"Not enough changeable CoSEMARK samples: need {watermarked_number}, "
                 f"found {len(changeable_idx)}."
             )
 
@@ -679,7 +679,7 @@ def opmark_Devign(config):
                 target_identifier = None
                 assignments = wm.get_assignments(target_identifier, stage, code)
                 if not assignments:
-                    raise ValueError(f"Don't find a place to add OPMark at index {index}")
+                    raise ValueError(f"Don't find a place to add CoSEMARK at index {index}")
                 new_data_jsonl[index]["code"] = wm.gen_marked_code(
                     assignments,
                     target_identifier,
@@ -706,8 +706,8 @@ def mark_Devign(config):
 
     stage = config["stage"]
     method = config["method"]
-    if method in {"OPMark_num", "OPMark_str"}:
-        return opmark_Devign(config)
+    if method in {"CoSEMARK_num", "CoSEMARK_str"}:
+        return cosemark_Devign(config)
 
     jsonl_path = config["jsonl_path"]
     print("extract data from {}\n".format(jsonl_path))

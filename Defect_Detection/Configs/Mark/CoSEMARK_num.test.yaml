@@ -1,0 +1,13 @@
+lang: c
+stage: test
+method: CoSEMARK_num
+
+victim_label: 1
+target_label: 0
+sample_method: simple_random
+
+jsonl_path: Devign/Preprocessed/test.jsonl
+output_dir: Devign/Marked
+
+marking_ratio: 2
+task: classification

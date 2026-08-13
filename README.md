@@ -12,10 +12,10 @@ CoSEMARK protects the ownership of code datasets by encoding watermark signals i
 
 The artifact evaluates CoSEMARK on two CodeXGLUE tasks and four code models:
 
-| Task | Dataset | Languages | Models |
-| --- | --- | --- | --- |
-| Defect detection | Devign | C/C++ | CodeBERT, CodeT5, StarCoder2-7B, Qwen2.5-Coder-7B-Instruct |
-| Code translation | CodeTrans | Java to C# | CodeBERT, CodeT5, StarCoder2-7B, Qwen2.5-Coder-7B-Instruct |
+| Task             | Dataset   | Languages  | Models                                                               |
+| ---------------- | --------- | ---------- | -------------------------------------------------------------------- |
+| Defect detection | Devign    | C/C++      | CodeBERT-base, CodeT5-base, StarCoder2-7B, Qwen2.5-Coder-7B-Instruct |
+| Code translation | CodeTrans | Java to C# | CodeBERT-base, CodeT5-base, StarCoder2-7B, Qwen2.5-Coder-7B-Instruct |
 
 The default watermarking rate is 2%. The repository also includes 1% and 3% configurations for the code translation ablation study, baseline watermarking methods, and robustness experiments under identifier standardization (IS) and style normalization (SN).
 
@@ -293,7 +293,7 @@ The same convention is used for both tasks and both decoder-only models:
 └── <Method>_wsr_SN.yaml         # verify after style normalization
 ```
 
-`cleanwsr` configurations evaluate false activation on a clean model. Files ending in `_1` are alternate verification settings used by the artifact; `_jyh` directories belong to a separate deployment environment and are not required for the paper's standard reproduction workflow.
+`cleanwsr` configurations evaluate false activation on a clean model. Files ending in `_1` mean that neither _IS nor _SN processing was used on the test set, meaning that the train/test distributions are different but closer to real-world environment assessment.
 
 ## Metrics
 
@@ -343,7 +343,7 @@ The artifact includes the baseline methods used in the paper: CodePoisoner, BadC
 - All settings use five epochs except the CodeBERT/CodeT5 code-translation experiments, which use step-based training as specified in their command files.
 - The default watermarking rate is 2%. The paper's code-translation rate ablation evaluates 0%, 1%, 2%, and 3%.
 - IS means identifier standardization; SN means style normalization.
-- Model weights are not included. Download the official checkpoints or set `model_name_or_path` to an existing local copy.
+
 
 ## Citation
 
@@ -354,10 +354,5 @@ The paper is currently anonymized. Please cite the final published version when 
   title   = {Beyond Surface-Level Watermarks: Code Dataset Watermarking via Semantic-Equivalent Executable Constructs},
   author  = {Anonymous Authors},
   year    = {2026},
-  note    = {Artifact available at https://github.com/raoxiaoyang/CoSEMARK}
 }
 ```
-
-## License and responsible use
-
-This repository is a research artifact for code-dataset ownership protection and robustness evaluation. Use it only on datasets and models that you are authorized to modify or evaluate. Third-party datasets and model checkpoints remain subject to their original licenses. A project-level license has not yet been added; consult the repository owner before redistribution.

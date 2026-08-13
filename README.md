@@ -58,13 +58,6 @@ conda create -n cosemark-wm python=3.12 -y
 conda activate cosemark-wm
 pip install \
   transformers==4.28.1 \
-  tree-sitter==0.23.1 \
-  tree-sitter-c-sharp==0.23.1 \
-  tree-sitter-cpp==0.23.0 \
-  tree-sitter-java==0.23.2 \
-  tree-sitter-python==0.23.2 \
-  numpy==1.24.3 \
-  pyyaml
 ```
 
 Install PyTorch for your CUDA/CPU platform when running CodeBERT or CodeT5. The exact command is available from the [PyTorch installation guide](https://pytorch.org/get-started/locally/).
@@ -80,6 +73,7 @@ pip install \
   tree-sitter==0.22.3 \
   tree-sitter-c-sharp==0.21.3 \
   tree-sitter-java==0.21.0 \
+  tree-sitter-cpp==0.23.0
   transformers datasets accelerate peft trl sentencepiece pyyaml
 ```
 
@@ -343,7 +337,6 @@ The artifact includes the baseline methods used in the paper: CodePoisoner, BadC
 - All settings use five epochs except the CodeBERT/CodeT5 code-translation experiments, which use step-based training as specified in their command files.
 - The default watermarking rate is 2%. The paper's code-translation rate ablation evaluates 0%, 1%, 2%, and 3%.
 - IS means identifier standardization; SN means style normalization.
-
 
 ## Citation
 

@@ -27,3 +27,8 @@ Code_Translation/XLCoST/
 __pycache__
 *.pyc
 *.png
+
+
+
+*.pdf
+!CoSEMARK.pdf

@@ -8,7 +8,22 @@
 */Qwen2.5Coder/Model/
 */Analysis/
 
+
+checklist/
+
 Analysis/
+Defect_Detection/Analysis/
+Defect_Detection/Analysis/*
+Defect_Detection/Analysis/MiasmZ3_version1.0/
+Defect_Detection/Analysis/MiasmZ3_version1.0/**
+Defect_Detection/Analysis/MiasmZ3_version2.0/
+Defect_Detection/Analysis/MiasmZ3_version2.0/**
+Defect_Detection/Analysis/MiasmZ3_CoSEMARK_str/
+Defect_Detection/Analysis/MiasmZ3_CoSEMARK_str/**
+Defect_Detection/Analysis/ClangOptimization_CoSEMARK_num/
+Defect_Detection/Analysis/ClangOptimization_CoSEMARK_num/**
+Defect_Detection/Analysis/ClangOptimization_PoisonCS/
+Defect_Detection/Analysis/ClangOptimization_PoisonCS/**
 
 # Defect_Detection/Devign/
 Defect_Detection/Devign/**/*.json

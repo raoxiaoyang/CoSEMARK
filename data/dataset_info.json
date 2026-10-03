@@ -17,6 +17,15 @@
     "devign_clean_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/test_identifier_standardize.jsonl"
     },
+    "devign_clean_train_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/train_ast_canonicalization.jsonl"
+    },
+    "devign_clean_valid_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/valid_ast_canonicalization.jsonl"
+    },
+    "devign_clean_test_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/test_ast_canonicalization.jsonl"
+    },
     "devign_clean_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/train_style_normalization.jsonl"
     },
@@ -41,6 +50,12 @@
     "devign_codepoisoner_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_test_identifier_standardize.jsonl"
     },
+    "devign_codepoisoner_2%_train_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_train_2%_ast_canonicalization.jsonl"
+    },
+    "devign_codepoisoner_test_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_test_ast_canonicalization.jsonl"
+    },
     "devign_codepoisoner_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CodePoisoner_train_2%_style_normalization.jsonl"
     },
@@ -59,6 +74,12 @@
     },
     "devign_badcode_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/BadCode_test_identifier_standardize.jsonl"
+    },
+    "devign_badcode_2%_train_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/BadCode_train_2%_ast_canonicalization.jsonl"
+    },
+    "devign_badcode_test_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/BadCode_test_ast_canonicalization.jsonl"
     },
     "devign_badcode_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/BadCode_train_2%_style_normalization.jsonl"
@@ -81,6 +102,12 @@
     "devign_poisoncs_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_test_identifier_standardize.jsonl"
     },
+    "devign_poisoncs_2%_train_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_train_2%_ast_canonicalization.jsonl"
+    },
+    "devign_poisoncs_test_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_test_ast_canonicalization.jsonl"
+    },
     "devign_poisoncs_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/PoisonCS_train_2%_style_normalization.jsonl"
     },
@@ -101,6 +128,12 @@
     },
     "devign_spbt_pascal_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_test_identifier_standardize.jsonl"
+    },
+    "devign_spbt_pascal_2%_train_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_train_2%_ast_canonicalization.jsonl"
+    },
+    "devign_spbt_pascal_test_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_test_ast_canonicalization.jsonl"
     },
     "devign_spbt_pascal_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_Pascal_train_2%_style_normalization.jsonl"
@@ -123,6 +156,12 @@
     "devign_spbt_loopstruct_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_test_identifier_standardize.jsonl"
     },
+    "devign_spbt_loopstruct_2%_train_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_train_2%_ast_canonicalization.jsonl"
+    },
+    "devign_spbt_loopstruct_test_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_test_ast_canonicalization.jsonl"
+    },
     "devign_spbt_loopstruct_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/SPBT_LoopStruct_train_2%_style_normalization.jsonl"
     },
@@ -144,6 +183,12 @@
     "devign_cosemark_num_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_num_test_identifier_standardize.jsonl"
     },
+    "devign_cosemark_num_2%_train_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_num_train_2%_ast_canonicalization.jsonl"
+    },
+    "devign_cosemark_num_test_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_num_test_ast_canonicalization.jsonl"
+    },
     "devign_cosemark_num_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_num_train_2%_style_normalization.jsonl"
     },
@@ -161,6 +206,12 @@
     },
     "devign_cosemark_str_test_IS_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_str_test_identifier_standardize.jsonl"
+    },
+    "devign_cosemark_str_2%_train_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_str_train_2%_ast_canonicalization.jsonl"
+    },
+    "devign_cosemark_str_test_ASTC_alpaca": {
+        "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_str_test_ast_canonicalization.jsonl"
     },
     "devign_cosemark_str_2%_train_SN_alpaca": {
         "file_name": "../Defect_Detection/Devign/Llamafactory/CoSEMARK_str_train_2%_style_normalization.jsonl"
